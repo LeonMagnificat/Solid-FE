@@ -1,0 +1,25 @@
+.TextField-border-radius fieldset {
+  border-radius: 20px;
+}
+
+.inputRounded .MuiOutlinedInput-root {
+  border-radius: 15px;
+}
+.margin-right {
+  margin-right: 10px;
+}
+
+.home-image {
+  width: 55em;
+  position: absolute;
+  right: 15%;
+  top: 12.5%;
+}
+
+.avatar-profile {
+  width: 35px;
+}
+
+.mr-3 {
+  margin-right: 8px;
+}
