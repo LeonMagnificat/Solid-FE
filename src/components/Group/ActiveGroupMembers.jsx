@@ -89,6 +89,7 @@ export default function ActiveGroupMembers() {
         <AccordionContent>
           <MemberContributionCard />
           <MemberContributionCard />
+          <MemberContributionCard />
           <TotalContributionMemberCard />
         </AccordionContent>
       </AccordionBox>
