@@ -38,16 +38,9 @@ export default function UpdateContributionModel(props) {
 
   const MainButton = styled(Button)({
     height: "56px",
-    width: "160px",
     borderRadius: "20px",
     textTransform: "capitalize",
   });
-
-  const [age, setAge] = React.useState("");
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
 
   return (
     <div>

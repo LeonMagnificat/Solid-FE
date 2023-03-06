@@ -38,7 +38,6 @@ export default function DeleteUserModel(props) {
 
   const MainButton = styled(Button)({
     height: "56px",
-    width: "160px",
     borderRadius: "20px",
     textTransform: "capitalize",
   });
@@ -75,9 +74,14 @@ export default function DeleteUserModel(props) {
               </Typography>
             </Box>
 
-            <MainButton variant="contained" size="large" color="delete" sx={{ color: "white" }}>
-              Yes Delete
-            </MainButton>
+            <Box>
+              <MainButton variant="contained" size="large" color="delete" sx={{ color: "white" }}>
+                Yes Delete
+              </MainButton>
+              <Button color="delete" sx={{ textTransform: "capitalize", marginInlineStart: "30px" }} onClick={props.handleClose}>
+                Do not Delete
+              </Button>
+            </Box>
           </Box>
         </Fade>
       </Modal>

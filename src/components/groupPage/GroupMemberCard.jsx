@@ -83,7 +83,7 @@ export default function GroupMemberCard() {
             <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>Member Name </Typography>
           </Box>
           <Box>
-            <TopButton variant="outlined" color="orange">
+            <TopButton variant="outlined" color="orange" onClick={handleOpen}>
               <img src={update} alt="" />
             </TopButton>
             <TopButton variant="outlined" color="delete" onClick={handleOpenDelete}>
