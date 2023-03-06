@@ -32,8 +32,6 @@ import UpdateContributionModel from "../groupPage/UpdateContributionModel.jsx";
 import DeleteUserModel from "../groupPage/DeleteUserModel.jsx";
 import { useState } from "react";
 
-import addsm from "../../icons/addsm.svg";
-
 export default function GroupMemberCard() {
   const profiles = [profile01, profile02, profile03, profile04, profile05, profile06, profile07, profile08, profile09, profile10, profile11, profile12, profile13, profile14, profile15, profile16];
   const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
@@ -58,6 +56,13 @@ export default function GroupMemberCard() {
     boxShadow: "none",
     borderRadius: "15px !important",
     marginBlockEnd: "10px",
+    justifyContent: "space-between",
+    transition: ".5s",
+    "&:hover": {
+      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
+      backgroundColor: "#f5e6ff",
+      transition: ".5s",
+    },
   });
   const AccordionContent = styled(AccordionDetails)({
     maxHeight: "400px",

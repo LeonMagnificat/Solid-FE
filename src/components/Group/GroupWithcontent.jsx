@@ -1,14 +1,14 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
+import { Button, Typography, Tab, Tabs } from "@mui/material";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import calendar from "../../icons/calendar.svg";
 import updated from "../../icons/lastupdated.svg";
 import ActiveGroupMembers from "./ActiveGroupMembers.jsx";
+import AddMemberModel from "../groupPage/AddMemberModel.jsx";
+import add from "../../icons/add.svg";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,6 +45,14 @@ const GroupBox = styled(Box)({
   boxSizing: "border-box",
 });
 
+const AddButton = styled(Button)({
+  height: "50px",
+  width: "150px",
+  borderRadius: "35px",
+  textTransform: "capitalize",
+  boxShadow: "none",
+});
+
 const groupname = "Team Arsenal";
 
 export default function GroupWithcontent() {
@@ -52,6 +60,14 @@ export default function GroupWithcontent() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -94,21 +110,23 @@ export default function GroupWithcontent() {
           </TabPanel>
         </Box>
       </GroupBox>
+      <GroupBox sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "70px", paddingInline: "20px" }}>
+        <Box>
+          <Typography>Group Members</Typography>
+        </Box>
+        <AddButton variant="contained" color="secondary" onClick={handleOpen}>
+          <img className="mr-3" src={add} alt="" /> Add Member
+        </AddButton>
+      </GroupBox>
       <GroupBox>
         <Box>
           <ActiveGroupMembers />
           <ActiveGroupMembers />
           <ActiveGroupMembers />
           <ActiveGroupMembers />
-          <ActiveGroupMembers />
-          <ActiveGroupMembers />
-          <ActiveGroupMembers />
-          <ActiveGroupMembers />
-          <ActiveGroupMembers />
-          <ActiveGroupMembers />
-          <ActiveGroupMembers />
         </Box>
       </GroupBox>
+      <AddMemberModel open={open} handleClose={handleClose} />
     </Box>
   );
 }

@@ -23,3 +23,9 @@
 .mr-3 {
   margin-right: 8px;
 }
+
+.active {
+  color: rgb(71, 1, 96) !important;
+  background-color: rgb(247, 224, 255) !important;
+  border-radius: 10px !important;
+}

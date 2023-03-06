@@ -53,6 +53,10 @@ export default function GroupPageCards() {
         </GroupBox>
         <Grid container spacing={2} columns={12}>
           <TheListOfMembersCard />
+          <TheListOfMembersCard />
+          <TheListOfMembersCard />
+          <TheListOfMembersCard />
+          <TheListOfMembersCard />
         </Grid>
 
         <CreateGroupModel open={open} handleClose={handleClose} />

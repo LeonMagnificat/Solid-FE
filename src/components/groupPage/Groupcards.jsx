@@ -60,7 +60,9 @@ export default function Groupcards() {
           <CreateGroupModel open={open} handleClose={handleClose} />
         </Box>
       ) : (
-        <GroupPageCards />
+        <Box>
+          <GroupPageCards />
+        </Box>
       )}
     </>
   );

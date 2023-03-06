@@ -56,14 +56,17 @@ export default function TheListOfMembersCard() {
               <Typography>Group Name (6)</Typography>
             </Box>
             <Box>
-              <AddButton variant="outlined" color="secondary" onClick={handleOpen} sx={{ visibility: !content ? "hidden" : "visible" }}>
+              <AddButton variant="outlined" color="secondary" onClick={handleOpen} sx={{ visibility: !content ? "visible" : "visible" }}>
                 <img src={addsm} alt="" />
               </AddButton>
             </Box>
           </Box>
           <Box>
             {!content ? (
-              <GroupMemberCard />
+              <Box>
+                <GroupMemberCard />
+                <GroupMemberCard />
+              </Box>
             ) : (
               <Box sx={{ display: " flex", flexDirection: "column", alignItems: "center", height: "250px", justifyContent: "space-around", textAlign: "center" }}>
                 <Box sx={{ width: "100px" }}>

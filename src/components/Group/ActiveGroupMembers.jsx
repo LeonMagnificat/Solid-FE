@@ -48,9 +48,10 @@ export default function ActiveGroupMembers() {
     borderRadius: "15px !important",
     marginBlockEnd: "10px",
     justifyContent: "space-between",
+    transition: ".5s",
     "&:hover": {
       boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
-      backgroundColor: "white",
+      backgroundColor: "#f5e6ff",
       transition: ".5s",
     },
   });
@@ -83,7 +84,7 @@ export default function ActiveGroupMembers() {
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
           <Box sx={{ display: "flex", marginInlineEnd: "55px" }}>
             <img className="avatar-profile" src={randomProfile} alt="" />
-            <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px", fontWeight: "bold" }}>Member Name </Typography>
+            <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>Member Name </Typography>
           </Box>
         </AccordionSummary>
         <AccordionContent>
