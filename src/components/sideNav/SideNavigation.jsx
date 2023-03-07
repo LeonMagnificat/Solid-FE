@@ -26,13 +26,13 @@ export default function BasicGrid() {
               component={NavLink}
               to="/home"
               activeClassName="active"
-              sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", marginBlockEnd: "10px", textTransform: "capitalize" }}
+              sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", textTransform: "capitalize", width: "200px", height: "50px" }}
             >
               <img src={home} alt="" />
               <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>Home</Typography>
             </Button>
 
-            <Button component={NavLink} to="/group" activeClassName="active" sx={{ display: "flex", justifyContent: "flex-start", marginBlockStart: "10px", textTransform: "capitalize" }}>
+            <Button component={NavLink} to="/group" activeClassName="active" sx={{ display: "flex", justifyContent: "flex-start", textTransform: "capitalize", width: "200px", height: "50px" }}>
               <img src={group} alt="" />
               <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>Group</Typography>
             </Button>
