@@ -6,24 +6,13 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import profile16 from "../../icons/profile16.svg";
 import contribution from "../../icons/contribution.svg";
-import { style, titleStyle } from "../login/login-style.jsx";
+import { style } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
 
 export default function UpdateContributionModel(props) {
   const InputField = styled(TextField)({
-    border: "none",
-    borderRadius: "20px",
-    // width: "178px",
-    height: "56px",
-    marginBlockEnd: "23px",
-  });
-  const SelectField = styled(FormControl)({
     border: "none",
     borderRadius: "20px",
     // width: "178px",

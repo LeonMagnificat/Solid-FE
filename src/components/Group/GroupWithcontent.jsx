@@ -83,8 +83,8 @@ export default function GroupWithcontent() {
     <Box sx={{ flexGrow: 1 }}>
       <GroupBox>
         <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Box sx={{ borderBottom: "none" }}>
+            <Tabs value={value} onChange={handleChange}>
               <Tab label={groupname} {...a11yProps(0)} />
               <Tab label="Group 2" {...a11yProps(1)} />
               <Tab label="Group 3" {...a11yProps(2)} />
@@ -92,7 +92,7 @@ export default function GroupWithcontent() {
           </Box>
           <TabPanel value={value} index={0}>
             <Box>
-              <Box sx={{ display: "flex", flexDirection: "column", marginBlockEnd: "10px" }}>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Typography sx={{ fontSize: "16px", marginBlockEnd: "10px" }}>Total Contributed</Typography>
                 <Typography sx={{ fontSize: "14px", marginBlockEnd: "10px", color: "grey" }}>Today, 27 Feb 2023</Typography>
                 <Typography color="primary" sx={{ fontSize: "40px", fontWeight: "bold" }}>

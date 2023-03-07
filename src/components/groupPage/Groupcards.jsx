@@ -5,7 +5,6 @@ import empty from "../../icons/empty01.svg";
 import add from "../../icons/add.svg";
 import CreateGroupModel from "../Group/CreateGroupModel.jsx";
 import { useState } from "react";
-import GroupWithcontent from "../Group/GroupWithcontent.jsx";
 import GroupPageCards from "./GroupPageCards.jsx";
 
 const GroupBox = styled(Box)({

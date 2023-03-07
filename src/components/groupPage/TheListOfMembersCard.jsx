@@ -5,7 +5,6 @@ import { useState } from "react";
 import addsm from "../../icons/addsm.svg";
 import add from "../../icons/add.svg";
 import emptyContact from "../../icons/nocontact.svg";
-import CreateGroupModel from "../Group/CreateGroupModel.jsx";
 import GroupMemberCard from "./GroupMemberCard.jsx";
 import AddMemberModel from "./AddMemberModel.jsx";
 
@@ -64,7 +63,6 @@ export default function TheListOfMembersCard() {
           <Box>
             {!content ? (
               <Box>
-                <GroupMemberCard />
                 <GroupMemberCard />
               </Box>
             ) : (

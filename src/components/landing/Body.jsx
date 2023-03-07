@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Container, Grid, Typography, Button } from "@mui/material";
+import { Box, Container, Grid, Typography, Button, Fade } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import home from "../../icons/home.svg";
 import Register from "../register/Register.jsx";
@@ -42,19 +42,21 @@ function Body() {
   return (
     <BackgroundBox>
       <Container maxWidth="lg">
-        <Grid container spacing={2} columns={12}>
-          <Grid item xs={12} xl={7} sx={{ position: "relative", top: "20%" }}>
-            <HomeTitle>Elevate Your Group Planning Experience.</HomeTitle>
-            <Typography sx={{ width: "468px", marginBlock: "62px" }}>"The strength of the team is each individual member. The strength of each member is the team." - Phil Jackson</Typography>
+        <Fade in={true} timeout={1500}>
+          <Grid container spacing={2} columns={12}>
+            <Grid item xs={12} xl={7} sx={{ position: "relative", top: "20%" }}>
+              <HomeTitle>Elevate Your Group Planning Experience.</HomeTitle>
+              <Typography sx={{ width: "468px", marginBlock: "62px" }}>"The strength of the team is each individual member. The strength of each member is the team." - Phil Jackson</Typography>
 
-            <HomeButton variant="contained" onClick={handleOpen2}>
-              Get Started
-            </HomeButton>
+              <HomeButton variant="contained" onClick={handleOpen2}>
+                Get Started
+              </HomeButton>
+            </Grid>
+            <Grid item xs={5}>
+              <img src={home} alt="" className="home-image" />
+            </Grid>
           </Grid>
-          <Grid item xs={5}>
-            <img src={home} alt="" className="home-image" />
-          </Grid>
-        </Grid>
+        </Fade>
       </Container>
       <Register open={openreg} handleClose={handleClose2} />
     </BackgroundBox>

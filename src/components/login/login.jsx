@@ -6,14 +6,12 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { style, titleStyle } from "./login-style.jsx";
 import { styled } from "@mui/material/styles";
 import googleIcon from "../../icons/google.svg";
-import { useNavigate } from "react-router-dom";
 
 export default function LoginModel(props) {
-  const navigate = useNavigate();
   const InputField = styled(TextField)({
     border: "none",
     borderRadius: "20px",
@@ -74,11 +72,9 @@ export default function LoginModel(props) {
               Google
             </GoogleButton>
 
-            <Link to={"/home"}>
-              <MainButton variant="contained" size="large">
-                Sign In
-              </MainButton>
-            </Link>
+            <MainButton component={NavLink} to="/home" variant="contained" size="large">
+              Sign In
+            </MainButton>
           </Box>
         </Fade>
       </Modal>

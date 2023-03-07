@@ -4,10 +4,9 @@ import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
+import { colors, colorsDark } from "../Group/profilesArray.js";
 
 export default function MemberContributionCard() {
-  const colors = ["#FF8C82", "#FFC27D", "#FFF394", "#D1FF82", "#89FFDD", "#8CD5FF", "#E4C6FA", "#FE9AB8"];
-  const colorsDark = ["#A10705", "#A62100", "#AD5F00", "#206B00", "#007367", "#002E99", "#452981", "#910E38"];
   const randomProfile = colors[Math.floor(Math.random() * colors.length)];
 
   const AccordionBox = styled(Box)({

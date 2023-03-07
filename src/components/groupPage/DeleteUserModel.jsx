@@ -1,36 +1,9 @@
 import React from "react";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import profile16 from "../../icons/profile16.svg";
-import contribution from "../../icons/contribution.svg";
-import { style, titleStyle } from "../login/login-style.jsx";
+import { Backdrop, Box, Modal, Fade, Button, Typography } from "@mui/material";
+import { style } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
 
 export default function DeleteUserModel(props) {
-  const InputField = styled(TextField)({
-    border: "none",
-    borderRadius: "20px",
-    // width: "178px",
-    height: "56px",
-    marginBlockEnd: "23px",
-  });
-  const SelectField = styled(FormControl)({
-    border: "none",
-    borderRadius: "20px",
-    // width: "178px",
-    height: "56px",
-    marginBlockEnd: "23px",
-  });
-
   const ModelTitles = styled(Typography)({
     fontSize: "24px",
     marginBlock: "39px",
@@ -41,12 +14,6 @@ export default function DeleteUserModel(props) {
     borderRadius: "20px",
     textTransform: "capitalize",
   });
-
-  const [age, setAge] = React.useState("");
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
 
   return (
     <div>

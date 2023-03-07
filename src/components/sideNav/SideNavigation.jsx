@@ -5,7 +5,7 @@ import logo from "../../icons/logo.svg";
 import home from "../../icons/homeIcon.svg";
 import group from "../../icons/group2.svg";
 import profile from "../../icons/profile01.svg";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 const NavBarBox = styled(Box)({
   height: "350px",
@@ -18,7 +18,7 @@ export default function BasicGrid() {
     <Box sx={{ flexGrow: 1 }}>
       <NavBarBox>
         <Box sx={{ height: "100%", padding: "37px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <Box>
+          <Box component={Link} to="/" sx={{ backgroundColor: "white" }}>
             <img src={logo} alt="" />
           </Box>
           <Box>
