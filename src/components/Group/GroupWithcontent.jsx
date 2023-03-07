@@ -9,6 +9,7 @@ import updated from "../../icons/lastupdated.svg";
 import ActiveGroupMembers from "./ActiveGroupMembers.jsx";
 import AddMemberModel from "../groupPage/AddMemberModel.jsx";
 import add from "../../icons/add.svg";
+import emptyContact from "../../icons/nocontact.svg";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -46,6 +47,14 @@ const GroupBox = styled(Box)({
 });
 
 const AddButton = styled(Button)({
+  height: "50px",
+  width: "150px",
+  borderRadius: "35px",
+  textTransform: "capitalize",
+  boxShadow: "none",
+});
+
+const AddContactButton = styled(Button)({
   height: "50px",
   width: "150px",
   borderRadius: "35px",
@@ -110,22 +119,43 @@ export default function GroupWithcontent() {
           </TabPanel>
         </Box>
       </GroupBox>
-      <GroupBox sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "70px", paddingInline: "20px" }}>
+
+      {!true ? (
         <Box>
-          <Typography>Group Members</Typography>
+          <GroupBox sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "70px", paddingInline: "20px" }}>
+            <Box>
+              <Typography>Group Members</Typography>
+            </Box>
+            <AddButton variant="contained" color="secondary" onClick={handleOpen}>
+              <img className="mr-3" src={add} alt="" /> Add Member
+            </AddButton>
+          </GroupBox>
+          <GroupBox>
+            <Box>
+              <ActiveGroupMembers />
+            </Box>
+          </GroupBox>
         </Box>
-        <AddButton variant="contained" color="secondary" onClick={handleOpen}>
-          <img className="mr-3" src={add} alt="" /> Add Member
-        </AddButton>
-      </GroupBox>
-      <GroupBox>
+      ) : (
         <Box>
-          <ActiveGroupMembers />
-          <ActiveGroupMembers />
-          <ActiveGroupMembers />
-          <ActiveGroupMembers />
+          <GroupBox sx={{ display: "flex", alignItems: "center", justifyContent: "center", paddingInline: "20px" }}>
+            <Box sx={{ display: " flex", flexDirection: "column", alignItems: "center", height: "250px", justifyContent: "space-around", textAlign: "center" }}>
+              <Box sx={{ width: "100px" }}>
+                <img style={{ width: "100%" }} src={emptyContact} alt="" />
+              </Box>
+              <Box sx={{ width: "350px" }}>
+                <Typography>There are no members in this group; click the button below to add members.</Typography>
+              </Box>
+              <Box>
+                <AddContactButton variant="contained" color="secondary" onClick={handleOpen}>
+                  <img className="mr-3" src={add} alt="" /> Add Member
+                </AddContactButton>
+              </Box>
+            </Box>
+          </GroupBox>
         </Box>
-      </GroupBox>
+      )}
+
       <AddMemberModel open={open} handleClose={handleClose} />
     </Box>
   );

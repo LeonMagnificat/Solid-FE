@@ -4,7 +4,6 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import profile01 from "../../icons/profile01.svg";
@@ -23,24 +22,12 @@ import profile13 from "../../icons/profile13.svg";
 import profile14 from "../../icons/profile14.svg";
 import profile15 from "../../icons/profile15.svg";
 import profile16 from "../../icons/profile16.svg";
-import add from "../../icons/add.svg";
-import update from "../../icons/update.svg";
-import deleteIcon from "../../icons/delete.svg";
 import MemberContributionCard from "../groupPage/MemberContributionCard.jsx";
 import TotalContributionMemberCard from "../groupPage/TotalContributionMemberCard.jsx";
-import { useState } from "react";
 
 export default function ActiveGroupMembers() {
   const profiles = [profile01, profile02, profile03, profile04, profile05, profile06, profile07, profile08, profile09, profile10, profile11, profile12, profile13, profile14, profile15, profile16];
   const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const AccordionBox = styled(Accordion)({
     backgroundColor: "#fbfbfb",
@@ -58,24 +45,6 @@ export default function ActiveGroupMembers() {
   const AccordionContent = styled(AccordionDetails)({
     maxHeight: "400px",
     overflow: "scroll",
-  });
-
-  const TopButton = styled(Button)({
-    height: "35px",
-    width: "35px",
-    borderRadius: "50px",
-    textTransform: "capitalize",
-    boxShadow: "none",
-    minWidth: "0",
-    marginRight: "10px",
-  });
-  const AddButton = styled(Button)({
-    height: "50px",
-    width: "150px",
-    borderRadius: "35px",
-    textTransform: "capitalize",
-    background: "rgb(224, 155, 45)",
-    boxShadow: "none",
   });
 
   return (

@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Fade } from "@mui/material";
 import React from "react";
 import SideNavigation from "../sideNav/SideNavigation.jsx";
 import Groupcards from "./Groupcards.jsx";
@@ -12,11 +12,13 @@ function GroupPage() {
             <SideNavigation />
           </Box>
         </Grid>
-        <Grid item xs={9}>
-          <Box>
-            <Groupcards />
-          </Box>
-        </Grid>
+        <Fade in={true} timeout={1000}>
+          <Grid item xs={9} sx={{ transition: "opacity 3s ease-in-out" }}>
+            <Box>
+              <Groupcards />
+            </Box>
+          </Grid>
+        </Fade>
       </Grid>
     </Container>
   );

@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Fade } from "@mui/material";
 import React from "react";
 import SideNavigation from "../sideNav/SideNavigation.jsx";
 import Group from "../Group/Group.jsx";
@@ -12,11 +12,13 @@ function Account() {
             <SideNavigation />
           </Box>
         </Grid>
-        <Grid item xs={9}>
-          <Box>
-            <Group />
-          </Box>
-        </Grid>
+        <Fade in={true} timeout={1000}>
+          <Grid item xs={9}>
+            <Box>
+              <Group />
+            </Box>
+          </Grid>
+        </Fade>
       </Grid>
     </Container>
   );

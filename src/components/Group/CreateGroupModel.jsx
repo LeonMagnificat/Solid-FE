@@ -41,10 +41,10 @@ export default function CreateGroupModel(props) {
     textTransform: "capitalize",
   });
 
-  const [age, setAge] = React.useState("");
+  const [currency, setCurrency] = React.useState("");
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setCurrency(event.target.value);
   };
 
   return (
@@ -74,7 +74,7 @@ export default function CreateGroupModel(props) {
               <InputLabel className="TextField-border-radius" id="demo-simple-select-label">
                 Currency
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={age} label="Age" onChange={handleChange}>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={currency} label="Age" onChange={handleChange}>
                 <MenuItem value={10}>USD</MenuItem>
                 <MenuItem value={20}>EUR</MenuItem>
                 <MenuItem value={30}>PLN</MenuItem>

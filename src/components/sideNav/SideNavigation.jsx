@@ -5,7 +5,7 @@ import logo from "../../icons/logo.svg";
 import home from "../../icons/homeIcon.svg";
 import group from "../../icons/group2.svg";
 import profile from "../../icons/profile01.svg";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const NavBarBox = styled(Box)({
   height: "350px",
@@ -14,7 +14,6 @@ const NavBarBox = styled(Box)({
 });
 
 export default function BasicGrid() {
-  const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <NavBarBox>
@@ -30,7 +29,7 @@ export default function BasicGrid() {
               sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", marginBlockEnd: "10px", textTransform: "capitalize" }}
             >
               <img src={home} alt="" />
-              <Typography sx={{ fontSize: "16px", marginInlineStart: "10px", cursor: "pointer" }}>Home</Typography>
+              <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>Home</Typography>
             </Button>
 
             <Button component={NavLink} to="/group" activeClassName="active" sx={{ display: "flex", justifyContent: "flex-start", marginBlockStart: "10px", textTransform: "capitalize" }}>
