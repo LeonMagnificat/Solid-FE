@@ -16,3 +16,16 @@ export const style = {
 export const titleStyle = {
   fontSize: "2em",
 };
+export const style2 = {
+  position: "absolute",
+  top: "50%",
+  right: "0px",
+  transform: "translate(-50%, -50%)",
+  width: "550px",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: "20px",
+  paddingInline: "70px",
+  paddingBlockEnd: "39px",
+  boxSizing: "border-box",
+};
