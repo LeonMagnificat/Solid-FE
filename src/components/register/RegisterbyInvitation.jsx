@@ -1,12 +1,17 @@
 import React from "react";
-import { Container, Grid, Box, Button, Typography, Fade, TextField } from "@mui/material";
+import { Grid, Box, Button, Typography, Fade, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { style2, titleStyle } from "../login/login-style.jsx";
 import { Link } from "react-router-dom";
 import googleIcon from "../../icons/google.svg";
 import registerImage from "../../icons/registerillustration.svg";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { addUser } from "../../redux/actions/index.js";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-function RegisterbyInvitation(props) {
+function RegisterbyInvitation() {
   const MainButton = styled(Button)({
     height: "56px",
     borderRadius: "20px",
@@ -49,6 +54,47 @@ function RegisterbyInvitation(props) {
     boxSizing: "border-box",
   });
 
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const groupId = location.pathname.split("/")[2];
+  console.log(groupId, "groupId");
+
+  const [fNameErrors, setFNameErrors] = useState(false);
+  const [lNameErrors, setLNameErrors] = useState(false);
+  const [emailErrors, setEmailErrors] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState(false);
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (user.firstName === "") {
+      setFNameErrors(true);
+      console.log("firstName is empty");
+    }
+    if (user.lastName === "") {
+      setLNameErrors(true);
+      console.log("lastName is empty");
+    }
+    if (user.email === "") {
+      setEmailErrors(true);
+      console.log("email is empty");
+    }
+    if (user.password === "") {
+      setPasswordErrors(true);
+      console.log("password is empty");
+    }
+
+    dispatch(addUser(user, groupId));
+    navigate("/home");
+    console.log(user);
+  };
+
   return (
     <Grid container spacing={2} columns={16} sx={{ height: "103vh" }}>
       <Fade in={true} timeout={1000}>
@@ -65,20 +111,67 @@ function RegisterbyInvitation(props) {
             <ModelTitles sx={titleStyle} variant="h3" gutterBottom>
               Register
             </ModelTitles>
-            <form action="">
-              <InputField className="inputRounded" sx={{ width: "193px", marginInlineEnd: "23px" }} label="First Name" variant="outlined" />
-              <InputField className="inputRounded" sx={{ width: "193px" }} label="Last Name" variant="outlined" />
-              <InputField className="inputRounded" label="Email" variant="outlined" fullWidth />
-              <InputField className="inputRounded" label="Password" variant="outlined" fullWidth />
+
+            <form onSubmit={handleSubmit}>
+              <TextField
+                sx={{ width: "193px", marginInlineEnd: "23px" }}
+                label="First Name"
+                variant="outlined"
+                className="inputRounded"
+                onChange={(e) => {
+                  setUser({ ...user, firstName: e.target.value });
+                }}
+                error={fNameErrors}
+                required
+                type="text"
+              />
+              <TextField
+                sx={{ width: "193px" }}
+                label="Last Name"
+                variant="outlined"
+                className="inputRounded"
+                onChange={(e) => {
+                  setUser({ ...user, lastName: e.target.value });
+                }}
+                error={lNameErrors}
+                required
+                type="text"
+              />
+              <TextField
+                sx={{ marginBlockStart: "25px" }}
+                label="Email"
+                variant="outlined"
+                className="inputRounded"
+                onChange={(e) => {
+                  setUser({ ...user, email: e.target.value });
+                }}
+                error={emailErrors}
+                type="email"
+                fullWidth
+                required
+              />
+              <TextField
+                sx={{ marginBlockStart: "25px", marginBlockEnd: "25px" }}
+                label="Password"
+                variant="outlined"
+                className="inputRounded"
+                onChange={(e) => {
+                  setUser({ ...user, password: e.target.value });
+                }}
+                error={passwordErrors}
+                type="password"
+                fullWidth
+                required
+              />
+              <Typography>Or continue with</Typography>
+              <GoogleButton fullWidth variant="contained">
+                <img src={googleIcon} alt="" className="margin-right" />
+                Google
+              </GoogleButton>
+              <MainButton variant="contained" size="large" type="submit" fullWidth>
+                Sign Up
+              </MainButton>
             </form>
-            <Typography>Or continue with</Typography>
-            <GoogleButton fullWidth variant="contained">
-              <img src={googleIcon} alt="" className="margin-right" />
-              Google
-            </GoogleButton>
-            <MainButton variant="contained" size="large" fullWidth>
-              Sign Up
-            </MainButton>
             <Box sx={{ marginBlockStart: "30px", display: "flex" }}>
               <Typography sx={{ marginInlineEnd: "5px" }}>Already have an account? </Typography>
               <Typography component={Link} to="/login/:id" sx={{ backgroundColor: "white", textDecoration: "none" }}>

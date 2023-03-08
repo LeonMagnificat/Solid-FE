@@ -6,6 +6,7 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import { useState } from "react";
 
 import { style, titleStyle } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
@@ -43,6 +44,20 @@ export default function LoginModel(props) {
     textTransform: "capitalize",
   });
 
+  const user = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(message);
+  };
+
+  const [message, setMessage] = useState("");
+
   return (
     <div>
       <Modal
@@ -60,23 +75,32 @@ export default function LoginModel(props) {
       >
         <Fade in={props.open}>
           <Box sx={style}>
-            <ModelTitles sx={titleStyle} variant="h3" gutterBottom>
+            <ModelTitles sx={titleStyle} variant="h3">
               Register
             </ModelTitles>
-            <form action="">
-              <InputField className="inputRounded" sx={{ width: "193px", marginInlineEnd: "23px" }} label="First Name" variant="outlined" />
+            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+              <TextField
+                className="inputRounded"
+                sx={{ width: "193px", marginInlineEnd: "23px" }}
+                label="First Name"
+                variant="outlined"
+                onChange={(event) => {
+                  setMessage(event.target.value);
+                  console.log(event.target.value);
+                }}
+              />
               <InputField className="inputRounded" sx={{ width: "193px" }} label="Last Name" variant="outlined" />
               <InputField className="inputRounded" label="Email" variant="outlined" fullWidth />
               <InputField className="inputRounded" label="Password" variant="outlined" fullWidth />
+              <Typography>Or continue with</Typography>
+              <GoogleButton fullWidth variant="contained">
+                <img src={googleIcon} alt="" className="margin-right" />
+                Google
+              </GoogleButton>
+              <MainButton variant="contained" size="large" type="submit">
+                Sign Up
+              </MainButton>
             </form>
-            <Typography>Or continue with</Typography>
-            <GoogleButton fullWidth variant="contained">
-              <img src={googleIcon} alt="" className="margin-right" />
-              Google
-            </GoogleButton>
-            <MainButton variant="contained" size="large">
-              Sign Up
-            </MainButton>
           </Box>
         </Fade>
       </Modal>

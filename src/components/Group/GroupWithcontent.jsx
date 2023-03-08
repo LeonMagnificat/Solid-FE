@@ -10,6 +10,7 @@ import ActiveGroupMembers from "./ActiveGroupMembers.jsx";
 import AddMemberModel from "../groupPage/AddMemberModel.jsx";
 import add from "../../icons/add.svg";
 import emptyContact from "../../icons/nocontact.svg";
+import { useSelector } from "react-redux";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -65,6 +66,10 @@ const AddContactButton = styled(Button)({
 const groupname = "Team Arsenal";
 
 export default function GroupWithcontent() {
+  const user = useSelector((state) => state.user);
+  const group = user.user.group;
+  const userInfo = user.user.user;
+  console.log(user, "user");
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -85,7 +90,7 @@ export default function GroupWithcontent() {
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: "none" }}>
             <Tabs value={value} onChange={handleChange}>
-              <Tab label={groupname} {...a11yProps(0)} />
+              <Tab label={group.name} {...a11yProps(0)} />
               <Tab label="Group 2" {...a11yProps(1)} />
               <Tab label="Group 3" {...a11yProps(2)} />
             </Tabs>
@@ -96,7 +101,8 @@ export default function GroupWithcontent() {
                 <Typography sx={{ fontSize: "16px", marginBlockEnd: "10px" }}>Total Contributed</Typography>
                 <Typography sx={{ fontSize: "14px", marginBlockEnd: "10px", color: "grey" }}>Today, 27 Feb 2023</Typography>
                 <Typography color="primary" sx={{ fontSize: "40px", fontWeight: "bold" }}>
-                  200 USD
+                  <span>{group.total}</span>
+                  {group.currency}
                 </Typography>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                   <Box sx={{ display: "flex" }}>
