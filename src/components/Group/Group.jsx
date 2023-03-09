@@ -6,6 +6,7 @@ import add from "../../icons/add.svg";
 import CreateGroupModel from "./CreateGroupModel.jsx";
 import { useState } from "react";
 import GroupWithcontent from "./GroupWithcontent.jsx";
+import { useSelector } from "react-redux";
 
 const GroupBox = styled(Box)({
   height: "400px",
@@ -23,19 +24,21 @@ const AddButton = styled(Button)({
   boxShadow: "none",
 });
 
-export default function EmptyGroup() {
+export default function Group() {
   const [open, setOpen] = useState(false);
+  const userGroup = useSelector((state) => state.user.UserData.group);
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
-  const content = false;
+
+  let content = userGroup.length > 0 ? true : false;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      {content ? (
+      {!content ? (
         <GroupBox>
           <Box sx={{ height: "100%", padding: "37px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <Box>

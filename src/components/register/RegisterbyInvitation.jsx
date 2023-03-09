@@ -1,64 +1,20 @@
 import React from "react";
-import { Grid, Box, Button, Typography, Fade, TextField } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Grid, Box, Typography, Fade, TextField } from "@mui/material";
 import { style2, titleStyle } from "../login/login-style.jsx";
-import { Link } from "react-router-dom";
 import googleIcon from "../../icons/google.svg";
 import registerImage from "../../icons/registerillustration.svg";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { addUser } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { MainButton, ModelTitles, GoogleButton, ImageLogin } from "./registerStyle.jsx";
 
 function RegisterbyInvitation() {
-  const MainButton = styled(Button)({
-    height: "56px",
-    borderRadius: "20px",
-    textTransform: "capitalize",
-  });
-  const ModelTitles = styled(Typography)({
-    fontSize: "24px",
-    marginBlock: "39px",
-  });
-  const InputField = styled(TextField)({
-    border: "none",
-    borderRadius: "20px",
-    height: "56px",
-    marginBlockEnd: "23px",
-  });
-
-  const GoogleButton = styled(Button)({
-    height: "56px",
-    borderRadius: "20px",
-    backgroundColor: "white",
-    color: "black",
-    textTransform: "capitalize",
-    boxShadow: "none",
-    border: "1px solid #D6D6D6",
-    marginTop: "15px",
-    marginBottom: "30px",
-    "&:hover": {
-      backgroundColor: "#f4f4f4",
-      boxShadow: "none",
-    },
-  });
-
-  const ImageLogin = styled(Box)({
-    position: "absolute",
-    top: "50%",
-    left: "30%",
-    width: "70em",
-    transform: "translate(-50%, -50%)",
-    borderRadius: "20px",
-    boxSizing: "border-box",
-  });
-
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const groupId = location.pathname.split("/")[2];
-  console.log(groupId, "groupId");
 
   const [fNameErrors, setFNameErrors] = useState(false);
   const [lNameErrors, setLNameErrors] = useState(false);
@@ -91,7 +47,7 @@ function RegisterbyInvitation() {
     }
 
     dispatch(addUser(user, groupId));
-    navigate("/home");
+    navigate("/getStarted");
     console.log(user);
   };
 
@@ -112,7 +68,7 @@ function RegisterbyInvitation() {
               Register
             </ModelTitles>
 
-            <form onSubmit={handleSubmit}>
+            <form autoComplete="off" onSubmit={handleSubmit}>
               <TextField
                 sx={{ width: "193px", marginInlineEnd: "23px" }}
                 label="First Name"
@@ -120,6 +76,7 @@ function RegisterbyInvitation() {
                 className="inputRounded"
                 onChange={(e) => {
                   setUser({ ...user, firstName: e.target.value });
+                  console.log(user.firstName);
                 }}
                 error={fNameErrors}
                 required

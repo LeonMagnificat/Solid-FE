@@ -1,7 +1,8 @@
-import { ADD_USER } from "../actions/index.js";
+import { ADD_USER, GET_USER_DATA } from "../actions/index.js";
 
 const initialState = {
-  user: {},
+  addedUser: {},
+  UserData: {},
 };
 
 const userReducer = (state = initialState, action) => {
@@ -9,7 +10,12 @@ const userReducer = (state = initialState, action) => {
     case ADD_USER:
       return {
         ...state,
-        user: action.payload,
+        addedUser: action.payload,
+      };
+    case GET_USER_DATA:
+      return {
+        ...state,
+        UserData: action.payload,
       };
 
     default:

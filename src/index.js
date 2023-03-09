@@ -20,6 +20,9 @@ const theme = createTheme({
     delete: {
       main: "#D32B02",
     },
+    white: {
+      main: "#FFFFFF",
+    },
   },
   typography: {
     fontFamily: "'Nunito', sans-serif;",

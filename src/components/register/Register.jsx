@@ -44,13 +44,6 @@ export default function LoginModel(props) {
     textTransform: "capitalize",
   });
 
-  const user = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(message);
