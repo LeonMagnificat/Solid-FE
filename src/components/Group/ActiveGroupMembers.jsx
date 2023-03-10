@@ -15,7 +15,16 @@ export default function ActiveGroupMembers(props) {
   const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
   const AddeduserId = useSelector((state) => state.user.addedUser._id);
 
-  //const myProfile = AddeduserId === props.member._id ? true : false;
+  props.member.map((member) => {
+    if (member._id === AddeduserId) {
+      const index = props.member.indexOf(member);
+      if (index !== -1) {
+        props.member.splice(index, 1);
+        props.member.unshift(member);
+      }
+      return member;
+    }
+  });
 
   const AccordionBox = styled(Accordion)({
     backgroundColor: "#fbfbfb",
@@ -54,21 +63,41 @@ export default function ActiveGroupMembers(props) {
     <div sx={{ marginBlockEnd: "30px" }}>
       {props.member.map((member, index) => {
         return (
-          <AccordionBox>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-              <Box sx={{ display: "flex", marginInlineEnd: "55px" }}>
-                <img className="avatar-profile" src={profiles[index]} alt="" />
+          <>
+            {member._id === AddeduserId ? (
+              <MyAccordionBox>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                  <Box sx={{ display: "flex", marginInlineEnd: "55px" }}>
+                    <img className="avatar-profile" src={profiles[index]} alt="" />
 
-                <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
-                  <span>{member.firstName}</span> <span>{member.lastName}</span>{" "}
-                </Typography>
-              </Box>
-            </AccordionSummary>
-            <AccordionContent>
-              <MemberContributionCard />
-              <TotalContributionMemberCard />
-            </AccordionContent>
-          </AccordionBox>
+                    <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
+                      <span>{member.firstName}</span> <span>{member.lastName}</span>{" "}
+                    </Typography>
+                  </Box>
+                </AccordionSummary>
+                <AccordionContent>
+                  <MemberContributionCard />
+                  <TotalContributionMemberCard />
+                </AccordionContent>
+              </MyAccordionBox>
+            ) : (
+              <AccordionBox>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                  <Box sx={{ display: "flex", marginInlineEnd: "55px" }}>
+                    <img className="avatar-profile" src={profiles[index]} alt="" />
+
+                    <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
+                      <span>{member.firstName}</span> <span>{member.lastName}</span>{" "}
+                    </Typography>
+                  </Box>
+                </AccordionSummary>
+                <AccordionContent>
+                  <MemberContributionCard />
+                  <TotalContributionMemberCard />
+                </AccordionContent>
+              </AccordionBox>
+            )}
+          </>
         );
       })}
     </div>

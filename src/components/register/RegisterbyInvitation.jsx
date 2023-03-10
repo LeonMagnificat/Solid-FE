@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Box, Typography, Fade, TextField } from "@mui/material";
+import { Grid, Box, Typography, Fade, TextField, Alert, Slide } from "@mui/material";
 import { style2, titleStyle } from "../login/login-style.jsx";
 import googleIcon from "../../icons/google.svg";
 import registerImage from "../../icons/registerillustration.svg";
@@ -9,21 +9,28 @@ import { addUser } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { MainButton, ModelTitles, GoogleButton, ImageLogin } from "./registerStyle.jsx";
+import { useSelector } from "react-redux";
 
 function RegisterbyInvitation() {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const groupId = location.pathname.split("/")[2];
+  const email = location.pathname.split("/")[3];
+
+  const errorMessage = useSelector((state) => state.user.errorMessage);
+
+  console.log("errorMessage", errorMessage);
 
   const [fNameErrors, setFNameErrors] = useState(false);
   const [lNameErrors, setLNameErrors] = useState(false);
   const [emailErrors, setEmailErrors] = useState(false);
+  const [isUser, setIsUser] = useState(errorMessage.status);
   const [passwordErrors, setPasswordErrors] = useState(false);
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
-    email: "",
+    email: email,
     password: "",
   });
 
@@ -45,10 +52,14 @@ function RegisterbyInvitation() {
       setPasswordErrors(true);
       console.log("password is empty");
     }
-
     dispatch(addUser(user, groupId));
-    navigate("/getStarted");
-    console.log(user);
+
+    if (errorMessage) {
+      setIsUser(true);
+      setTimeout(() => {
+        setIsUser(false);
+      }, 7000);
+    }
   };
 
   return (
@@ -69,6 +80,15 @@ function RegisterbyInvitation() {
             </ModelTitles>
 
             <form autoComplete="off" onSubmit={handleSubmit}>
+              {isUser && (
+                <Fade in={true} timeout={700}>
+                  {/* <Slide direction="left" in={true} timeout={100} mountOnEnter unmountOnExit> */}
+                  <Alert severity="error" onClose={() => setIsUser(false)} sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
+                    {errorMessage}
+                  </Alert>
+                  {/* </Slide> */}
+                </Fade>
+              )}
               <TextField
                 sx={{ width: "193px", marginInlineEnd: "23px" }}
                 label="First Name"
@@ -96,9 +116,10 @@ function RegisterbyInvitation() {
               />
               <TextField
                 sx={{ marginBlockStart: "25px" }}
-                label="Email"
                 variant="outlined"
                 className="inputRounded"
+                value={email}
+                readOnly={true}
                 onChange={(e) => {
                   setUser({ ...user, email: e.target.value });
                 }}

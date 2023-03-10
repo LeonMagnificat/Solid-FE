@@ -42,3 +42,26 @@ export const ImageLogin = styled(Box)({
   borderRadius: "20px",
   boxSizing: "border-box",
 });
+
+// export const ModelTitles = styled(Typography)({
+//   fontSize: "24px",
+//   marginBlock: "39px",
+// });
+// export const GoogleButton = styled(Button)({
+//   height: "56px",
+//   borderRadius: "20px",
+//   backgroundColor: "white",
+//   color: "black",
+//   textTransform: "capitalize",
+//   boxShadow: "none",
+//   border: "1px solid #D6D6D6",
+//   marginTop: "15px",
+//   marginBottom: "40px",
+// });
+
+// export const MainButton = styled(Button)({
+//   height: "56px",
+//   width: "129px",
+//   borderRadius: "20px",
+//   textTransform: "capitalize",
+// });

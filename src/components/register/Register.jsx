@@ -3,53 +3,62 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
-
 import { style, titleStyle } from "../login/login-style.jsx";
-import { styled } from "@mui/material/styles";
 import googleIcon from "../../icons/google.svg";
+import { ModelTitles, MainButton, GoogleButton } from "./registerStyle.jsx";
+import { useDispatch } from "react-redux";
+import { addNewUser } from "../../redux/actions/index.js";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function LoginModel(props) {
-  const InputField = styled(TextField)({
-    border: "none",
-    borderRadius: "20px",
-    // width: "178px",
-    height: "56px",
-    marginBlockEnd: "23px",
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
   });
-
-  const ModelTitles = styled(Typography)({
-    fontSize: "24px",
-    marginBlock: "39px",
-  });
-  const GoogleButton = styled(Button)({
-    height: "56px",
-    borderRadius: "20px",
-    backgroundColor: "white",
-    color: "black",
-    textTransform: "capitalize",
-    boxShadow: "none",
-    border: "1px solid #D6D6D6",
-    marginTop: "15px",
-    marginBottom: "40px",
-  });
-
-  const MainButton = styled(Button)({
-    height: "56px",
-    width: "129px",
-    borderRadius: "20px",
-    textTransform: "capitalize",
-  });
+  const [fNameErrors, setFNameErrors] = useState(false);
+  const [lNameErrors, setLNameErrors] = useState(false);
+  const [emailErrors, setEmailErrors] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState(false);
+  const errorMessage = useSelector((state) => state.user.errorMessage);
+  const [errorMessages, setErrorMessages] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(message);
-  };
+    if (user.firstName === "") {
+      setFNameErrors(true);
+      console.log("firstName is empty");
+    }
+    if (user.lastName === "") {
+      setLNameErrors(true);
+      console.log("lastName is empty");
+    }
+    if (user.email === "") {
+      setEmailErrors(true);
+      console.log("email is empty");
+    }
+    if (user.password === "") {
+      setPasswordErrors(true);
+      console.log("password is empty");
+    }
 
-  const [message, setMessage] = useState("");
+    dispatch(addNewUser(user));
+    if (!errorMessage) {
+      navigate("/getStarted");
+    }
+    setErrorMessages(true);
+    setTimeout(() => {
+      setErrorMessages(false);
+    }, 7000);
+  };
 
   return (
     <div>
@@ -71,26 +80,74 @@ export default function LoginModel(props) {
             <ModelTitles sx={titleStyle} variant="h3">
               Register
             </ModelTitles>
-            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
+              {errorMessages && (
+                <Fade in={true} timeout={900}>
+                  {/* <Slide direction="left" in={true} timeout={100} mountOnEnter unmountOnExit> */}
+                  <Alert severity="error" onClose={() => setErrorMessages(false)} sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
+                    {errorMessage}
+                  </Alert>
+                  {/* </Slide> */}
+                </Fade>
+              )}
               <TextField
                 className="inputRounded"
                 sx={{ width: "193px", marginInlineEnd: "23px" }}
                 label="First Name"
                 variant="outlined"
-                onChange={(event) => {
-                  setMessage(event.target.value);
-                  console.log(event.target.value);
+                onChange={(e) => {
+                  setUser({ ...user, firstName: e.target.value });
+                  console.log(user.firstName);
                 }}
+                error={fNameErrors}
+                required
+                type="text"
               />
-              <InputField className="inputRounded" sx={{ width: "193px" }} label="Last Name" variant="outlined" />
-              <InputField className="inputRounded" label="Email" variant="outlined" fullWidth />
-              <InputField className="inputRounded" label="Password" variant="outlined" fullWidth />
+              <TextField
+                className="inputRounded"
+                sx={{ width: "193px" }}
+                label="Last Name"
+                variant="outlined"
+                onChange={(e) => {
+                  setUser({ ...user, lastName: e.target.value });
+                  console.log(user.lastName);
+                }}
+                error={lNameErrors}
+                required
+                type="text"
+              />
+              <TextField
+                className="inputRounded"
+                label="Email"
+                variant="outlined"
+                fullWidth
+                sx={{ marginBlockStart: "25px" }}
+                onChange={(e) => {
+                  setUser({ ...user, email: e.target.value });
+                }}
+                error={emailErrors}
+                type="email"
+                required
+              />
+              <TextField
+                className="inputRounded"
+                label="Password"
+                variant="outlined"
+                sx={{ marginBlockStart: "25px", marginBlockEnd: "25px" }}
+                onChange={(e) => {
+                  setUser({ ...user, password: e.target.value });
+                }}
+                error={passwordErrors}
+                type="password"
+                fullWidth
+                required
+              />
               <Typography>Or continue with</Typography>
               <GoogleButton fullWidth variant="contained">
                 <img src={googleIcon} alt="" className="margin-right" />
                 Google
               </GoogleButton>
-              <MainButton variant="contained" size="large" type="submit">
+              <MainButton fullWidth variant="contained" size="large" type="submit">
                 Sign Up
               </MainButton>
             </form>

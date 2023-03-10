@@ -1,6 +1,6 @@
 export const navBar = {
   height: "10vh",
-  backgroundColor: "white",
+  backgroundColor: "white !important",
   display: "flex",
   justifyContent: "center",
   boxShadow: "none",

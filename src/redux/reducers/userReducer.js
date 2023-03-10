@@ -1,8 +1,23 @@
-import { ADD_USER, GET_USER_DATA } from "../actions/index.js";
+import { ADD_USER, GET_USER_DATA, ERROR } from "../actions/index.js";
 
 const initialState = {
-  addedUser: {},
-  UserData: {},
+  addedUser: {
+    _id: "",
+    accessToken: "",
+  },
+  errorMessage: {
+    message: "",
+    status: null,
+  },
+  UserData: {
+    _id: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    group: [],
+    contributions: [],
+  },
 };
 
 const userReducer = (state = initialState, action) => {
@@ -16,6 +31,10 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         UserData: action.payload,
+      };
+    case ERROR:
+      return {
+        errorMessage: action.payload,
       };
 
     default:

@@ -3,8 +3,13 @@ import { styled } from "@mui/material/styles";
 import { Button, Typography, Box, Slide } from "@mui/material";
 import slide01 from "../../icons/slide01.svg";
 import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserData } from "../../redux/actions";
 
-export default function getStarted() {
+export default function GetStarted() {
+  const dispatch = useDispatch();
+  const AddeduserId = useSelector((state) => state.user.addedUser._id);
+
   const MainButton = styled(Button)({
     height: "56px",
     width: "129px",
@@ -25,7 +30,17 @@ export default function getStarted() {
           </Box>
         </Slide>
         <Box>
-          <MainButton LinkComponent={NavLink} to="/getStarted02" variant="contained" color="white" size="large" type="submit">
+          <MainButton
+            LinkComponent={NavLink}
+            to="/getStarted02"
+            variant="contained"
+            color="white"
+            size="large"
+            type="submit"
+            onClick={() => {
+              dispatch(getUserData(AddeduserId));
+            }}
+          >
             Next
           </MainButton>
           <MainButton LinkComponent={NavLink} to="/home" size="large" color="white" type="submit">

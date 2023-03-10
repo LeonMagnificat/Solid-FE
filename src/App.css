@@ -29,3 +29,18 @@
   background-color: rgb(247, 224, 255) !important;
   border-radius: 10px !important;
 }
+
+.css-og8c7q-MuiPaper-root-MuiAccordion-root:before {
+  display: none;
+}
+.css-icaj6e-MuiPaper-root-MuiAccordion-root:before {
+  display: none;
+}
+
+.css-19kzrtu {
+  padding: 0 !important;
+}
+
+.css-mbhizm-MuiTabs-indicator {
+  display: none;
+}

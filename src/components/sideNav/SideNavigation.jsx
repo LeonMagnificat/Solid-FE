@@ -6,7 +6,8 @@ import home from "../../icons/homeIcon.svg";
 import group from "../../icons/group2.svg";
 import profile from "../../icons/profile01.svg";
 import { NavLink, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserData } from "../../redux/actions";
 
 const NavBarBox = styled(Box)({
   height: "350px",
@@ -14,8 +15,12 @@ const NavBarBox = styled(Box)({
   borderRadius: "20px",
 });
 
-export default function BasicGrid() {
+export default function NavBar() {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.UserData);
+  const userID = useSelector((state) => state.user.addedUser._id);
+
+  console.log(`user`, userID);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <NavBarBox>
@@ -28,6 +33,9 @@ export default function BasicGrid() {
               component={NavLink}
               to="/home"
               activeclassname="active"
+              onClick={() => {
+                dispatch(getUserData(userID));
+              }}
               sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", textTransform: "capitalize", width: "200px", height: "50px" }}
             >
               <img src={home} alt="" />
@@ -41,7 +49,9 @@ export default function BasicGrid() {
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <img className="avatar-profile" src={profile} alt="" />
-            <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>{user.firstName}</Typography>
+            <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>
+              <span>{user.firstName}</span> <span>{user.lastName}</span>{" "}
+            </Typography>
           </Box>
         </Box>
       </NavBarBox>

@@ -1,5 +1,6 @@
 export const ADD_USER = "ADD_USER";
 export const GET_USER_DATA = "GET_USER_DATA";
+export const ERROR = "ERROR";
 
 export const addUser = (newUser, groupId) => {
   return async (dispatch, getState) => {
@@ -22,14 +23,60 @@ export const addUser = (newUser, groupId) => {
           type: ADD_USER,
           payload: { _id, accessToken },
         });
+        dispatch(getUserData(_id));
+
+        window.location.href = "/getStarted";
       } else {
-        console.log("response", response);
+        const data = await response.json();
+        console.log("response", response, data.message);
+        dispatch({
+          type: ERROR,
+          payload: data.message,
+        });
       }
     } catch (error) {
       console.log("error", error);
     }
   };
 };
+export const addNewUser = (newUser) => {
+  return async (dispatch, getState) => {
+    const method = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    };
+    try {
+      const response = await fetch(`http://localhost:3002/user/register`, method);
+      if (response.ok) {
+        const data = await response.json();
+
+        const { _id } = data.user;
+        const { accessToken } = data;
+        console.log("data", data);
+        dispatch({
+          type: ADD_USER,
+          payload: { _id, accessToken },
+        });
+
+        window.location.href = "/getStarted";
+        dispatch(getUserData(_id));
+      } else {
+        const data = await response.json();
+        console.log("response", response, data.message);
+        dispatch({
+          type: ERROR,
+          payload: data.message,
+        });
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+};
+
 export const getUserData = (userId) => {
   return async (dispatch, getState) => {
     try {
