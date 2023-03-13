@@ -14,7 +14,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/login/:id" element={<LoginbyInvitation />} />
+        <Route path="/login/:id/:email" element={<LoginbyInvitation />} />
         <Route path="/register/:id/:email" element={<RegisterbyInvitation />} />
         <Route path="/getstarted" element={<GetStarted />} />
         <Route path="/getstarted02" element={<GetStarted02 />} />

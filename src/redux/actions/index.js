@@ -95,3 +95,73 @@ export const getUserData = (userId) => {
     }
   };
 };
+
+export const loginInvitedUser = (user, groupId) => {
+  return async (dispatch, getState) => {
+    const method = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    };
+    try {
+      const response = await fetch(`http://localhost:3002/user/login/${groupId}`, method);
+      if (response.ok) {
+        const data = await response.json();
+        const { _id } = data.user;
+        const { accessToken } = data;
+        dispatch({
+          type: ADD_USER,
+          payload: { _id, accessToken },
+        });
+        window.location.href = "/home";
+        dispatch(getUserData(_id));
+      } else {
+        const data = await response.json();
+        console.log("response", response, data.message);
+        dispatch({
+          type: ERROR,
+          payload: data.message,
+        });
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+};
+
+export const loginUser = (user) => {
+  return async (dispatch, getState) => {
+    const method = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    };
+    try {
+      const response = await fetch(`http://localhost:3002/user/login`, method);
+      if (response.ok) {
+        const data = await response.json();
+        const { _id } = data.user;
+        const { accessToken } = data;
+        dispatch({
+          type: ADD_USER,
+          payload: { _id, accessToken },
+        });
+        window.location.href = "/home";
+        dispatch(getUserData(_id));
+      } else {
+        const data = await response.json();
+        console.log("response", response, data.message);
+        dispatch({
+          type: ERROR,
+          payload: data.message,
+        });
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+};

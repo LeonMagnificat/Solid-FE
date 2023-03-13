@@ -8,6 +8,7 @@ import profile from "../../icons/profile01.svg";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserData } from "../../redux/actions";
+import { useEffect } from "react";
 
 const NavBarBox = styled(Box)({
   height: "350px",
@@ -21,6 +22,10 @@ export default function NavBar() {
   const userID = useSelector((state) => state.user.addedUser._id);
 
   console.log(`user`, userID);
+
+  useEffect(() => {
+    dispatch(getUserData(userID));
+  }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <NavBarBox>

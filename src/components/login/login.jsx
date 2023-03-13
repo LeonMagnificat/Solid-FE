@@ -1,47 +1,45 @@
-import React from "react";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import { NavLink } from "react-router-dom";
-import { style, titleStyle } from "./login-style.jsx";
-import { styled } from "@mui/material/styles";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import googleIcon from "../../icons/google.svg";
+import { Box, Typography, Fade, TextField, Modal, Backdrop, Alert } from "@mui/material";
+import { style, titleStyle, MainButton, ModelTitles, GoogleButton } from "./login-style.jsx";
+import { loginUser } from "../../redux/actions/index.js";
 
 export default function LoginModel(props) {
-  const InputField = styled(TextField)({
-    border: "none",
-    borderRadius: "20px",
-    height: "56px",
-    marginBlockEnd: "23px",
+  const dispatch = useDispatch();
+
+  const errorMessage = useSelector((state) => state.user.errorMessage);
+
+  const [emailErrors, setEmailErrors] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState(false);
+  const [isUser, setIsUser] = useState(errorMessage.status);
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
   });
 
-  const ModelTitles = styled(Typography)({
-    fontSize: "24px",
-    marginBlock: "39px",
-  });
-  const GoogleButton = styled(Button)({
-    height: "56px",
-    borderRadius: "20px",
-    backgroundColor: "white",
-    color: "black",
-    textTransform: "capitalize",
-    boxShadow: "none",
-    border: "1px solid #D6D6D6",
-    marginTop: "15px",
-    marginBottom: "60px",
-  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const MainButton = styled(Button)({
-    height: "56px",
-    width: "129px",
-    borderRadius: "20px",
-    textTransform: "capitalize",
-  });
+    console.log("user", user);
 
+    if (user.email === "") {
+      setEmailErrors(true);
+      console.log("email is empty");
+    }
+    if (user.password === "") {
+      setPasswordErrors(true);
+      console.log("password is empty");
+    }
+    dispatch(loginUser(user));
+
+    if (errorMessage) {
+      setIsUser(true);
+      setTimeout(() => {
+        setIsUser(false);
+      }, 7000);
+    }
+  };
   return (
     <div>
       <Modal
@@ -62,19 +60,53 @@ export default function LoginModel(props) {
             <ModelTitles sx={titleStyle} variant="h3" gutterBottom>
               Login
             </ModelTitles>
-            <form action="">
-              <InputField className="inputRounded" label="First Name" variant="outlined" fullWidth />
-              <InputField className="inputRounded" label="Last Name" variant="outlined" fullWidth />
-            </form>
-            <Typography>Or continue with</Typography>
-            <GoogleButton fullWidth variant="contained">
-              <img src={googleIcon} alt="" className="margin-right" />
-              Google
-            </GoogleButton>
+            <form onSubmit={handleSubmit}>
+              {isUser && (
+                <Fade in={true} timeout={700}>
+                  {/* <Slide direction="left" in={true} timeout={100} mountOnEnter unmountOnExit> */}
+                  <Alert severity="error" onClose={() => setIsUser(false)} sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
+                    {errorMessage}
+                  </Alert>
+                  {/* </Slide> */}
+                </Fade>
+              )}
+              <TextField
+                className="inputRounded"
+                label="Email"
+                variant="outlined"
+                onChange={(e) => {
+                  setUser({ ...user, email: e.target.value });
+                  console.log(user);
+                }}
+                error={emailErrors}
+                type="email"
+                fullWidth
+                required
+              />
+              <TextField
+                className="inputRounded"
+                label="Password"
+                variant="outlined"
+                sx={{ marginBlockStart: "25px", marginBlockEnd: "25px" }}
+                onChange={(e) => {
+                  setUser({ ...user, password: e.target.value });
+                  console.log(user);
+                }}
+                error={passwordErrors}
+                type="password"
+                fullWidth
+                required
+              />
+              <Typography>Or continue with</Typography>
+              <GoogleButton fullWidth variant="contained">
+                <img src={googleIcon} alt="" className="margin-right" />
+                Google
+              </GoogleButton>
 
-            <MainButton component={NavLink} to="/home" variant="contained" size="large">
-              Sign In
-            </MainButton>
+              <MainButton type="submit" variant="contained" size="large">
+                Sign In
+              </MainButton>
+            </form>
           </Box>
         </Fade>
       </Modal>
