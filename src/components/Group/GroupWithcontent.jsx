@@ -51,6 +51,8 @@ export default function GroupWithcontent() {
 
   const [value, setValue] = useState(0);
 
+  const [groupId, setGroupId] = useState("");
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -62,22 +64,32 @@ export default function GroupWithcontent() {
   const handleClose = () => {
     setOpen(false);
   };
+  console.log("Group ID", groupId);
 
   useEffect(() => {
     dispatch(getUserData(AddeduserId));
-    console.log(AddeduserId, "Added userId");
-  }, []);
+  }, [AddeduserId]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Box sx={{ width: "100%" }}>
         <GroupBox>
           <Box sx={{ borderBottom: "none" }}>
-            <Tabs value={value} onChange={handleChange}>
+            <Tabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="auto" aria-label="scrollable auto tabs example">
               {userGroup &&
                 userGroup.length &&
                 userGroup.map((group, index) => {
-                  return <Tab label={group.name} {...a11yProps(0)} />;
+                  const currentGroupId = group._id;
+                  return (
+                    <Tab
+                      label={group.name}
+                      {...a11yProps(0)}
+                      key={index}
+                      onClick={() => {
+                        setGroupId(currentGroupId);
+                      }}
+                    />
+                  );
                 })}
             </Tabs>
           </Box>
@@ -113,7 +125,14 @@ export default function GroupWithcontent() {
                     <Box>
                       <Typography>Group Members</Typography>
                     </Box>
-                    <AddButton variant="contained" color="secondary" onClick={handleOpen}>
+                    <AddButton
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => {
+                        handleOpen();
+                        setGroupId(group._id);
+                      }}
+                    >
                       <img className="mr-3" src={add} alt="" /> Add Member
                     </AddButton>
                   </GroupBox>
@@ -147,8 +166,7 @@ export default function GroupWithcontent() {
           );
         })}
       </Box>
-
-      <AddMemberModel open={open} handleClose={handleClose} />
+      <AddMemberModel open={open} groupId={groupId} handleClose={handleClose} />;
     </Box>
   );
 }

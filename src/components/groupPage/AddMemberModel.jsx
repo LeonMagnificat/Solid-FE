@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -12,6 +12,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { style, titleStyle } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
+import { useSelector, useDispatch } from "react-redux";
+import { addUserToGroup } from "../../redux/actions/index.js";
 
 export default function AddMemberModel(props) {
   const InputField = styled(TextField)({
@@ -41,10 +43,19 @@ export default function AddMemberModel(props) {
     textTransform: "capitalize",
   });
 
-  const [age, setAge] = React.useState("");
+  const [role, setRole] = useState("");
+  const [email, setEmail] = useState("");
+  const groupId = props.groupId;
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setRole(event.target.value);
+  };
+
+  const dispatch = useDispatch();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("group", email, groupId);
+    dispatch(addUserToGroup(email, groupId));
   };
 
   return (
@@ -67,22 +78,34 @@ export default function AddMemberModel(props) {
             <ModelTitles sx={titleStyle} variant="h3" gutterBottom>
               Add Member
             </ModelTitles>
-            <form>
-              <InputField className="inputRounded" label="Email Address" variant="outlined" fullWidth />
-            </form>
-            <SelectField fullWidth className="inputRounded">
-              <InputLabel className="TextField-border-radius" id="demo-simple-select-label">
-                Role
-              </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={age} label="Age" onChange={handleChange}>
-                <MenuItem value={10}>Admin</MenuItem>
-                <MenuItem value={20}>User</MenuItem>
-              </Select>
-            </SelectField>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                className="inputRounded"
+                label="Email Address"
+                variant="outlined"
+                type={"email"}
+                required
+                fullWidth
+                sx={{ marginBlockEnd: "25px" }}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  console.log("email", email);
+                }}
+              />
+              <SelectField fullWidth className="inputRounded">
+                <InputLabel className="TextField-border-radius" id="demo-simple-select-label">
+                  Role
+                </InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={role} label="Age" onChange={handleChange}>
+                  <MenuItem value={10}>Admin</MenuItem>
+                  <MenuItem value={20}>User</MenuItem>
+                </Select>
+              </SelectField>
 
-            <MainButton variant="contained" size="large">
-              Send Invitaion
-            </MainButton>
+              <MainButton variant="contained" size="large" type="submit">
+                Send Invitaion
+              </MainButton>
+            </form>
           </Box>
         </Fade>
       </Modal>

@@ -1,52 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
+import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { style, titleStyle } from "../login/login-style.jsx";
-import { styled } from "@mui/material/styles";
+import { ModelTitles, InputField, SelectField, MainButton } from "./groupDataStyle.jsx";
+import { useSelector, useDispatch } from "react-redux";
+import { FormControl } from "@mui/material";
+import { createGroup } from "../../redux/actions/index.js";
 
 export default function CreateGroupModel(props) {
-  const InputField = styled(TextField)({
-    border: "none",
-    borderRadius: "20px",
-    // width: "178px",
-    height: "56px",
-    marginBlockEnd: "23px",
+  const dispatch = useDispatch();
+  const [currency, setCurrency] = useState("");
+  const [group, setGroup] = useState({
+    name: "",
+    currency: "",
   });
-  const SelectField = styled(FormControl)({
-    border: "none",
-    borderRadius: "20px",
-    // width: "178px",
-    height: "56px",
-    marginBlockEnd: "23px",
-  });
-
-  const ModelTitles = styled(Typography)({
-    fontSize: "24px",
-    marginBlock: "39px",
-  });
-
-  const MainButton = styled(Button)({
-    height: "56px",
-    width: "129px",
-    borderRadius: "20px",
-    textTransform: "capitalize",
-  });
-
-  const [currency, setCurrency] = React.useState("");
+  const userId = useSelector((state) => state.user.UserData._id);
+  console.log("userId", userId);
 
   const handleChange = (event) => {
-    setCurrency(event.target.value);
+    const selectedCurrency = event.target.value;
+    setCurrency(selectedCurrency);
+    setGroup({ ...group, currency: selectedCurrency });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("group", group);
+    dispatch(createGroup(group, userId));
+  };
+
+  console.log("group", group);
   return (
     <div>
       <Modal
@@ -67,23 +56,32 @@ export default function CreateGroupModel(props) {
             <ModelTitles sx={titleStyle} variant="h3" gutterBottom>
               Create Group
             </ModelTitles>
-            <form>
-              <InputField className="inputRounded" label="Group Name" variant="outlined" fullWidth />
-            </form>
-            <SelectField fullWidth className="inputRounded">
-              <InputLabel className="TextField-border-radius" id="demo-simple-select-label">
-                Currency
-              </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={currency} label="Age" onChange={handleChange}>
-                <MenuItem value={10}>USD</MenuItem>
-                <MenuItem value={20}>EUR</MenuItem>
-                <MenuItem value={30}>PLN</MenuItem>
-              </Select>
-            </SelectField>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                className="inputRounded"
+                label="Group Name"
+                variant="outlined"
+                fullWidth
+                sx={{ marginBlockEnd: "25px" }}
+                onChange={(event) => {
+                  setGroup({ ...group, name: event.target.value });
+                }}
+              />
+              <FormControl fullWidth className="inputRounded" sx={{ marginBlockEnd: "25px" }}>
+                <InputLabel className="TextField-border-radius" id="demo-simple-select-label">
+                  Currency
+                </InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={currency} label="Currency" onChange={handleChange}>
+                  <MenuItem value="USD">USD</MenuItem>
+                  <MenuItem value="EUR">EUR</MenuItem>
+                  <MenuItem value="PLN">PLN</MenuItem>
+                </Select>
+              </FormControl>
 
-            <MainButton variant="contained" size="large">
-              Save
-            </MainButton>
+              <MainButton variant="contained" size="large" type="submit">
+                Save
+              </MainButton>
+            </form>
           </Box>
         </Fade>
       </Modal>

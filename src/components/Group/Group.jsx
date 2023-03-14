@@ -7,26 +7,12 @@ import CreateGroupModel from "./CreateGroupModel.jsx";
 import { useState } from "react";
 import GroupWithcontent from "./GroupWithcontent.jsx";
 import { useSelector } from "react-redux";
-
-const GroupBox = styled(Box)({
-  height: "400px",
-  backgroundColor: "white",
-  borderRadius: "20px",
-  marginBlockEnd: "15px",
-});
-
-const AddButton = styled(Button)({
-  height: "50px",
-  width: "150px",
-  borderRadius: "35px",
-  textTransform: "capitalize",
-  background: "rgb(224, 155, 45)",
-  boxShadow: "none",
-});
+import { GroupBox2, AddButton2 } from "./groupDataStyle.jsx";
 
 export default function Group() {
   const [open, setOpen] = useState(false);
   const userGroup = useSelector((state) => state.user.UserData.group);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -39,7 +25,7 @@ export default function Group() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       {!content ? (
-        <GroupBox>
+        <GroupBox2>
           <Box sx={{ height: "100%", padding: "37px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <Box>
               <img src={empty} alt="" />
@@ -52,12 +38,12 @@ export default function Group() {
               </Box>
             </Box>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <AddButton variant="contained" onClick={handleOpen}>
+              <AddButton2 variant="contained" onClick={handleOpen}>
                 <img className="mr-3" src={add} alt="" /> Create Group
-              </AddButton>
+              </AddButton2>
             </Box>
           </Box>
-        </GroupBox>
+        </GroupBox2>
       ) : (
         <GroupWithcontent />
       )}
