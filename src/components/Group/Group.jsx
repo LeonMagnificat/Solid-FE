@@ -30,13 +30,13 @@ export default function Group() {
             <Box>
               <img src={empty} alt="" />
             </Box>
-            <Box>
-              <Box sx={{ display: "flex", alignItems: "center", marginBlockEnd: "10px" }}>
-                <Typography sx={{ fontSize: "14px", cursor: "pointer", width: "301px", textAlign: "center", marginBlock: "25px" }}>
-                  There are no groups available, click the button below to create one and add members.
-                </Typography>
-              </Box>
+
+            <Box sx={{ display: "flex", alignItems: "center", marginBlockEnd: "10px" }}>
+              <Typography sx={{ fontSize: "14px", cursor: "pointer", width: "301px", textAlign: "center", marginBlock: "25px" }}>
+                There are no groups available, click the button below to create one and add members.
+              </Typography>
             </Box>
+
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <AddButton2 variant="contained" onClick={handleOpen}>
                 <img className="mr-3" src={add} alt="" /> Create Group

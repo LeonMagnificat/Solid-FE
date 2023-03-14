@@ -36,7 +36,7 @@ const AddContactButton = styled(Button)({
   boxShadow: "none",
 });
 
-export default function TheListOfMembersCard() {
+export default function TheListOfMembersCard(props) {
   const [open, setOpen] = useState(false);
   const content = false;
   const handleOpen = () => {
@@ -46,13 +46,15 @@ export default function TheListOfMembersCard() {
     setOpen(false);
   };
 
+  console.log("group-----------------", props.group);
+
   return (
     <>
       <Grid item xs={6}>
         <GroupBox>
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", marginBlockEnd: "20px" }}>
             <Box>
-              <Typography>Group Name (6)</Typography>
+              <Typography>{props.group.name}</Typography>
             </Box>
             <Box>
               <AddButton variant="outlined" color="secondary" onClick={handleOpen} sx={{ visibility: !content ? "visible" : "visible" }}>
@@ -63,7 +65,10 @@ export default function TheListOfMembersCard() {
           <Box>
             {!content ? (
               <Box>
-                <GroupMemberCard />
+                {props.group &&
+                  props.group.members.map((member) => {
+                    return <GroupMemberCard member={member} />;
+                  })}
               </Box>
             ) : (
               <Box sx={{ display: " flex", flexDirection: "column", alignItems: "center", height: "250px", justifyContent: "space-around", textAlign: "center" }}>

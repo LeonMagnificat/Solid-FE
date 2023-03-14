@@ -5,6 +5,7 @@ import { useState } from "react";
 import add from "../../icons/add.svg";
 import CreateGroupModel from "../Group/CreateGroupModel.jsx";
 import TheListOfMembersCard from "./TheListOfMembersCard.jsx";
+import { useSelector } from "react-redux";
 
 const GroupBox = styled(Box)({
   height: "70px",
@@ -28,6 +29,8 @@ const AddButton = styled(Button)({
 });
 
 export default function GroupPageCards() {
+  const userGroups = useSelector((state) => state.user.UserData.group);
+  console.log("grouppppppps", userGroups);
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -42,7 +45,7 @@ export default function GroupPageCards() {
         <GroupBox>
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
             <Box>
-              <Typography>All Groups (23)</Typography>
+              <Typography>All Groups ({userGroups && userGroups.length})</Typography>
             </Box>
             <Box>
               <AddButton variant="contained" onClick={handleOpen}>
@@ -52,7 +55,9 @@ export default function GroupPageCards() {
           </Box>
         </GroupBox>
         <Grid container spacing={2} columns={12}>
-          <TheListOfMembersCard />
+          {userGroups.map((group) => {
+            return <TheListOfMembersCard group={group} />;
+          })}
         </Grid>
 
         <CreateGroupModel open={open} handleClose={handleClose} />

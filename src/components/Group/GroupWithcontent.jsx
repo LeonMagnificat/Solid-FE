@@ -137,10 +137,8 @@ export default function GroupWithcontent() {
                     </AddButton>
                   </GroupBox>
 
-                  <GroupBox sx={{ height: "60vh", overflow: "auto" }}>
-                    <Box>
-                      <ActiveGroupMembers member={group.members} />
-                    </Box>
+                  <GroupBox sx={{ maxHeight: "60vh", overflow: "auto" }}>
+                    <ActiveGroupMembers member={group.members} />
                   </GroupBox>
                 </>
               ) : (

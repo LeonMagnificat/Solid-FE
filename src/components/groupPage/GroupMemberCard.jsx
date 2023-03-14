@@ -11,7 +11,7 @@ import DeleteUserModel from "../groupPage/DeleteUserModel.jsx";
 import { useState } from "react";
 import { profiles } from "../Group/profilesArray.js";
 
-export default function GroupMemberCard() {
+export default function GroupMemberCard(props) {
   const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
 
   const [open, setOpen] = useState(false);
@@ -63,7 +63,10 @@ export default function GroupMemberCard() {
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
           <Box sx={{ display: "flex", marginInlineEnd: "55px" }}>
             <img className="avatar-profile" src={randomProfile} alt="" />
-            <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>Member Name </Typography>
+            <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
+              {" "}
+              <span>{props.member.firstName} </span> <span>{props.member.lastName}</span>{" "}
+            </Typography>
           </Box>
           <Box>
             <TopButton variant="outlined" color="orange" onClick={handleOpen}>

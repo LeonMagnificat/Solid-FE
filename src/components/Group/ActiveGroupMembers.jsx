@@ -71,7 +71,7 @@ export default function ActiveGroupMembers(props) {
                     <img className="avatar-profile" src={profiles[index]} alt="" />
 
                     <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
-                      <span>{member.firstName}</span> <span>{member.lastName}</span>{" "}
+                      <span>{member.firstName}</span> <span>{member.lastName}</span>
                     </Typography>
                   </Box>
                 </AccordionSummary>
@@ -87,7 +87,7 @@ export default function ActiveGroupMembers(props) {
                     <img className="avatar-profile" src={profiles[index]} alt="" />
 
                     <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
-                      <span>{member.firstName}</span> <span>{member.lastName}</span>{" "}
+                      <span>{member.firstName}</span> <span>{member.lastName}</span>
                     </Typography>
                   </Box>
                 </AccordionSummary>

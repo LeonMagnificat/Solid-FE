@@ -15,9 +15,7 @@ function Account() {
         </Grid>
         <Fade in={true} timeout={1000}>
           <Grid item xs={9}>
-            <Box>
-              <Group />
-            </Box>
+            <Group />
           </Grid>
         </Fade>
       </Grid>

@@ -44,3 +44,7 @@
 .css-mbhizm-MuiTabs-indicator {
   display: none;
 }
+
+.css-o4b71y-MuiAccordionSummary-content {
+  justify-content: space-between;
+}
