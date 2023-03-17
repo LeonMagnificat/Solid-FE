@@ -1,6 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { Typography, Tab, Tabs } from "@mui/material";
+import { Typography, Tab, Tabs, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import calendar from "../../icons/calendar.svg";
@@ -11,7 +12,8 @@ import add from "../../icons/add.svg";
 import emptyContact from "../../icons/nocontact.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserData } from "../../redux/actions";
-import { GroupBox, AddButton, AddContactButton } from "./groupDataStyle.jsx";
+import { GroupBox, AddButton, AddContactButton, AccordionBox } from "./groupDataStyle.jsx";
+import { colorsMix } from "./profilesArray.js";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,6 +46,7 @@ export default function GroupWithcontent() {
   const userGroup = useSelector((state) => state.user.UserData.group);
   const dispatch = useDispatch();
   const AddeduserId = useSelector((state) => state.user.addedUser._id);
+  const color = colorsMix[Math.floor(Math.random() * colorsMix.length)];
 
   //const groupMembers = props.group.members;
 
@@ -102,10 +105,43 @@ export default function GroupWithcontent() {
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <Typography sx={{ fontSize: "16px", marginBlockEnd: "10px" }}>Total Contributed</Typography>
                   <Typography sx={{ fontSize: "14px", marginBlockEnd: "10px", color: "grey" }}>{group.createdAt}</Typography>
-                  <Typography color="primary" sx={{ fontSize: "40px", fontWeight: "bold" }}>
+                  {/* <Typography color="primary" sx={{ fontSize: "40px", fontWeight: "bold" }}>
                     <span>{group.total}</span>
                     <span>{group.currency}</span>
-                  </Typography>
+                  </Typography> */}
+                  <div>
+                    <AccordionBox>
+                      <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                        <Typography color="primary" sx={{ fontSize: "40px", fontWeight: "bold" }}>
+                          <span>{group.total}</span>
+                          <span>{group.currency}</span>
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <Box sx={{ backgroundColor: color, width: "15px", height: "15px", borderRadius: "5px", marginInlineEnd: "8px" }}></Box>
+                          <Typography sx={{ marginInlineEnd: "8px" }}>Hotel</Typography>
+                          <Typography>
+                            <span>4000</span> <span>USD</span>{" "}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <Box sx={{ backgroundColor: color, width: "15px", height: "15px", borderRadius: "5px", marginInlineEnd: "8px" }}></Box>
+                          <Typography sx={{ marginInlineEnd: "8px" }}>Hotel</Typography>
+                          <Typography>
+                            <span>4000</span> <span>USD</span>{" "}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <Box sx={{ backgroundColor: color, width: "15px", height: "15px", borderRadius: "5px", marginInlineEnd: "8px" }}></Box>
+                          <Typography sx={{ marginInlineEnd: "8px" }}>Hotel</Typography>
+                          <Typography>
+                            <span>4000</span> <span>USD</span>{" "}
+                          </Typography>
+                        </Box>
+                      </AccordionDetails>
+                    </AccordionBox>
+                  </div>
                   <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Box sx={{ display: "flex" }}>
                       <img style={{ width: "16px", marginInlineEnd: "10px" }} src={calendar} alt="" />

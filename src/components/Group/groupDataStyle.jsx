@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { Button, Box, TextField, FormControl, Typography } from "@mui/material";
+import { Button, Box, TextField, FormControl, Typography, Accordion } from "@mui/material";
 
 export const GroupBox = styled(Box)({
   backgroundColor: "white",
@@ -66,4 +66,18 @@ export const MainButton = styled(Button)({
   width: "129px",
   borderRadius: "20px",
   textTransform: "capitalize",
+});
+
+export const AccordionBox = styled(Accordion)({
+  backgroundColor: "#fbfbfb",
+  boxShadow: "none",
+  borderRadius: "15px !important",
+  marginBlockEnd: "10px",
+  justifyContent: "space-between",
+  transition: ".5s",
+  "&:hover": {
+    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
+    backgroundColor: "#f5e6ff",
+    transition: ".5s",
+  },
 });

@@ -84,3 +84,21 @@ export const profiles = [
 
 export const colors = ["#FF8C82", "#FFC27D", "#FFF394", "#D1FF82", "#89FFDD", "#8CD5FF", "#E4C6FA", "#FE9AB8"];
 export const colorsDark = ["#A10705", "#A62100", "#AD5F00", "#206B00", "#007367", "#002E99", "#452981", "#910E38"];
+export const colorsMix = [
+  "#FF8C82",
+  "#FFC27D",
+  "#FFF394",
+  "#D1FF82",
+  "#89FFDD",
+  "#8CD5FF",
+  "#E4C6FA",
+  "#FE9AB8",
+  "#A10705",
+  "#A62100",
+  "#AD5F00",
+  "#206B00",
+  "#007367",
+  "#002E99",
+  "#452981",
+  "#910E38",
+];
