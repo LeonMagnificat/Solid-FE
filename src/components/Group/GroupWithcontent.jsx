@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { Typography, Tab, Tabs, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Typography, Tab, Tabs, Button, AccordionSummary, AccordionDetails, styled } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
@@ -14,6 +14,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUserData } from "../../redux/actions";
 import { GroupBox, AddButton, AddContactButton, AccordionBox } from "./groupDataStyle.jsx";
 import { colorsMix } from "./profilesArray.js";
+import addTask from "../../icons/addTask.svg";
+import edit from "../../icons/edit.svg";
+import deleteTask from "../../icons/deleteTask.svg";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -69,9 +72,27 @@ export default function GroupWithcontent() {
   };
   console.log("Group ID", groupId);
 
-  useEffect(() => {
-    dispatch(getUserData(AddeduserId));
-  }, [AddeduserId]);
+  // useEffect(() => {
+  //   dispatch(getUserData(AddeduserId));
+  // }, [AddeduserId]);
+
+  const TaskElement = styled(AccordionDetails)({
+    cursor: "pointer",
+    borderRadius: "8px",
+    transition: "all 0.7s",
+    backgroundColor: "#f9f9f9",
+    paddingBlock: "5px",
+    paddingInlineStart: "15px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBlockEnd: "5px",
+
+    "&:hover": {
+      transition: "all 0.3s",
+      backgroundColor: "#ffff",
+    },
+  });
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -111,35 +132,48 @@ export default function GroupWithcontent() {
                   </Typography> */}
                   <div>
                     <AccordionBox>
-                      <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                        <Typography color="primary" sx={{ fontSize: "40px", fontWeight: "bold" }}>
-                          <span>{group.total}</span>
-                          <span>{group.currency}</span>
+                      <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" sx={{ height: "20px", padding: "0px" }}>
+                        <Typography
+                          color="primary"
+                          sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", fontSize: "40px", fontWeight: "bold", marginBlock: "0px" }}
+                        >
+                          <Box>
+                            <span>{group.total}</span>
+                            <span>{group.currency}</span>
+                          </Box>
+                          <Button
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: "50%",
+                              minWidth: "50px",
+                              height: "50px",
+                              backgroundColor: "#f4f4f4",
+                              marginInlineEnd: "23px",
+                            }}
+                          >
+                            <img src={addTask} alt="calendar" style={{ width: "20px", height: "20px" }} />
+                          </Button>
                         </Typography>
                       </AccordionSummary>
-                      <AccordionDetails>
+                      <TaskElement>
                         <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box sx={{ backgroundColor: color, width: "15px", height: "15px", borderRadius: "5px", marginInlineEnd: "8px" }}></Box>
+                          <Box sx={{ backgroundColor: color, width: "10px", height: "10px", borderRadius: "5px", marginInlineEnd: "8px" }}></Box>
                           <Typography sx={{ marginInlineEnd: "8px" }}>Hotel</Typography>
                           <Typography>
                             <span>4000</span> <span>USD</span>{" "}
                           </Typography>
                         </Box>
                         <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box sx={{ backgroundColor: color, width: "15px", height: "15px", borderRadius: "5px", marginInlineEnd: "8px" }}></Box>
-                          <Typography sx={{ marginInlineEnd: "8px" }}>Hotel</Typography>
-                          <Typography>
-                            <span>4000</span> <span>USD</span>{" "}
-                          </Typography>
+                          <Button color="orange" sx={{ minWidth: "15px", padding: "7px 7px", borderRadius: "50%", marginInlineEnd: "10px" }}>
+                            <img src={edit} alt="" />
+                          </Button>
+                          <Button color="delete" sx={{ minWidth: "15px", padding: "7px 7px", borderRadius: "50%" }}>
+                            <img src={deleteTask} alt="" />
+                          </Button>
                         </Box>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box sx={{ backgroundColor: color, width: "15px", height: "15px", borderRadius: "5px", marginInlineEnd: "8px" }}></Box>
-                          <Typography sx={{ marginInlineEnd: "8px" }}>Hotel</Typography>
-                          <Typography>
-                            <span>4000</span> <span>USD</span>{" "}
-                          </Typography>
-                        </Box>
-                      </AccordionDetails>
+                      </TaskElement>
                     </AccordionBox>
                   </div>
                   <Box sx={{ display: "flex", justifyContent: "space-between", marginBlockStart: "15px" }}>

@@ -23,9 +23,9 @@ export default function NavBar() {
 
   console.log(`user`, userID);
 
-  useEffect(() => {
-    dispatch(getUserData(userID));
-  }, [userID]);
+  // useEffect(() => {
+  //   dispatch(getUserData(userID));
+  // }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <NavBarBox>

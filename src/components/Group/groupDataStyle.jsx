@@ -69,15 +69,18 @@ export const MainButton = styled(Button)({
 });
 
 export const AccordionBox = styled(Accordion)({
-  backgroundColor: "#fbfbfb",
+  backgroundColor: "transparent",
   boxShadow: "none",
   borderRadius: "15px !important",
   marginBlockEnd: "10px",
   justifyContent: "space-between",
-  transition: ".5s",
+  transition: "1s",
+
   "&:hover": {
     boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
-    backgroundColor: "#f5e6ff",
+    backgroundColor: "#fafafa",
     transition: ".5s",
+    boxShadow: "none",
+    padding: "10px",
   },
 });

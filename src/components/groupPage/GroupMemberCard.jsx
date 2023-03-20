@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Button, Box } from "@mui/material";
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Button, Box, Tooltip, Fade } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import update from "../../icons/update.svg";
@@ -61,12 +61,13 @@ export default function GroupMemberCard(props) {
     <div>
       <AccordionBox sx={{ justifyContent: "space-between" }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-          <Box sx={{ display: "flex", marginInlineEnd: "55px" }}>
+          <Box sx={{ display: "flex" }}>
             <img className="avatar-profile" src={randomProfile} alt="" />
-            <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
-              {" "}
-              <span>{props.member.firstName} </span> <span>{props.member.lastName}</span>{" "}
-            </Typography>
+            <Tooltip title={props.member.firstName + " " + props.member.lastName} arrow TransitionComponent={Fade} TransitionProps={{ timeout: 700 }}>
+              <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px", width: "130px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} noWrap>
+                <span>{props.member.firstName} </span> <span>{props.member.lastName}</span>
+              </Typography>
+            </Tooltip>
           </Box>
           <Box>
             <TopButton variant="outlined" color="orange" onClick={handleOpen}>
