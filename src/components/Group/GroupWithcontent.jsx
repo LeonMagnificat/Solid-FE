@@ -8,6 +8,7 @@ import calendar from "../../icons/calendar.svg";
 import updated from "../../icons/lastupdated.svg";
 import ActiveGroupMembers from "./ActiveGroupMembers.jsx";
 import AddMemberModel from "../groupPage/AddMemberModel.jsx";
+import AddTaskModel from "./AddTaskModel.jsx";
 import add from "../../icons/add.svg";
 import emptyContact from "../../icons/nocontact.svg";
 import { useSelector, useDispatch } from "react-redux";
@@ -51,10 +52,6 @@ export default function GroupWithcontent() {
   const AddeduserId = useSelector((state) => state.user.addedUser._id);
   const color = colorsMix[Math.floor(Math.random() * colorsMix.length)];
 
-  //const groupMembers = props.group.members;
-
-  //const members = groupMembers.length > 0 ? true : false;
-
   const [value, setValue] = useState(0);
 
   const [groupId, setGroupId] = useState("");
@@ -69,6 +66,13 @@ export default function GroupWithcontent() {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const [open2, setOpen2] = useState(false);
+  const handleOpen2 = () => {
+    setOpen2(true);
+  };
+  const handleClose2 = () => {
+    setOpen2(false);
   };
   console.log("Group ID", groupId);
 
@@ -87,6 +91,7 @@ export default function GroupWithcontent() {
     alignItems: "center",
     justifyContent: "space-between",
     marginBlockEnd: "5px",
+    height: "30px",
 
     "&:hover": {
       transition: "all 0.3s",
@@ -152,12 +157,13 @@ export default function GroupWithcontent() {
                               backgroundColor: "#f4f4f4",
                               marginInlineEnd: "23px",
                             }}
+                            onClick={handleOpen2}
                           >
                             <img src={addTask} alt="calendar" style={{ width: "20px", height: "20px" }} />
                           </Button>
                         </Typography>
                       </AccordionSummary>
-                      <TaskElement>
+                      <TaskElement sx={{ "&:hover > div": { visibility: "visible", opacity: 1 } }}>
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                           <Box sx={{ backgroundColor: color, width: "10px", height: "10px", borderRadius: "5px", marginInlineEnd: "8px" }}></Box>
                           <Typography sx={{ marginInlineEnd: "8px" }}>Hotel</Typography>
@@ -165,7 +171,7 @@ export default function GroupWithcontent() {
                             <span>4000</span> <span>USD</span>{" "}
                           </Typography>
                         </Box>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Box sx={{ visibility: "hidden", alignItems: "center", transition: "opacity .6s ease-in-out", opacity: 0 }}>
                           <Button color="orange" sx={{ minWidth: "15px", padding: "7px 7px", borderRadius: "50%", marginInlineEnd: "10px" }}>
                             <img src={edit} alt="" />
                           </Button>
@@ -234,6 +240,7 @@ export default function GroupWithcontent() {
           );
         })}
       </Box>
+      <AddTaskModel open={open2} handleClose={handleClose2} />
       <AddMemberModel open={open} groupId={groupId} handleClose={handleClose} />;
     </Box>
   );
