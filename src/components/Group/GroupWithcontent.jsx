@@ -142,7 +142,7 @@ export default function GroupWithcontent() {
                       </AccordionDetails>
                     </AccordionBox>
                   </div>
-                  <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Box sx={{ display: "flex", justifyContent: "space-between", marginBlockStart: "15px" }}>
                     <Box sx={{ display: "flex" }}>
                       <img style={{ width: "16px", marginInlineEnd: "10px" }} src={calendar} alt="" />
                       <Typography sx={{ fontSize: "14px" }}>Last updated, Today 23 Feb 2023</Typography>
