@@ -3,7 +3,12 @@ import { ADD_USER, GET_USER_DATA, ERROR } from "../actions/index.js";
 const initialState = {
   addedUser: {
     _id: "",
-    accessToken: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    group: [],
+    contributions: [],
   },
   errorMessage: {
     message: "",

@@ -39,7 +39,7 @@ export const addUser = (newUser, groupId) => {
     }
   };
 };
-export const addNewUser = (newUser) => {
+export const RegisterUser = (newUser) => {
   return async (dispatch, getState) => {
     const method = {
       method: "POST",
@@ -53,16 +53,13 @@ export const addNewUser = (newUser) => {
       if (response.ok) {
         const data = await response.json();
 
-        const { _id } = data.user;
-        const { accessToken } = data;
         console.log("data", data);
         dispatch({
           type: ADD_USER,
-          payload: { _id, accessToken },
+          payload: data,
         });
 
         window.location.href = "/getStarted";
-        dispatch(getUserData(_id));
       } else {
         const data = await response.json();
         console.log("response", response, data.message);
@@ -145,14 +142,13 @@ export const loginUser = (user) => {
       const response = await fetch(`http://localhost:3002/user/login`, method);
       if (response.ok) {
         const data = await response.json();
-        const { _id } = data.user;
-        const { accessToken } = data;
+        const { accessToken } = data.user;
+        localStorage.setItem("token", accessToken);
         dispatch({
           type: ADD_USER,
-          payload: { _id, accessToken },
+          payload: data,
         });
         window.location.href = "/home";
-        dispatch(getUserData(_id));
       } else {
         const data = await response.json();
         console.log("response", response, data.message);
@@ -166,6 +162,8 @@ export const loginUser = (user) => {
     }
   };
 };
+
+export const tokenMiddleware = {};
 
 export const createGroup = (group, userId) => {
   return async (dispatch, getState) => {

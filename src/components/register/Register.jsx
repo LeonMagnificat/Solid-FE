@@ -1,23 +1,12 @@
-import React from "react";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Alert from "@mui/material/Alert";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Backdrop, Box, Modal, Fade, Alert, Typography, TextField } from "@mui/material";
 import { style, titleStyle } from "../login/login-style.jsx";
 import googleIcon from "../../icons/google.svg";
 import { ModelTitles, MainButton, GoogleButton } from "./registerStyle.jsx";
 import { useDispatch } from "react-redux";
-import { addNewUser } from "../../redux/actions/index.js";
-import { useNavigate } from "react-router-dom";
+import { RegisterUser } from "../../redux/actions/index.js";
+import { useNavigate, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-RegisterModel.defaultProps = {
-  open: false,
-};
 
 export default function RegisterModel(props) {
   const dispatch = useDispatch();
@@ -35,7 +24,7 @@ export default function RegisterModel(props) {
   const errorMessage = useSelector((state) => state.user.errorMessage);
   const [errorMessages, setErrorMessages] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (user.firstName === "") {
       setFNameErrors(true);
@@ -53,15 +42,20 @@ export default function RegisterModel(props) {
       setPasswordErrors(true);
       console.log("password is empty");
     }
-
-    dispatch(addNewUser(user));
-    if (!errorMessage) {
-      navigate("/getStarted");
+    try {
+      await dispatch(RegisterUser(user));
+    } catch (error) {
+      alert(error.message);
+      console.error(errorMessage.message, "------2222----");
     }
-    setErrorMessages(true);
-    setTimeout(() => {
-      setErrorMessages(false);
-    }, 7000);
+
+    if (errorMessage !== "") {
+      setErrorMessages(true);
+      console.log(errorMessage, "------1111----");
+      setTimeout(() => {
+        setErrorMessages(false);
+      }, 3000);
+    }
   };
 
   return (
@@ -87,11 +81,9 @@ export default function RegisterModel(props) {
             <form onSubmit={handleSubmit}>
               {errorMessages && (
                 <Fade in={true} timeout={900}>
-                  {/* <Slide direction="left" in={true} timeout={100} mountOnEnter unmountOnExit> */}
                   <Alert severity="error" onClose={() => setErrorMessages(false)} sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
                     {errorMessage}
                   </Alert>
-                  {/* </Slide> */}
                 </Fade>
               )}
               <TextField

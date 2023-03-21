@@ -18,14 +18,9 @@ const NavBarBox = styled(Box)({
 
 export default function NavBar() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.UserData);
-  const userID = useSelector((state) => state.user.addedUser._id);
+  const user = useSelector((state) => state.user.addedUser.user);
+  const userID = user ? user._id : localStorage.getItem("userID");
 
-  console.log(`user`, userID);
-
-  // useEffect(() => {
-  //   dispatch(getUserData(userID));
-  // }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <NavBarBox>
