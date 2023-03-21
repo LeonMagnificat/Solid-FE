@@ -5,6 +5,10 @@ import { Box, Typography, Fade, TextField, Modal, Backdrop, Alert } from "@mui/m
 import { style, titleStyle, MainButton, ModelTitles, GoogleButton } from "./login-style.jsx";
 import { loginUser } from "../../redux/actions/index.js";
 
+LoginModel.defaultProps = {
+  open: false,
+};
+
 export default function LoginModel(props) {
   const dispatch = useDispatch();
 

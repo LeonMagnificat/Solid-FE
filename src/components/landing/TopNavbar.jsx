@@ -13,6 +13,10 @@ import logo from "../../icons/logo.svg";
 import { styled } from "@mui/material/styles";
 import { navBar } from "./navbar-style.jsx";
 
+TopNavbar.defaultProps = {
+  open: false,
+};
+
 function TopNavbar() {
   const [open, setOpen] = useState(false);
   const [openreg, setOpenreg] = useState(false);

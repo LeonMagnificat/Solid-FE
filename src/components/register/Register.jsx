@@ -15,7 +15,11 @@ import { addNewUser } from "../../redux/actions/index.js";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function LoginModel(props) {
+RegisterModel.defaultProps = {
+  open: false,
+};
+
+export default function RegisterModel(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [user, setUser] = useState({

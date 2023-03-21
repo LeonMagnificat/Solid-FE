@@ -37,9 +37,17 @@ export default function GroupMemberCard(props) {
     justifyContent: "space-between",
     transition: ".5s",
     "&:hover": {
-      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
-      backgroundColor: "#f5e6ff",
+      backgroundColor: "#fbf0ff",
       transition: ".5s",
+    },
+    "&:hover .cards-icons": {
+      display: "flex",
+      transition: "all .5s ease",
+      opacity: 1,
+      transition: "all 3s ease",
+    },
+    "&:hover .cards-infos ": {
+      display: "none",
     },
   });
   const AccordionContent = styled(AccordionDetails)({
@@ -61,21 +69,30 @@ export default function GroupMemberCard(props) {
     <div>
       <AccordionBox sx={{ justifyContent: "space-between" }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-          <Box sx={{ display: "flex" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <img className="avatar-profile" src={randomProfile} alt="" />
             <Tooltip title={props.member.firstName + " " + props.member.lastName} arrow TransitionComponent={Fade} TransitionProps={{ timeout: 700 }}>
-              <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px", width: "130px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} noWrap>
+              <Typography sx={{ marginInlineStart: "10px", width: "130px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} noWrap>
                 <span>{props.member.firstName} </span> <span>{props.member.lastName}</span>
               </Typography>
             </Tooltip>
           </Box>
-          <Box>
-            <TopButton variant="outlined" color="orange" onClick={handleOpen}>
-              <img src={update} alt="" />
-            </TopButton>
-            <TopButton variant="outlined" color="delete" onClick={handleOpenDelete}>
-              <img src={deleteIcon} alt="" />
-            </TopButton>
+          <Box className="cards-icons" sx={{ display: "none", opacity: 0, transition: "opacity .5s ease" }}>
+            <Tooltip arrow title="Update member's contribution">
+              <TopButton variant="outlined" color="orange" onClick={handleOpen}>
+                <img src={update} alt="" />
+              </TopButton>
+            </Tooltip>
+            <Tooltip arrow title="Delete member">
+              <TopButton variant="outlined" color="delete" onClick={handleOpenDelete}>
+                <img src={deleteIcon} alt="" />
+              </TopButton>
+            </Tooltip>
+          </Box>
+          <Box className="cards-infos" sx={{ display: "flex", alignItems: "center" }}>
+            <Typography sx={{ fontSize: ".8em", color: "#9a9a9a" }}>
+              Total : <span>300USD</span>{" "}
+            </Typography>
           </Box>
         </AccordionSummary>
         <AccordionContent>

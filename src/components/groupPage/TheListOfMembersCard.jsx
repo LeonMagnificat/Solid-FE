@@ -1,9 +1,11 @@
 import * as React from "react";
-import { Typography, Box, Button, Grid } from "@mui/material";
+import { Typography, Box, Button, Grid, Tooltip } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import addsm from "../../icons/addsm.svg";
 import add from "../../icons/add.svg";
+import edit from "../../icons/editlg.svg";
+import deleteIcon from "../../icons/delete.svg";
 import emptyContact from "../../icons/nocontact.svg";
 import GroupMemberCard from "./GroupMemberCard.jsx";
 import AddMemberModel from "./AddMemberModel.jsx";
@@ -17,6 +19,18 @@ const GroupBox = styled(Box)({
   width: "100%",
   display: "flex",
   flexDirection: "column",
+  cursor: "pointer",
+  "&:hover": {
+    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
+    transition: "all 0.4s ease",
+  },
+  "&:hover .icons-box": {
+    opacity: "1",
+    transition: "all 0.4s ease",
+  },
+  "&:hover .infos-box": {
+    display: "none",
+  },
 });
 
 const AddButton = styled(Button)({
@@ -56,10 +70,27 @@ export default function TheListOfMembersCard(props) {
             <Box>
               <Typography>{props.group.name}</Typography>
             </Box>
-            <Box>
-              <AddButton variant="outlined" color="secondary" onClick={handleOpen} sx={{ visibility: !content ? "visible" : "visible" }}>
-                <img src={addsm} alt="" />
-              </AddButton>
+            <Box className="icons-box" sx={{ opacity: "0", display: "flex", width: "120px", justifyContent: "space-between" }}>
+              <Tooltip arrow title="Add a member to this Group">
+                <AddButton variant="outlined" color="secondary" onClick={handleOpen}>
+                  <img src={addsm} alt="" />
+                </AddButton>
+              </Tooltip>
+              <Tooltip arrow title="Edit this Group information">
+                <AddButton variant="outlined" color="orange" onClick={handleOpen}>
+                  <img src={edit} alt="" />
+                </AddButton>
+              </Tooltip>
+              <Tooltip arrow title="Delete this Group">
+                <AddButton variant="outlined" color="delete" onClick={handleOpen}>
+                  <img src={deleteIcon} alt="" />
+                </AddButton>
+              </Tooltip>
+            </Box>
+            <Box className="infos-box" sx={{ opacity: "1", transition: "all 0.6s ease", display: "flex", width: "120px", justifyContent: "flex-end" }}>
+              <Typography sx={{ fontSize: ".8em", color: "#9a9a9a" }}>
+                <span style={{ color: "#000" }}>{props.group.members.length}</span> {props.group.members.length > 1 ? "members" : "member"}
+              </Typography>
             </Box>
           </Box>
           <Box>
