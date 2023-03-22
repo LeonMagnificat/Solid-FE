@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { Backdrop, Box, Modal, Fade, Alert, Typography, TextField } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Backdrop, Box, Modal, Fade, Alert, Typography, TextField, CircularProgress, LinearProgress } from "@mui/material";
 import { style, titleStyle } from "../login/login-style.jsx";
 import googleIcon from "../../icons/google.svg";
 import { ModelTitles, MainButton, GoogleButton } from "./registerStyle.jsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RegisterUser } from "../../redux/actions/index.js";
-import { useNavigate, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterModel(props) {
   const dispatch = useDispatch();
@@ -21,10 +20,23 @@ export default function RegisterModel(props) {
   const [lNameErrors, setLNameErrors] = useState(false);
   const [emailErrors, setEmailErrors] = useState(false);
   const [passwordErrors, setPasswordErrors] = useState(false);
-  const errorMessage = useSelector((state) => state.user.errorMessage);
   const [errorMessages, setErrorMessages] = useState(false);
+  const [errorText, setErrorText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 25));
+    }, 800);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     if (user.firstName === "") {
       setFNameErrors(true);
@@ -42,20 +54,30 @@ export default function RegisterModel(props) {
       setPasswordErrors(true);
       console.log("password is empty");
     }
-    try {
-      await dispatch(RegisterUser(user));
-    } catch (error) {
-      alert(error.message);
-      console.error(errorMessage.message, "------2222----");
-    }
 
-    if (errorMessage !== "") {
-      setErrorMessages(true);
-      console.log(errorMessage, "------1111----");
-      setTimeout(() => {
-        setErrorMessages(false);
-      }, 3000);
+    try {
+      const response = await dispatch(RegisterUser(user));
+      console.log("response", response);
+      if (response.status) {
+        setTimeout(() => {
+          navigate("/getStarted");
+        }, 4000);
+        console.log("response", response.status);
+      } else {
+        setIsLoading(false);
+        console.log("response", response.message);
+        setErrorText(response.message);
+        setErrorMessages(true);
+        setTimeout(() => {
+          setErrorMessages(false);
+        }, 3000);
+      }
+    } catch (error) {
+      console.log("error", error);
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
   };
 
   return (
@@ -80,9 +102,9 @@ export default function RegisterModel(props) {
             </ModelTitles>
             <form onSubmit={handleSubmit}>
               {errorMessages && (
-                <Fade in={true} timeout={900}>
+                <Fade in={true} timeout={600}>
                   <Alert severity="error" onClose={() => setErrorMessages(false)} sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
-                    {errorMessage}
+                    {errorText}
                   </Alert>
                 </Fade>
               )}
@@ -93,7 +115,6 @@ export default function RegisterModel(props) {
                 variant="outlined"
                 onChange={(e) => {
                   setUser({ ...user, firstName: e.target.value });
-                  console.log(user.firstName);
                 }}
                 error={fNameErrors}
                 required
@@ -106,7 +127,6 @@ export default function RegisterModel(props) {
                 variant="outlined"
                 onChange={(e) => {
                   setUser({ ...user, lastName: e.target.value });
-                  console.log(user.lastName);
                 }}
                 error={lNameErrors}
                 required
@@ -143,8 +163,14 @@ export default function RegisterModel(props) {
                 <img src={googleIcon} alt="" className="margin-right" />
                 Google
               </GoogleButton>
-              <MainButton fullWidth variant="contained" size="large" type="submit">
-                Sign Up
+              <MainButton sx={{ padding: "0px 0px" }} fullWidth variant="contained" size="large" type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <Box sx={{ width: "100%", height: "56px" }}>
+                    <LinearProgress color="orange" sx={{ height: "100%", borderRadius: "20px" }} />
+                  </Box>
+                ) : (
+                  "Sign Up"
+                )}
               </MainButton>
             </form>
           </Box>

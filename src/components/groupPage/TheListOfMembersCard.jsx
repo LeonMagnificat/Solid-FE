@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Typography, Box, Button, Grid, Tooltip } from "@mui/material";
+import { Typography, Box, Button, Grid, Tooltip, Snackbar, Alert } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import addsm from "../../icons/addsm.svg";
@@ -9,6 +9,8 @@ import deleteIcon from "../../icons/delete.svg";
 import emptyContact from "../../icons/nocontact.svg";
 import GroupMemberCard from "./GroupMemberCard.jsx";
 import AddMemberModel from "./AddMemberModel.jsx";
+import DeleteGroupModel from "./DeleteGroupModal.jsx";
+import EditGroupModel from "./EditGroupModal.jsx";
 
 const GroupBox = styled(Box)({
   backgroundColor: "white",
@@ -52,15 +54,37 @@ const AddContactButton = styled(Button)({
 
 export default function TheListOfMembersCard(props) {
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const content = false;
   const handleOpen = () => {
     setOpen(true);
   };
+  const handleOpenEdit = () => {
+    setOpenEdit(true);
+  };
+  const handleOpenDelete = () => {
+    setOpenDelete(true);
+  };
   const handleClose = () => {
     setOpen(false);
   };
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+  };
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
 
-  console.log("group-----------------", props.group);
+  const [snackbarOpen, setSnackbarOpen] = useState(true);
+
+  // const handleSnackState = (state) => {
+  //   setSnackbarOpen(state);
+  // };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <>
@@ -77,12 +101,12 @@ export default function TheListOfMembersCard(props) {
                 </AddButton>
               </Tooltip>
               <Tooltip arrow title="Edit this Group information">
-                <AddButton variant="outlined" color="orange" onClick={handleOpen}>
+                <AddButton variant="outlined" color="orange" onClick={handleOpenEdit}>
                   <img src={edit} alt="" />
                 </AddButton>
               </Tooltip>
               <Tooltip arrow title="Delete this Group">
-                <AddButton variant="outlined" color="delete" onClick={handleOpen}>
+                <AddButton variant="outlined" color="delete" onClick={handleOpenDelete}>
                   <img src={deleteIcon} alt="" />
                 </AddButton>
               </Tooltip>
@@ -119,7 +143,14 @@ export default function TheListOfMembersCard(props) {
           </Box>
         </GroupBox>
         <AddMemberModel open={open} handleClose={handleClose} />
+        <EditGroupModel open={openEdit} handleClose={handleCloseEdit} group={props.group} />
+        <DeleteGroupModel open={openDelete} handleClose={handleCloseDelete} group={props.group} user={props.user} />
       </Grid>
+      <Snackbar open={snackbarOpen} autoHideDuration={19000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: "bottom", horizontal: "right" }}>
+        <Alert onClose={handleCloseSnackbar} severity="success">
+          This is the message
+        </Alert>
+      </Snackbar>
     </>
   );
 }

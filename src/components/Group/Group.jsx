@@ -9,9 +9,8 @@ import GroupWithcontent from "./GroupWithcontent.jsx";
 import { useSelector } from "react-redux";
 import { GroupBox2, AddButton2 } from "./groupDataStyle.jsx";
 
-export default function Group() {
+export default function Group(props) {
   const [open, setOpen] = useState(false);
-  const userGroup = useSelector((state) => state.user.UserData.group);
 
   const handleOpen = () => {
     setOpen(true);
@@ -20,7 +19,7 @@ export default function Group() {
     setOpen(false);
   };
 
-  let content = userGroup.length > 0 ? true : false;
+  let content = props.user.group.length > 0 ? true : false;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -48,7 +47,7 @@ export default function Group() {
         <GroupWithcontent />
       )}
 
-      <CreateGroupModel open={open} handleClose={handleClose} />
+      <CreateGroupModel open={open} handleClose={handleClose} user={props.user} />
     </Box>
   );
 }

@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Backdrop, Box, Modal, Fade, InputLabel, TextField, MenuItem, FormControl, Alert, LinearProgress } from "@mui/material";
 import Select from "@mui/material/Select";
 import { style, titleStyle } from "../login/login-style.jsx";
-import { ModelTitles, MainButton } from "./groupDataStyle.jsx";
+import { ModelTitles, MainButton } from "../Group/groupDataStyle.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import { createGroup } from "../../redux/actions/index.js";
+import { editGroup } from "../../redux/actions/index.js";
 import { useNavigate } from "react-router-dom";
 
-export default function CreateGroupModel(props) {
+export default function EditGroupModel(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [currency, setCurrency] = useState("");
@@ -18,10 +18,7 @@ export default function CreateGroupModel(props) {
   const [errorMessages, setErrorMessages] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const userId = props.user._id;
-
-  console.log("userId", userId);
+  const groupId = props.group._id;
 
   const handleChange = (event) => {
     const selectedCurrency = event.target.value;
@@ -33,7 +30,7 @@ export default function CreateGroupModel(props) {
     setIsLoading(true);
     e.preventDefault();
     try {
-      const response = await dispatch(createGroup(group, userId));
+      const response = await dispatch(editGroup(group, groupId));
       console.log("response", response);
       if (response.status) {
         setTimeout(() => {
@@ -73,7 +70,7 @@ export default function CreateGroupModel(props) {
         <Fade in={props.open}>
           <Box sx={style}>
             <ModelTitles sx={titleStyle} variant="h3" gutterBottom>
-              Create Group
+              Edit Group Information
             </ModelTitles>
             <form onSubmit={handleSubmit}>
               {errorMessages && (
@@ -88,6 +85,7 @@ export default function CreateGroupModel(props) {
                 label="Group Name"
                 variant="outlined"
                 fullWidth
+                defaultValue={props.group.name}
                 sx={{ marginBlockEnd: "25px" }}
                 onChange={(event) => {
                   setGroup({ ...group, name: event.target.value });
@@ -97,7 +95,7 @@ export default function CreateGroupModel(props) {
                 <InputLabel className="TextField-border-radius" id="demo-simple-select-label">
                   Currency
                 </InputLabel>
-                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={currency} label="Currency" onChange={handleChange}>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={props.group.currency} label="Currency" onChange={handleChange}>
                   <MenuItem value="USD">USD</MenuItem>
                   <MenuItem value="EUR">EUR</MenuItem>
                   <MenuItem value="PLN">PLN</MenuItem>
@@ -107,7 +105,7 @@ export default function CreateGroupModel(props) {
               <MainButton sx={{ padding: "0px 0px" }} fullWidth variant="contained" size="large" type="submit" disabled={isLoading}>
                 {isLoading ? (
                   <Box sx={{ width: "100%", height: "56px" }}>
-                    <LinearProgress color="primary" sx={{ height: "100%", borderRadius: "20px" }} />
+                    <LinearProgress color="orange" sx={{ height: "100%", borderRadius: "20px" }} />
                   </Box>
                 ) : (
                   "Save"

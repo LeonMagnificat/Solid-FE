@@ -28,9 +28,7 @@ const AddButton = styled(Button)({
   boxShadow: "none",
 });
 
-export default function GroupPageCards() {
-  const userGroups = useSelector((state) => state.user.UserData.group);
-  console.log("grouppppppps", userGroups);
+export default function GroupPageCards(props) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -45,7 +43,7 @@ export default function GroupPageCards() {
         <GroupBox>
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
             <Box>
-              <Typography>All Groups ({userGroups && userGroups.length})</Typography>
+              <Typography>All Groups ({props.group && props.group.length})</Typography>
             </Box>
             <Box>
               <AddButton variant="contained" onClick={handleOpen}>
@@ -55,12 +53,12 @@ export default function GroupPageCards() {
           </Box>
         </GroupBox>
         <Grid container spacing={2} columns={12}>
-          {userGroups.map((group) => {
-            return <TheListOfMembersCard group={group} />;
+          {props.group.map((group) => {
+            return <TheListOfMembersCard group={group} user={props.user} />;
           })}
         </Grid>
 
-        <CreateGroupModel open={open} handleClose={handleClose} />
+        <CreateGroupModel open={open} handleClose={handleClose} user={props.user} />
       </Box>
     </>
   );

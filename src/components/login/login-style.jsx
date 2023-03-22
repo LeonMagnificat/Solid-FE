@@ -37,6 +37,7 @@ export const MainButton = styled(Button)({
   height: "56px",
   borderRadius: "20px",
   textTransform: "capitalize",
+  padding: "8px 0px",
 });
 export const ModelTitles = styled(Typography)({
   fontSize: "24px",

@@ -23,9 +23,10 @@ const AddButton = styled(Button)({
   boxShadow: "none",
 });
 
-export default function Groupcards() {
+export default function Groupcards(props) {
   const [open, setOpen] = useState(false);
-  const content = false;
+  console.log(props.user.group.length);
+  const content = props.user.group.length > 0 ? true : false;
   const handleOpen = () => {
     setOpen(true);
   };
@@ -35,7 +36,7 @@ export default function Groupcards() {
 
   return (
     <>
-      {content ? (
+      {!content ? (
         <Box sx={{ flexGrow: 1 }}>
           <GroupBox>
             <Box sx={{ height: "100%", padding: "37px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
@@ -56,12 +57,10 @@ export default function Groupcards() {
               </Box>
             </Box>
           </GroupBox>
-          <CreateGroupModel open={open} handleClose={handleClose} />
+          <CreateGroupModel open={open} handleClose={handleClose} user={props.user} />
         </Box>
       ) : (
-        <Box>
-          <GroupPageCards />
-        </Box>
+        <Box>{props.user && <GroupPageCards group={props.user.group} user={props.user} />}</Box>
       )}
     </>
   );

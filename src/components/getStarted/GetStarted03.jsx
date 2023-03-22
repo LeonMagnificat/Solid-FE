@@ -4,7 +4,7 @@ import { Typography, Box, Slide } from "@mui/material";
 import slide03 from "../../icons/slide03.svg";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData } from "../../redux/actions";
+//import { getUserData } from "../../redux/actions";
 import { MainButton } from "./getStartedStyle.jsx";
 
 const GetStarted03 = () => {
@@ -34,9 +34,9 @@ const GetStarted03 = () => {
             size="large"
             color="white"
             type="submit"
-            onClick={() => {
-              dispatch(getUserData(AddeduserId));
-            }}
+            // onClick={() => {
+            //   dispatch(getUserData(AddeduserId));
+            // }}
           >
             Skip
           </MainButton>

@@ -7,7 +7,6 @@ import group from "../../icons/group2.svg";
 import profile from "../../icons/profile01.svg";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserData } from "../../redux/actions";
 import { useEffect } from "react";
 
 const NavBarBox = styled(Box)({
@@ -16,11 +15,9 @@ const NavBarBox = styled(Box)({
   borderRadius: "20px",
 });
 
-export default function NavBar() {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.addedUser.user);
-  const userID = user ? user._id : localStorage.getItem("userID");
-
+export default function NavBar(props) {
+  const user = useSelector((state) => state.user.UserData);
+  console.log("user", user);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <NavBarBox>
@@ -33,9 +30,6 @@ export default function NavBar() {
               component={NavLink}
               to="/home"
               activeclassname="active"
-              onClick={() => {
-                dispatch(getUserData(userID));
-              }}
               sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", textTransform: "capitalize", width: "200px", height: "50px" }}
             >
               <img src={home} alt="" />
@@ -50,7 +44,7 @@ export default function NavBar() {
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <img className="avatar-profile" src={profile} alt="" />
             <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>
-              <span>{user.firstName}</span> <span>{user.lastName}</span>{" "}
+              <span>{props.user.firstName}</span> <span>{props.user.lastName}</span>
             </Typography>
           </Box>
         </Box>
