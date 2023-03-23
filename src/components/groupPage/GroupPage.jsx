@@ -10,7 +10,7 @@ function GroupPage() {
     <Container maxWidth="lg">
       <Grid container spacing={2} columns={12} sx={{ marginBlockStart: "30px" }}>
         <Grid item xs={3}>
-          <Box>{user && <SideNavigation user={user} />}</Box>
+          <Box>{<SideNavigation user={user} />}</Box>
         </Grid>
         <Fade in={true} timeout={1000}>
           <Grid item xs={9} sx={{ transition: "opacity 3s ease-in-out" }}>

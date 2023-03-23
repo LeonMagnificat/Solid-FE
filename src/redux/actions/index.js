@@ -1,6 +1,7 @@
 export const ADD_USER = "ADD_USER";
 export const GET_USER_DATA = "GET_USER_DATA";
 export const ERROR = "ERROR";
+export const GET_UPDATE_GROUP = "GET_UPDATE_GROUP";
 const apiURL = "http://localhost:3002";
 console.log("apiURL", apiURL);
 
@@ -209,8 +210,6 @@ export const loginInvitedUser = (user, groupId) => {
   };
 };
 
-export const tokenMiddleware = {};
-
 export const createGroup = (group, userId) => {
   return async (dispatch, getState) => {
     const token = localStorage.getItem("token");
@@ -231,6 +230,10 @@ export const createGroup = (group, userId) => {
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
+        dispatch({
+          type: GET_USER_DATA,
+          payload: data,
+        });
         const groupData = {
           data: data,
           status: true,
@@ -270,6 +273,10 @@ export const editGroup = (group, groupId) => {
       if (response.ok) {
         const data = await response.json();
         console.log("edited group", data);
+        dispatch({
+          type: GET_USER_DATA,
+          payload: data,
+        });
         const groupData = {
           data: data,
           status: true,
@@ -308,6 +315,10 @@ export const deleteGroup = (groupId) => {
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
+        dispatch({
+          type: GET_USER_DATA,
+          payload: data.user,
+        });
         const groupData = {
           data: data,
           status: true,

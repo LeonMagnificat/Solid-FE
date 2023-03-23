@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Backdrop, Box, Modal, Fade, Button, Typography, Snackbar, Alert } from "@mui/material";
 import { style } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
 import { deleteGroup, checkLoggedIn } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Alertt(props) {
   return <Alert elevation={6} variant="filled" {...props} />;
@@ -22,32 +23,19 @@ export default function DeleteGroupModel(props) {
     textTransform: "capitalize",
   });
 
-  const [successMessages, setSuccessMessages] = useState(false);
-  const [errorMessages, setErrorMessages] = useState(false);
-  const [errorText, setErrorText] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const groupId = props.group._id;
-  const userId = props.user._id;
 
   const handleDelete = async () => {
-    setIsLoading(true);
     const response = await dispatch(deleteGroup(groupId));
-    if (response.data) {
-      dispatch(checkLoggedIn(userId));
-      setSuccessMessages(true);
-      setErrorText(response.data.message);
-      setIsLoading(false);
+    if (response.status) {
+      setSnackbarOpen(true);
+      setSnackbarMessage(response.data.message);
     } else {
-      console.log("responseeeeezzzz", response);
+      console.log("responseeeeezzzz", response.data.message);
     }
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
   };
 
   const handleCloseSnackbar = () => {
@@ -65,7 +53,7 @@ export default function DeleteGroupModel(props) {
         slots={{ backdrop: Backdrop }}
         slotProps={{
           backdrop: {
-            timeout: 1500,
+            timeout: 700,
           },
         }}
       >
@@ -90,19 +78,18 @@ export default function DeleteGroupModel(props) {
                   handleDelete();
                   props.handleClose();
                 }}
-                disabled={isLoading || successMessages}
               >
                 Yes Delete
               </MainButton>
-              <Button color="delete" sx={{ textTransform: "capitalize", marginInlineStart: "30px" }} onClick={props.handleClose} disabled={isLoading || successMessages}>
+              <Button color="delete" sx={{ textTransform: "capitalize", marginInlineStart: "30px" }} onClick={props.handleClose}>
                 Do not Delete
               </Button>
             </Box>
           </Box>
         </Fade>
       </Modal>
-      <Snackbar open={snackbarOpen} autoHideDuration={9000} onClose={handleCloseSnackbar}>
-        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+      <Snackbar open={snackbarOpen} autoHideDuration={5000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: "bottom", horizontal: "right" }}>
+        <Alert onClose={handleCloseSnackbar} severity={"success"}>
           {snackbarMessage}
         </Alert>
       </Snackbar>

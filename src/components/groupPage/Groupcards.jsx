@@ -4,7 +4,7 @@ import { Box, Typography, Button } from "@mui/material";
 import empty from "../../icons/empty01.svg";
 import add from "../../icons/add.svg";
 import CreateGroupModel from "../Group/CreateGroupModel.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GroupPageCards from "./GroupPageCards.jsx";
 
 const GroupBox = styled(Box)({
@@ -24,8 +24,9 @@ const AddButton = styled(Button)({
 });
 
 export default function Groupcards(props) {
+  const group = props.user.group;
   const [open, setOpen] = useState(false);
-  console.log(props.user.group.length);
+
   const content = props.user.group.length > 0 ? true : false;
   const handleOpen = () => {
     setOpen(true);
@@ -60,7 +61,7 @@ export default function Groupcards(props) {
           <CreateGroupModel open={open} handleClose={handleClose} user={props.user} />
         </Box>
       ) : (
-        <Box>{props.user && <GroupPageCards group={props.user.group} user={props.user} />}</Box>
+        <Box>{props.user && group && <GroupPageCards group={group} user={props.user} />}</Box>
       )}
     </>
   );

@@ -12,8 +12,8 @@ export default function EditGroupModel(props) {
   const navigate = useNavigate();
   const [currency, setCurrency] = useState("");
   const [group, setGroup] = useState({
-    name: "",
-    currency: "",
+    name: props.group.name,
+    currency: props.group.currency,
   });
   const [errorMessages, setErrorMessages] = useState(false);
   const [errorText, setErrorText] = useState("");
@@ -33,9 +33,9 @@ export default function EditGroupModel(props) {
       const response = await dispatch(editGroup(group, groupId));
       console.log("response", response);
       if (response.status) {
-        setTimeout(() => {
-          window.location.href = "/home";
-        }, 2000);
+        // setTimeout(() => {
+        //   window.location.href = "/home";
+        // }, 2000);
       } else {
         setIsLoading(false);
         setErrorMessages(true);
@@ -85,7 +85,7 @@ export default function EditGroupModel(props) {
                 label="Group Name"
                 variant="outlined"
                 fullWidth
-                defaultValue={props.group.name}
+                defaultValue={group.name}
                 sx={{ marginBlockEnd: "25px" }}
                 onChange={(event) => {
                   setGroup({ ...group, name: event.target.value });
@@ -95,7 +95,7 @@ export default function EditGroupModel(props) {
                 <InputLabel className="TextField-border-radius" id="demo-simple-select-label">
                   Currency
                 </InputLabel>
-                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={props.group.currency} label="Currency" onChange={handleChange}>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" defaultValue={group.currency} label="Currency" onChange={handleChange}>
                   <MenuItem value="USD">USD</MenuItem>
                   <MenuItem value="EUR">EUR</MenuItem>
                   <MenuItem value="PLN">PLN</MenuItem>

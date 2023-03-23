@@ -36,9 +36,6 @@ export default function CreateGroupModel(props) {
       const response = await dispatch(createGroup(group, userId));
       console.log("response", response);
       if (response.status) {
-        setTimeout(() => {
-          window.location.href = "/home";
-        }, 2000);
       } else {
         setIsLoading(false);
         setErrorMessages(true);
@@ -50,9 +47,8 @@ export default function CreateGroupModel(props) {
     } catch (error) {
       console.log("error", error);
     }
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+
+    setIsLoading(false);
   };
 
   return (

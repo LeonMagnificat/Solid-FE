@@ -4,7 +4,16 @@ const initialState = {
   addedUser: null,
   accessToken: localStorage.getItem("token"),
   isAuthenticated: false,
-  UserData: null,
+
+  UserData: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    role: "",
+    group: [],
+    id: "",
+  },
 };
 
 const userReducer = (state = initialState, action) => {
@@ -22,6 +31,7 @@ const userReducer = (state = initialState, action) => {
         ...state,
         UserData: action.payload,
       };
+
     case ERROR:
       return {
         errorMessage: action.payload,

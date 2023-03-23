@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Typography, Box, Button, Grid, Tooltip, Snackbar, Alert } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import addsm from "../../icons/addsm.svg";
 import add from "../../icons/add.svg";
 import edit from "../../icons/editlg.svg";
@@ -56,6 +56,7 @@ export default function TheListOfMembersCard(props) {
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+
   const content = false;
   const handleOpen = () => {
     setOpen(true);
@@ -74,16 +75,6 @@ export default function TheListOfMembersCard(props) {
   };
   const handleCloseDelete = () => {
     setOpenDelete(false);
-  };
-
-  const [snackbarOpen, setSnackbarOpen] = useState(true);
-
-  // const handleSnackState = (state) => {
-  //   setSnackbarOpen(state);
-  // };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
   };
 
   return (
@@ -144,13 +135,8 @@ export default function TheListOfMembersCard(props) {
         </GroupBox>
         <AddMemberModel open={open} handleClose={handleClose} />
         <EditGroupModel open={openEdit} handleClose={handleCloseEdit} group={props.group} />
-        <DeleteGroupModel open={openDelete} handleClose={handleCloseDelete} group={props.group} user={props.user} />
+        <DeleteGroupModel open={openDelete} handleClose={handleCloseDelete} group={props.group} user={props.user} key={props.group._id} />
       </Grid>
-      <Snackbar open={snackbarOpen} autoHideDuration={19000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: "bottom", horizontal: "right" }}>
-        <Alert onClose={handleCloseSnackbar} severity="success">
-          This is the message
-        </Alert>
-      </Snackbar>
     </>
   );
 }
