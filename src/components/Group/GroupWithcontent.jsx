@@ -50,15 +50,10 @@ export default function GroupWithcontent() {
 
   const [value, setValue] = useState(0);
   const [groupId, setGroupId] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
 
   const content = userGroup.length > 0 ? true : false;
-
-  const STORAGE_KEY = "snackbarData";
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

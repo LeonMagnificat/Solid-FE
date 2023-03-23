@@ -113,7 +113,7 @@ export default function TheListOfMembersCard(props) {
               <Box>
                 {props.group &&
                   props.group.members.map((member) => {
-                    return <GroupMemberCard member={member} />;
+                    return <GroupMemberCard member={member} key={member._id} group={props.group} />;
                   })}
               </Box>
             ) : (
@@ -133,7 +133,7 @@ export default function TheListOfMembersCard(props) {
             )}
           </Box>
         </GroupBox>
-        <AddMemberModel open={open} handleClose={handleClose} />
+        <AddMemberModel open={open} handleClose={handleClose} groupId={props.group._id} />
         <EditGroupModel open={openEdit} handleClose={handleCloseEdit} group={props.group} />
         <DeleteGroupModel open={openDelete} handleClose={handleCloseDelete} group={props.group} user={props.user} key={props.group._id} />
       </Grid>

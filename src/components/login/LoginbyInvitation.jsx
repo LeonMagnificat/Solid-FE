@@ -1,32 +1,49 @@
 import React from "react";
-import { Grid, Box, Typography, Fade, TextField, Alert } from "@mui/material";
+import { Grid, Box, Typography, Fade, TextField, Alert, LinearProgress } from "@mui/material";
 
 import { style2, titleStyle, MainButton, ModelTitles, GoogleButton, ImageLogin } from "./login-style.jsx";
 import { Link, useLocation } from "react-router-dom";
 import googleIcon from "../../icons/google.svg";
 import loginImage from "../../icons/loginillustration.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loginInvitedUser } from "../../redux/actions/index.js";
+import { useNavigate } from "react-router-dom";
 
 function LoginbyInvitation(props) {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const groupId = location.pathname.split("/")[2];
   const email = location.pathname.split("/")[3];
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
 
-  const errorMessage = useSelector((state) => state.user.errorMessage);
-
-  const [emailErrors, setEmailErrors] = useState(false);
-  const [passwordErrors, setPasswordErrors] = useState(false);
-  const [isUser, setIsUser] = useState(errorMessage.status);
   const [user, setUser] = useState({
     email: email,
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const [emailErrors, setEmailErrors] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState(false);
+  const [errorMessages, setErrorMessages] = useState(false);
+  const [errorText, setErrorText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 25));
+    }, 800);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
 
     console.log("user", user);
@@ -39,14 +56,30 @@ function LoginbyInvitation(props) {
       setPasswordErrors(true);
       console.log("password is empty");
     }
-    dispatch(loginInvitedUser(user, groupId));
 
-    if (errorMessage) {
-      setIsUser(true);
-      setTimeout(() => {
-        setIsUser(false);
-      }, 7000);
+    try {
+      const response = await dispatch(loginInvitedUser(user, groupId));
+      console.log("response", response);
+      if (response.status) {
+        setTimeout(() => {
+          navigate("/home");
+        }, 2000);
+        console.log("response", response.status);
+      } else {
+        setIsLoading(false);
+        console.log("response", response.message);
+        setErrorText(response.message);
+        setErrorMessages(true);
+        setTimeout(() => {
+          setErrorMessages(false);
+        }, 3000);
+      }
+    } catch (error) {
+      console.log(error);
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
   };
 
   return (
@@ -66,11 +99,11 @@ function LoginbyInvitation(props) {
               Login
             </ModelTitles>
             <form onSubmit={handleSubmit}>
-              {isUser && (
+              {false && (
                 <Fade in={true} timeout={700}>
                   {/* <Slide direction="left" in={true} timeout={100} mountOnEnter unmountOnExit> */}
-                  <Alert severity="error" onClose={() => setIsUser(false)} sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
-                    {errorMessage}
+                  <Alert severity="error" sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
+                    "errorMessage"
                   </Alert>
                   {/* </Slide> */}
                 </Fade>
@@ -80,6 +113,7 @@ function LoginbyInvitation(props) {
                 className="inputRounded"
                 label="Email"
                 variant="outlined"
+                defaultValue={email}
                 onChange={(e) => {
                   setUser({ ...user, email: e.target.value });
                   console.log(user);
@@ -109,8 +143,14 @@ function LoginbyInvitation(props) {
                 Google
               </GoogleButton>
 
-              <MainButton variant="contained" fullWidth type="submit">
-                Sign In
+              <MainButton sx={{ padding: "0px 0px" }} fullWidth variant="contained" size="large" type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <Box sx={{ width: "100%", height: "56px" }}>
+                    <LinearProgress color="primary" sx={{ height: "100%", borderRadius: "20px" }} />
+                  </Box>
+                ) : (
+                  "Sign In"
+                )}
               </MainButton>
             </form>
             <Box sx={{ marginBlockStart: "30px", display: "flex" }}>

@@ -101,7 +101,7 @@ export default function GroupMemberCard(props) {
         </AccordionContent>
       </AccordionBox>
       <UpdateContributionModel open={open} handleClose={handleClose} />
-      <DeleteUserModel open={deletemodel} handleClose={handleCloseDelete} />
+      <DeleteUserModel open={deletemodel} handleClose={handleCloseDelete} user={props.member} groupId={props.group._id} />
     </div>
   );
 }

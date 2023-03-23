@@ -54,7 +54,7 @@ export default function LoginModel(props) {
       if (response.status) {
         setTimeout(() => {
           navigate("/home");
-        }, 4000);
+        }, 2000);
         console.log("response", response.status);
       } else {
         setIsLoading(false);
@@ -70,7 +70,7 @@ export default function LoginModel(props) {
     }
     setTimeout(() => {
       setIsLoading(false);
-    }, 4000);
+    }, 2000);
   };
   return (
     <div>

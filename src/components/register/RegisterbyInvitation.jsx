@@ -1,31 +1,26 @@
 import React from "react";
-import { Grid, Box, Typography, Fade, TextField, Alert } from "@mui/material";
+import { Grid, Box, Typography, Fade, TextField, Alert, LinearProgress } from "@mui/material";
 import { style2, titleStyle } from "../login/login-style.jsx";
 import googleIcon from "../../icons/google.svg";
 import registerImage from "../../icons/registerillustration.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { addUser } from "../../redux/actions/index.js";
+import { RegisterByInvitation } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { MainButton, ModelTitles, GoogleButton, ImageLogin } from "./registerStyle.jsx";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function RegisterbyInvitation() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const groupId = location.pathname.split("/")[2];
   const email = location.pathname.split("/")[3];
 
   const errorMessage = useSelector((state) => state.user.errorMessage);
 
-  console.log("errorMessage", errorMessage);
-
-  const [fNameErrors, setFNameErrors] = useState(false);
-  const [lNameErrors, setLNameErrors] = useState(false);
-  const [emailErrors, setEmailErrors] = useState(false);
-  const [isUser, setIsUser] = useState(errorMessage.status);
-  const [passwordErrors, setPasswordErrors] = useState(false);
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -33,7 +28,28 @@ function RegisterbyInvitation() {
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  //const [isUser, setIsUser] = useState(errorMessage.status);
+  const [fNameErrors, setFNameErrors] = useState(false);
+  const [lNameErrors, setLNameErrors] = useState(false);
+  const [emailErrors, setEmailErrors] = useState(false);
+  const [errorMessages, setErrorMessages] = useState(false);
+  const [errorText, setErrorText] = useState("");
+  const [passwordErrors, setPasswordErrors] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 25));
+    }, 800);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     if (user.firstName === "") {
       setFNameErrors(true);
@@ -51,14 +67,30 @@ function RegisterbyInvitation() {
       setPasswordErrors(true);
       console.log("password is empty");
     }
-    dispatch(addUser(user, groupId));
 
-    if (errorMessage) {
-      setIsUser(true);
-      setTimeout(() => {
-        setIsUser(false);
-      }, 7000);
+    try {
+      const response = await dispatch(RegisterByInvitation(user, groupId));
+      console.log("response", response);
+      if (response.status) {
+        setTimeout(() => {
+          navigate("/getStarted");
+        }, 4000);
+        console.log("response", response.status);
+      } else {
+        setIsLoading(false);
+        console.log("response", response.message);
+        setErrorText(response.message);
+        setErrorMessages(true);
+        setTimeout(() => {
+          setErrorMessages(false);
+        }, 3000);
+      }
+    } catch (error) {
+      console.log(error);
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
   };
 
   return (
@@ -79,10 +111,10 @@ function RegisterbyInvitation() {
             </ModelTitles>
 
             <form autoComplete="off" onSubmit={handleSubmit}>
-              {isUser && (
+              {false && (
                 <Fade in={true} timeout={700}>
                   {/* <Slide direction="left" in={true} timeout={100} mountOnEnter unmountOnExit> */}
-                  <Alert severity="error" onClose={() => setIsUser(false)} sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
+                  <Alert severity="error" sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
                     {errorMessage}
                   </Alert>
                   {/* </Slide> */}
@@ -145,8 +177,14 @@ function RegisterbyInvitation() {
                 <img src={googleIcon} alt="" className="margin-right" />
                 Google
               </GoogleButton>
-              <MainButton variant="contained" size="large" type="submit" fullWidth>
-                Sign Up
+              <MainButton sx={{ padding: "0px 0px" }} fullWidth variant="contained" size="large" type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <Box sx={{ width: "100%", height: "56px" }}>
+                    <LinearProgress color="orange" sx={{ height: "100%", borderRadius: "20px" }} />
+                  </Box>
+                ) : (
+                  "Sign Up"
+                )}
               </MainButton>
             </form>
             <Box sx={{ marginBlockStart: "30px", display: "flex" }}>

@@ -35,6 +35,8 @@ export default function Groupcards(props) {
     setOpen(false);
   };
 
+  console.log(props.user._id, "------------------------");
+
   return (
     <>
       {!content ? (

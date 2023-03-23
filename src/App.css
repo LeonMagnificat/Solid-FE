@@ -48,3 +48,9 @@
 .css-o4b71y-MuiAccordionSummary-content {
   justify-content: space-between;
 }
+
+.MuiPaper-root.MuiPaper-elevation.css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper {
+  border-radius: 20px;
+  top: 130px;
+  left: 95px;
+}

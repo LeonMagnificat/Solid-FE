@@ -54,8 +54,7 @@ export default function GroupPageCards(props) {
         </GroupBox>
         <Grid container spacing={2} columns={12}>
           {props.group.map((group) => {
-            console.log("iddddddddddddd", group);
-            return <TheListOfMembersCard group={group} user={props.user} setGroupsFunction={props.setGroupsFunction} />;
+            return <TheListOfMembersCard key={group._id} group={group} user={props.user} setGroupsFunction={props.setGroupsFunction} />;
           })}
         </Grid>
 

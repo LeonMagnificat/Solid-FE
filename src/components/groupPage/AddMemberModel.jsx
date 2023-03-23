@@ -1,28 +1,12 @@
 import React, { useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import { Box, Modal, Fade, Button, Typography, TextField, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import { style, titleStyle } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addUserToGroup } from "../../redux/actions/index.js";
 
 export default function AddMemberModel(props) {
-  const InputField = styled(TextField)({
-    border: "none",
-    borderRadius: "20px",
-    // width: "178px",
-    height: "56px",
-    marginBlockEnd: "23px",
-  });
   const SelectField = styled(FormControl)({
     border: "none",
     borderRadius: "20px",
@@ -52,10 +36,13 @@ export default function AddMemberModel(props) {
   };
 
   const dispatch = useDispatch();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("group", email, groupId);
-    dispatch(addUserToGroup(email, groupId));
+    const response = await dispatch(addUserToGroup(email, groupId));
+    if (response.status) {
+      props.handleClose();
+    }
   };
 
   return (
