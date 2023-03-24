@@ -12,6 +12,7 @@ const initialState = {
     password: "",
     role: "",
     group: [],
+    contributions: [],
     id: "",
   },
 };

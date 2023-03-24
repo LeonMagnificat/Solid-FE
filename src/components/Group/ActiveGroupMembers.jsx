@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -12,8 +12,10 @@ import { profiles } from "./profilesArray";
 import { useSelector } from "react-redux";
 
 export default function ActiveGroupMembers(props) {
+  const contributions = useSelector((state) => state.contribution.contributionMember);
   const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
   const AddeduserId = useSelector((state) => state.user.addedUser._id);
+  //const [myProfile, setMyprofile] = useState(false);
 
   props.member.map((member) => {
     if (member._id === AddeduserId) {
@@ -26,8 +28,19 @@ export default function ActiveGroupMembers(props) {
     }
   });
 
+  let myProfile;
+
+  props.member.map((member) => {
+    if (member._id === AddeduserId) {
+      myProfile = true;
+      return myProfile;
+    }
+  });
+
+  console.log("myProfilewwwwwwwwwww", myProfile);
+
   const AccordionBox = styled(Accordion)({
-    backgroundColor: "#fbfbfb",
+    backgroundColor: myProfile ? "#fbfbfb" : "#FFF3DF",
     boxShadow: "none",
     borderRadius: "15px !important",
     marginBlockEnd: "10px",
@@ -39,64 +52,37 @@ export default function ActiveGroupMembers(props) {
       transition: ".5s",
     },
   });
-  const MyAccordionBox = styled(Accordion)({
-    backgroundColor: "#FFF3DF",
-    boxShadow: "none",
-    borderRadius: "15px !important",
-    marginBlockEnd: "10px",
-    justifyContent: "space-between",
-    transition: ".5s",
-    "&:hover": {
-      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
-      backgroundColor: "#f5e6ff",
-      transition: ".5s",
-    },
-  });
+
   const AccordionContent = styled(AccordionDetails)({
     maxHeight: "400px",
     overflow: "scroll",
   });
 
-  console.log(props.member);
-
   return (
     <div sx={{ marginBlockEnd: "30px" }}>
       {props.member.map((member, index) => {
+        console.log("0000000000000000000>>>", member);
         return (
           <>
-            {member._id === AddeduserId ? (
-              <MyAccordionBox>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                  <Box sx={{ display: "flex", marginInlineEnd: "55px" }}>
-                    <img className="avatar-profile" src={profiles[index]} alt="" />
+            <AccordionBox>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                <Box sx={{ display: "flex", marginInlineEnd: "55px" }}>
+                  <img className="avatar-profile" src={profiles[index]} alt="" />
 
-                    <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
-                      <span>{member.firstName}</span> <span>{member.lastName}</span>
-                    </Typography>
-                  </Box>
-                </AccordionSummary>
-                <AccordionContent>
-                  <MemberContributionCard />
-                  <TotalContributionMemberCard />
-                </AccordionContent>
-              </MyAccordionBox>
-            ) : (
-              <AccordionBox>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                  <Box sx={{ display: "flex", marginInlineEnd: "55px" }}>
-                    <img className="avatar-profile" src={profiles[index]} alt="" />
+                  <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
+                    <span>{member.firstName}</span> <span>{member.lastName}</span>
+                  </Typography>
+                </Box>
+              </AccordionSummary>
+              <AccordionContent>
+                {member.contributions &&
+                  member.contributions.map((contribution, index) => {
+                    return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
+                  })}
 
-                    <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
-                      <span>{member.firstName}</span> <span>{member.lastName}</span>
-                    </Typography>
-                  </Box>
-                </AccordionSummary>
-                <AccordionContent>
-                  <MemberContributionCard />
-                  <TotalContributionMemberCard />
-                </AccordionContent>
-              </AccordionBox>
-            )}
+                <TotalContributionMemberCard total={member.total} />
+              </AccordionContent>
+            </AccordionBox>
           </>
         );
       })}

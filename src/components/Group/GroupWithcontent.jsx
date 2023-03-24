@@ -44,8 +44,8 @@ function a11yProps(index) {
   };
 }
 
-export default function GroupWithcontent() {
-  const userGroup = useSelector((state) => state.user.UserData.group);
+export default function GroupWithcontent(props) {
+  const userGroup = props.user.group;
   const color = colorsMix[Math.floor(Math.random() * colorsMix.length)];
 
   const [value, setValue] = useState(0);
@@ -203,7 +203,7 @@ export default function GroupWithcontent() {
                       </AddButton>
                     </GroupBox>
                     <GroupBox sx={{ maxHeight: "60vh", overflow: "auto" }}>
-                      <ActiveGroupMembers member={group.members} />
+                      <ActiveGroupMembers member={group.members} user={props.user} />
                     </GroupBox>
                   </>
                 ) : (

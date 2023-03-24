@@ -6,7 +6,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import { colors, colorsDark } from "../Group/profilesArray.js";
 
-export default function MemberContributionCard() {
+export default function MemberContributionCard(props) {
   const randomProfile = colors[Math.floor(Math.random() * colors.length)];
 
   const AccordionBox = styled(Box)({
@@ -34,15 +34,17 @@ export default function MemberContributionCard() {
     color: colorsDark[colors.indexOf(randomProfile)],
   });
 
+  console.log("ffffffffffff", props.contribution.amount);
+
   return (
     <div>
       <AccordionBox>
         <AccordionMemberBox expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
           <NumberingBox>
-            <Typography sx={{ fontWeight: "bold" }}>1 </Typography>
+            <Typography sx={{ fontWeight: "bold" }}>{props.index + 1} </Typography>
           </NumberingBox>
-          <Typography sx={{ marginInlineStart: "10px" }}> June 21st 2021 </Typography>
-          <Typography sx={{ marginInlineStart: "10px", color: colorsDark[colors.indexOf(randomProfile)], fontSize: "16px", fontWeight: "bold" }}>200 USD </Typography>
+          <Typography sx={{ marginInlineStart: "10px", fontSize: "13px" }}> {props.contribution.createdAt} </Typography>
+          <Typography sx={{ marginInlineStart: "10px", color: colorsDark[colors.indexOf(randomProfile)], fontSize: "16px", fontWeight: "bold" }}>{props.contribution.amount} </Typography>
         </AccordionMemberBox>
       </AccordionBox>
     </div>

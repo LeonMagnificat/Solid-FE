@@ -44,7 +44,7 @@ export default function Group(props) {
           </Box>
         </GroupBox2>
       ) : (
-        <GroupWithcontent />
+        <GroupWithcontent user={props.user} />
       )}
 
       <CreateGroupModel open={open} handleClose={handleClose} user={props.user} />

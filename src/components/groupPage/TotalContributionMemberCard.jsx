@@ -5,7 +5,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import { colors, colorsDark } from "../Group/profilesArray.js";
 
-export default function TotalContributionMemberCard() {
+export default function TotalContributionMemberCard(props) {
   const randomProfile = colors[Math.floor(Math.random() * colors.length)];
 
   const AccordionBox = styled(Box)({
@@ -42,7 +42,9 @@ export default function TotalContributionMemberCard() {
             <Typography sx={{ fontWeight: "bold" }}>T</Typography>
           </NumberingBox>
           <Typography sx={{ marginInlineStart: "10px" }}> Total Contribution </Typography>
-          <Typography sx={{ marginInlineStart: "10px", fontSize: "16px", fontWeight: "bold" }}>200 USD </Typography>
+          <Typography sx={{ marginInlineStart: "10px", fontSize: "16px", fontWeight: "bold" }}>
+            {props.total} {props.currency}
+          </Typography>
         </AccordionMemberBox>
       </AccordionBox>
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -10,16 +10,14 @@ import profile16 from "../../icons/profile16.svg";
 import contribution from "../../icons/contribution.svg";
 import { style } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
+import { useDispatch } from "react-redux";
+import { addContribution } from "../../redux/actions/index.js";
 
 export default function UpdateContributionModel(props) {
-  const InputField = styled(TextField)({
-    border: "none",
-    borderRadius: "20px",
-    // width: "178px",
-    height: "56px",
-    marginBlockEnd: "23px",
-  });
-
+  const [amount, setAmount] = useState(0);
+  const dispatch = useDispatch();
+  const userId = props.user._id;
+  const groupId = props.group._id;
   const ModelTitles = styled(Typography)({
     fontSize: "24px",
     marginBlock: "39px",
@@ -30,6 +28,14 @@ export default function UpdateContributionModel(props) {
     borderRadius: "20px",
     textTransform: "capitalize",
   });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await dispatch(addContribution(groupId, userId, Number(amount)));
+    if (response.status) {
+      console.log("groupwwwwwwwww", response);
+      props.handleClose();
+    }
+  };
 
   return (
     <div>
@@ -53,19 +59,38 @@ export default function UpdateContributionModel(props) {
             </ModelTitles>
             <Box sx={{ display: "flex", marginInlineEnd: "55px", marginBlock: "20px" }}>
               <img className="avatar-profile" src={profile16} alt="" />
-              <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>Member Name </Typography>
+              <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
+                {props.user.firstName} {props.user.lastName}{" "}
+              </Typography>
             </Box>
             <Box sx={{ display: "flex", marginInlineEnd: "55px", marginBlock: "20px" }}>
               <img className="avatar-profile" src={contribution} alt="" />
-              <Typography sx={{ marginBlockStart: "5px", marginInlineStart: "10px", color: "#418DF9", fontSize: "25px", fontWeight: "bold" }}>345 USD </Typography>
+              <Typography sx={{ marginBlockStart: "5px", marginInlineStart: "10px", color: "#418DF9", fontSize: "25px", fontWeight: "bold" }}>
+                {props.user.total} {props.group.currency}{" "}
+              </Typography>
             </Box>
-            <form>
-              <InputField className="inputRounded" label="Add to the current amount" variant="outlined" fullWidth />
-            </form>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                sx={{ marginBlockEnd: "30px" }}
+                className="inputRounded"
+                label="Last amount added..."
+                variant="outlined"
+                fullWidth
+                onChange={(e) => {
+                  const enteredValue = e.target.value;
+                  if (enteredValue > 0 || enteredValue === "") {
+                    setAmount(enteredValue);
+                  }
+                }}
+                type="number"
+                inputProps={{ min: "0" }} // set minimum value to 0
+                required
+              />
 
-            <MainButton variant="contained" size="large">
-              Update
-            </MainButton>
+              <MainButton variant="contained" size="large" type="submit">
+                Update
+              </MainButton>
+            </form>
           </Box>
         </Fade>
       </Modal>

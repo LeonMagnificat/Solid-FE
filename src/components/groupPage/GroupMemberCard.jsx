@@ -10,8 +10,10 @@ import UpdateContributionModel from "../groupPage/UpdateContributionModel.jsx";
 import DeleteUserModel from "../groupPage/DeleteUserModel.jsx";
 import { useState } from "react";
 import { profiles } from "../Group/profilesArray.js";
+import { useSelector } from "react-redux";
 
 export default function GroupMemberCard(props) {
+  const contributions = useSelector((state) => state.contribution.contributionMember);
   const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
 
   const [open, setOpen] = useState(false);
@@ -91,16 +93,22 @@ export default function GroupMemberCard(props) {
           </Box>
           <Box className="cards-infos" sx={{ display: "flex", alignItems: "center" }}>
             <Typography sx={{ fontSize: ".8em", color: "#9a9a9a" }}>
-              Total : <span>300USD</span>{" "}
+              Total :
+              <span>
+                {props.member.total} {props.group.currency}
+              </span>{" "}
             </Typography>
           </Box>
         </AccordionSummary>
         <AccordionContent>
-          <MemberContributionCard />
-          <TotalContributionMemberCard />
+          {props.member.contributions &&
+            props.member.contributions.map((contribution, index) => {
+              return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
+            })}
+          <TotalContributionMemberCard total={props.member.total} currency={props.group.currency} />
         </AccordionContent>
       </AccordionBox>
-      <UpdateContributionModel open={open} handleClose={handleClose} />
+      <UpdateContributionModel open={open} handleClose={handleClose} user={props.member} group={props.group} />
       <DeleteUserModel open={deletemodel} handleClose={handleCloseDelete} user={props.member} groupId={props.group._id} />
     </div>
   );

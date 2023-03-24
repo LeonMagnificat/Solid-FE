@@ -1,7 +1,7 @@
 export const ADD_USER = "ADD_USER";
 export const GET_USER_DATA = "GET_USER_DATA";
 export const ERROR = "ERROR";
-export const GET_UPDATE_GROUP = "GET_UPDATE_GROUP";
+export const ADD_USER_CONTRIBUTION = "ADD_USER_CONTRIBUTION";
 const apiURL = "http://localhost:3002";
 console.log("apiURL", apiURL);
 
@@ -181,6 +181,7 @@ export const checkLoggedIn = (userId) => {
       if (response.ok) {
         // Token is valid, dispatch action to log user in
         const user = await response.json();
+        console.log("userqwqweweweasasadwdw", user.contributions);
         dispatch({
           type: GET_USER_DATA,
           payload: user,
@@ -404,6 +405,52 @@ export const addUserToGroup = (email, groupId) => {
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
+        const responseData = {
+          data: data,
+          status: true,
+        };
+        return responseData;
+      } else {
+        const data = await response.json();
+        console.log("response", response, data.message);
+        return data.message;
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+};
+
+//--------------------------Contribution--------------------------
+
+export const addContribution = (groupId, userId, data) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token does not exist, user is not logged in");
+      return;
+    }
+    const method = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ amount: data }),
+    };
+    try {
+      const response = await fetch(`http://localhost:3002/contribution/${groupId}/${userId}`, method);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("datapopopopop", data);
+        // dispatch({
+        //   type: ADD_USER_CONTRIBUTION,
+        //   payload: data.contributions,
+        // });
+        dispatch({
+          type: GET_USER_DATA,
+          payload: data,
+        });
         const responseData = {
           data: data,
           status: true,
