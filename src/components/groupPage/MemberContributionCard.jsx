@@ -8,6 +8,13 @@ import { colors, colorsDark } from "../Group/profilesArray.js";
 
 export default function MemberContributionCard(props) {
   const randomProfile = colors[Math.floor(Math.random() * colors.length)];
+  const dateTimeString = props.contribution.createdAt;
+  const dateTime = new Date(dateTimeString);
+  const options = { weekday: "short", day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric" };
+
+  const formattedDateTime = dateTime.toLocaleString("en-US", options);
+
+  const formattedAmount = props.contribution.amount.toFixed(2);
 
   const AccordionBox = styled(Box)({
     backgroundColor: "white",
@@ -34,8 +41,6 @@ export default function MemberContributionCard(props) {
     color: colorsDark[colors.indexOf(randomProfile)],
   });
 
-  console.log("ffffffffffff", props.contribution.amount);
-
   return (
     <div>
       <AccordionBox>
@@ -43,8 +48,8 @@ export default function MemberContributionCard(props) {
           <NumberingBox>
             <Typography sx={{ fontWeight: "bold" }}>{props.index + 1} </Typography>
           </NumberingBox>
-          <Typography sx={{ marginInlineStart: "10px", fontSize: "13px" }}> {props.contribution.createdAt} </Typography>
-          <Typography sx={{ marginInlineStart: "10px", color: colorsDark[colors.indexOf(randomProfile)], fontSize: "16px", fontWeight: "bold" }}>{props.contribution.amount} </Typography>
+          <Typography sx={{ marginInlineStart: "10px", fontSize: "13px", width: "185px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}> {formattedDateTime} </Typography>
+          <Typography sx={{ marginInlineStart: "10px", color: colorsDark[colors.indexOf(randomProfile)], fontSize: "16px", fontWeight: "bold" }}>{formattedAmount} </Typography>
         </AccordionMemberBox>
       </AccordionBox>
     </div>

@@ -12,7 +12,7 @@ import { profiles } from "./profilesArray";
 import { useSelector } from "react-redux";
 
 export default function ActiveGroupMembers(props) {
-  const contributions = useSelector((state) => state.contribution.contributionMember);
+  //const contributions = useSelector((state) => state.contribution.contributionMember);
   const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
   const AddeduserId = useSelector((state) => state.user.addedUser._id);
   //const [myProfile, setMyprofile] = useState(false);
@@ -27,6 +27,11 @@ export default function ActiveGroupMembers(props) {
       return member;
     }
   });
+
+  const filteredContribution = props.user.contributions.filter((contribution) => contribution.group === props.group._id);
+  const memberTotal = filteredContribution.reduce((acc, curr) => acc + curr.amount, 0);
+
+  console.log("filteredContribution@@@@@@@@@@@@", filteredContribution);
 
   let myProfile;
 
@@ -75,12 +80,12 @@ export default function ActiveGroupMembers(props) {
                 </Box>
               </AccordionSummary>
               <AccordionContent>
-                {member.contributions &&
-                  member.contributions.map((contribution, index) => {
+                {filteredContribution &&
+                  filteredContribution.map((contribution, index) => {
                     return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
                   })}
 
-                <TotalContributionMemberCard total={member.total} />
+                <TotalContributionMemberCard total={memberTotal} currency={props.group.currency} />
               </AccordionContent>
             </AccordionBox>
           </>

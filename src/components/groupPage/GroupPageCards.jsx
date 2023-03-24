@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Typography, Box, Button, Grid } from "@mui/material";
+import { Typography, Box, Button, Grid, Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import add from "../../icons/add.svg";
@@ -52,6 +52,7 @@ export default function GroupPageCards(props) {
             </Box>
           </Box>
         </GroupBox>
+
         <Grid container spacing={2} columns={12}>
           {props.group.map((group) => {
             return <TheListOfMembersCard key={group._id} group={group} user={props.user} setGroupsFunction={props.setGroupsFunction} />;

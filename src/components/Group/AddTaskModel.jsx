@@ -4,17 +4,9 @@ import { Box, Modal, Fade, Button, Typography, TextField, InputLabel, MenuItem, 
 import { style, titleStyle } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
-import { addUserToGroup } from "../../redux/actions/index.js";
+import { addNewTask } from "../../redux/actions/index.js";
 
 export default function AddTaskModel(props) {
-  const SelectField = styled(FormControl)({
-    border: "none",
-    borderRadius: "20px",
-    // width: "178px",
-    height: "56px",
-    marginBlockEnd: "23px",
-  });
-
   const ModelTitles = styled(Typography)({
     fontSize: "24px",
     marginBlock: "39px",
@@ -28,7 +20,7 @@ export default function AddTaskModel(props) {
   });
 
   const [role, setRole] = useState("");
-  const [email, setEmail] = useState("");
+  const [task, setTask] = useState("");
   const groupId = props.groupId;
 
   const handleChange = (event) => {
@@ -36,10 +28,12 @@ export default function AddTaskModel(props) {
   };
 
   const dispatch = useDispatch();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("group", email, groupId);
-    dispatch(addUserToGroup(email, groupId));
+    const response = await dispatch(addNewTask(groupId, task));
+    if (response.status) {
+      props.handleClose();
+    }
   };
 
   return (
@@ -72,8 +66,7 @@ export default function AddTaskModel(props) {
                 fullWidth
                 sx={{ marginBlockEnd: "25px" }}
                 onChange={(e) => {
-                  setEmail(e.target.value);
-                  console.log("email", email);
+                  setTask(e.target.value);
                 }}
               />
 

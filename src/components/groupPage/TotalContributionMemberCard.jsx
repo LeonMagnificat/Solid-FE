@@ -7,6 +7,7 @@ import { colors, colorsDark } from "../Group/profilesArray.js";
 
 export default function TotalContributionMemberCard(props) {
   const randomProfile = colors[Math.floor(Math.random() * colors.length)];
+  const formattedAmount = props.total.toFixed(2);
 
   const AccordionBox = styled(Box)({
     backgroundColor: "black",
@@ -41,9 +42,11 @@ export default function TotalContributionMemberCard(props) {
           <NumberingBox>
             <Typography sx={{ fontWeight: "bold" }}>T</Typography>
           </NumberingBox>
-          <Typography sx={{ marginInlineStart: "10px" }}> Total Contribution </Typography>
-          <Typography sx={{ marginInlineStart: "10px", fontSize: "16px", fontWeight: "bold" }}>
-            {props.total} {props.currency}
+          <Typography sx={{ marginInlineStart: "10px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}> Total Contribution </Typography>
+          <Typography sx={{ marginInlineStart: "10px", fontSize: "14px", fontWeight: "bold" }}>
+            <Typography sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "80px" }}>
+              {formattedAmount} {props.currency}
+            </Typography>
           </Typography>
         </AccordionMemberBox>
       </AccordionBox>

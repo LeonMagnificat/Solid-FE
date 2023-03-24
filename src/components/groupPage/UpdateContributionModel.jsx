@@ -32,7 +32,6 @@ export default function UpdateContributionModel(props) {
     e.preventDefault();
     const response = await dispatch(addContribution(groupId, userId, Number(amount)));
     if (response.status) {
-      console.log("groupwwwwwwwww", response);
       props.handleClose();
     }
   };
@@ -66,7 +65,7 @@ export default function UpdateContributionModel(props) {
             <Box sx={{ display: "flex", marginInlineEnd: "55px", marginBlock: "20px" }}>
               <img className="avatar-profile" src={contribution} alt="" />
               <Typography sx={{ marginBlockStart: "5px", marginInlineStart: "10px", color: "#418DF9", fontSize: "25px", fontWeight: "bold" }}>
-                {props.user.total} {props.group.currency}{" "}
+                {props.total} {props.group.currency}{" "}
               </Typography>
             </Box>
             <form onSubmit={handleSubmit}>

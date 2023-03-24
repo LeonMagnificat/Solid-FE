@@ -13,8 +13,12 @@ import { profiles } from "../Group/profilesArray.js";
 import { useSelector } from "react-redux";
 
 export default function GroupMemberCard(props) {
-  const contributions = useSelector((state) => state.contribution.contributionMember);
+  //const contributions = useSelector((state) => state.contribution.contributionMember);
   const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
+
+  const filteredContribution = props.member.contributions.filter((contribution) => contribution.group === props.group._id);
+  const memberTotal = filteredContribution.reduce((acc, curr) => acc + curr.amount, 0);
+  const formattedAmount = memberTotal.toFixed(2);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -51,6 +55,8 @@ export default function GroupMemberCard(props) {
     "&:hover .cards-infos ": {
       display: "none",
     },
+    gridColumn: "1 / -1",
+    position: "relative",
   });
   const AccordionContent = styled(AccordionDetails)({
     maxHeight: "400px",
@@ -69,7 +75,7 @@ export default function GroupMemberCard(props) {
 
   return (
     <div>
-      <AccordionBox sx={{ justifyContent: "space-between" }}>
+      <AccordionBox disableGutters={true} TransitionProps={{ unmountOnExit: true }} sx={{ justifyContent: "space-between" }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <img className="avatar-profile" src={randomProfile} alt="" />
@@ -93,22 +99,21 @@ export default function GroupMemberCard(props) {
           </Box>
           <Box className="cards-infos" sx={{ display: "flex", alignItems: "center" }}>
             <Typography sx={{ fontSize: ".8em", color: "#9a9a9a" }}>
-              Total :
               <span>
-                {props.member.total} {props.group.currency}
-              </span>{" "}
+                Total {formattedAmount} {props.group.currency}
+              </span>
             </Typography>
           </Box>
         </AccordionSummary>
         <AccordionContent>
-          {props.member.contributions &&
-            props.member.contributions.map((contribution, index) => {
+          {filteredContribution &&
+            filteredContribution.map((contribution, index) => {
               return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
             })}
-          <TotalContributionMemberCard total={props.member.total} currency={props.group.currency} />
+          <TotalContributionMemberCard total={memberTotal} currency={props.group.currency} />
         </AccordionContent>
       </AccordionBox>
-      <UpdateContributionModel open={open} handleClose={handleClose} user={props.member} group={props.group} />
+      <UpdateContributionModel open={open} handleClose={handleClose} user={props.member} group={props.group} total={formattedAmount} />
       <DeleteUserModel open={deletemodel} handleClose={handleCloseDelete} user={props.member} groupId={props.group._id} />
     </div>
   );

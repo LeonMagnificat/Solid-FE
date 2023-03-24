@@ -119,12 +119,20 @@ export default function GroupWithcontent(props) {
             </Box>
           </GroupBox>
           {userGroup.map((group, index) => {
+            const dateTimeString = group.createdAt;
+            const dateTimeStringUpdate = group.updatedAt;
+            const dateTime = new Date(dateTimeString);
+            const dateTimeUpdate = new Date(dateTimeStringUpdate);
+            const options = { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric", second: "numeric" };
+
+            const formattedDateTime = dateTime.toLocaleString("en-US", options);
+            const formattedDateTimeUpdate = dateTimeUpdate.toLocaleString("en-US", options);
             return (
               <TabPanel value={value} index={index}>
                 <GroupBox sx={{ padding: "30px" }}>
                   <Box sx={{ display: "flex", flexDirection: "column" }}>
                     <Typography sx={{ fontSize: "16px", marginBlockEnd: "10px" }}>Total Contributed</Typography>
-                    <Typography sx={{ fontSize: "14px", marginBlockEnd: "10px", color: "grey" }}>{group.createdAt}</Typography>
+                    <Typography sx={{ fontSize: "14px", marginBlockEnd: "10px", color: "grey" }}>{formattedDateTime}</Typography>
                     <div>
                       <AccordionBox>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" sx={{ height: "20px", padding: "0px" }}>
@@ -147,39 +155,42 @@ export default function GroupWithcontent(props) {
                                 backgroundColor: "#f4f4f4",
                                 marginInlineEnd: "23px",
                               }}
-                              onClick={handleOpen2}
+                              onClick={() => {
+                                handleOpen2();
+                                setGroupId(group._id);
+                              }}
                             >
                               <img src={addTask} alt="calendar" style={{ width: "20px", height: "20px" }} />
                             </Button>
                           </Typography>
                         </AccordionSummary>
-                        <TaskElement sx={{ "&:hover > div": { visibility: "visible", opacity: 1 } }}>
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box sx={{ backgroundColor: color, width: "10px", height: "10px", borderRadius: "5px", marginInlineEnd: "8px" }}></Box>
-                            <Typography sx={{ marginInlineEnd: "8px" }}>Hotel</Typography>
-                            <Typography>
-                              <span>4000</span> <span>USD</span>{" "}
-                            </Typography>
-                          </Box>
-                          <Box sx={{ visibility: "hidden", alignItems: "center", transition: "opacity .6s ease-in-out", opacity: 0 }}>
-                            <Button color="orange" sx={{ minWidth: "15px", padding: "7px 7px", borderRadius: "50%", marginInlineEnd: "10px" }}>
-                              <img src={edit} alt="" />
-                            </Button>
-                            <Button color="delete" sx={{ minWidth: "15px", padding: "7px 7px", borderRadius: "50%" }}>
-                              <img src={deleteTask} alt="" />
-                            </Button>
-                          </Box>
-                        </TaskElement>
+
+                        {group.tasks.map((task) => {
+                          return (
+                            <TaskElement key={task._id} sx={{ "&:hover > div": { visibility: "visible", opacity: 1 } }}>
+                              <Box sx={{ display: "flex", alignItems: "center" }}>
+                                <Box sx={{ backgroundColor: color, width: "10px", height: "10px", borderRadius: "5px", marginInlineEnd: "8px" }}></Box>
+                                <Typography sx={{ marginInlineEnd: "8px" }}>{task.title}</Typography>
+                              </Box>
+                              <Box sx={{ visibility: "hidden", alignItems: "center", transition: "opacity .6s ease-in-out", opacity: 0 }}>
+                                <Button color="orange" sx={{ minWidth: "15px", padding: "7px 7px", borderRadius: "50%", marginInlineEnd: "10px" }}>
+                                  <img src={edit} alt="" />
+                                </Button>
+                                <Button color="delete" sx={{ minWidth: "15px", padding: "7px 7px", borderRadius: "50%" }}>
+                                  <img src={deleteTask} alt="" />
+                                </Button>
+                              </Box>
+                            </TaskElement>
+                          );
+                        })}
                       </AccordionBox>
                     </div>
                     <Box sx={{ display: "flex", justifyContent: "space-between", marginBlockStart: "15px" }}>
                       <Box sx={{ display: "flex" }}>
                         <img style={{ width: "16px", marginInlineEnd: "10px" }} src={calendar} alt="" />
-                        <Typography sx={{ fontSize: "14px" }}>Last updated, Today 23 Feb 2023</Typography>
-                      </Box>
-                      <Box sx={{ display: "flex" }}>
-                        <img style={{ width: "18px", marginInlineEnd: "10px" }} src={updated} alt="" />
-                        <Typography sx={{ fontSize: "14px" }}>Updated from 50 USD</Typography>
+                        <Typography sx={{ fontSize: "14px" }}>
+                          Last updated, <span>{formattedDateTimeUpdate}</span>
+                        </Typography>
                       </Box>
                     </Box>
                   </Box>
@@ -203,7 +214,7 @@ export default function GroupWithcontent(props) {
                       </AddButton>
                     </GroupBox>
                     <GroupBox sx={{ maxHeight: "60vh", overflow: "auto" }}>
-                      <ActiveGroupMembers member={group.members} user={props.user} />
+                      <ActiveGroupMembers member={group.members} user={props.user} group={group} />
                     </GroupBox>
                   </>
                 ) : (
@@ -229,7 +240,8 @@ export default function GroupWithcontent(props) {
             );
           })}
         </Box>
-        <AddTaskModel open={open2} handleClose={handleClose2} />
+        <AddTaskModel open={open2} handleClose={handleClose2} groupId={groupId} />
+
         <AddMemberModel open={open} groupId={groupId} handleClose={handleClose} />
       </Box>
     </>

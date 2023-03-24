@@ -466,3 +466,49 @@ export const addContribution = (groupId, userId, data) => {
     }
   };
 };
+
+//-------Add Tasks------------
+
+export const addNewTask = (groupId, data) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token does not exist, user is not logged in");
+      return;
+    }
+    const method = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ title: data }),
+    };
+    try {
+      const response = await fetch(`http://localhost:3002/task/${groupId}`, method);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("datapopopopop", data);
+        // dispatch({
+        //   type: ADD_USER_CONTRIBUTION,
+        //   payload: data.contributions,
+        // });
+        dispatch({
+          type: GET_USER_DATA,
+          payload: data,
+        });
+        const responseData = {
+          data: data,
+          status: true,
+        };
+        return responseData;
+      } else {
+        const data = await response.json();
+        console.log("response", response, data.message);
+        return data.message;
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+};
