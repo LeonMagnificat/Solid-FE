@@ -29,9 +29,10 @@ export default function ActiveGroupMembers(props) {
   });
 
   const filteredContribution = props.user.contributions.filter((contribution) => contribution.group === props.group._id);
+
   const memberTotal = filteredContribution.reduce((acc, curr) => acc + curr.amount, 0);
 
-  console.log("filteredContribution@@@@@@@@@@@@", filteredContribution);
+  console.log("filteredContribution@@@@@@@@@@@@", memberTotal);
 
   let myProfile;
 
@@ -67,6 +68,7 @@ export default function ActiveGroupMembers(props) {
     <div sx={{ marginBlockEnd: "30px" }}>
       {props.member.map((member, index) => {
         console.log("0000000000000000000>>>", member);
+        const totalUser = member.contributions.reduce((acc, curr) => acc + curr.amount, 0);
         return (
           <>
             <AccordionBox>
@@ -85,7 +87,7 @@ export default function ActiveGroupMembers(props) {
                     return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
                   })}
 
-                <TotalContributionMemberCard total={memberTotal} currency={props.group.currency} />
+                <TotalContributionMemberCard total={totalUser} currency={props.group.currency} />
               </AccordionContent>
             </AccordionBox>
           </>
