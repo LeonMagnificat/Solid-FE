@@ -1,10 +1,9 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { Typography, Tab, Tabs, Button, AccordionSummary, AccordionDetails, styled, Snackbar, Alert, Box } from "@mui/material";
+import { Typography, Tab, Tabs, Button, AccordionSummary, AccordionDetails, styled, Snackbar, Alert, Box, Grid, Tooltip, TextField } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState, useEffect } from "react";
 import calendar from "../../icons/calendar.svg";
-import updated from "../../icons/lastupdated.svg";
 import ActiveGroupMembers from "./ActiveGroupMembers.jsx";
 import AddMemberModel from "../groupPage/AddMemberModel.jsx";
 import AddTaskModel from "./AddTaskModel.jsx";
@@ -16,6 +15,7 @@ import { colorsMix } from "./profilesArray.js";
 import addTask from "../../icons/addTask.svg";
 import edit from "../../icons/edit.svg";
 import deleteTask from "../../icons/deleteTask.svg";
+import { editTask, deleteTaskAction } from "../../redux/actions/index.js";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,13 +45,18 @@ function a11yProps(index) {
 }
 
 export default function GroupWithcontent(props) {
-  const userGroup = props.user.group;
+  const dispatch = useDispatch();
+  const groupsUser = props.user.group;
+  const [userGroup, setUserGroup] = useState(groupsUser);
   const color = colorsMix[Math.floor(Math.random() * colorsMix.length)];
 
   const [value, setValue] = useState(0);
   const [groupId, setGroupId] = useState("");
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
+  const [editing, setEditing] = useState(null);
+  const [title, setTitle] = useState("");
+  //const [tasks, setTasks] = useState();
 
   const content = userGroup.length > 0 ? true : false;
 
@@ -72,7 +77,41 @@ export default function GroupWithcontent(props) {
     setOpen2(false);
   };
 
-  console.log("userGroup", userGroup);
+  const handleUpdateTask = async () => {
+    const response = await dispatch(editTask(editing, title));
+    if (response.status) {
+      setEditing(null);
+      console.log("handleDeleteTask", editing, title);
+      window.location.reload();
+    }
+  };
+
+  const handleDeleteTask = async () => {
+    const response = await dispatch(deleteTaskAction(editing));
+    if (response.status) {
+      setEditing(null);
+      console.log("handleDeleteTask", editing, title);
+      window.location.reload();
+    }
+  };
+
+  // const handleUpdateTasks = async () => {
+  //   const response = await dispatch(editTask(editing, title));
+  //   if (response.status) {
+  //     const updatedGroups = userGroup.map((group) => {
+  //       group.tasks.map((task) => {
+  //         if (task._id === editing) {
+  //           return { ...task, title };
+  //         } else {
+  //           return task;
+  //         }
+  //       });
+  //     });
+  //     setUserGroup(updatedGroups);
+  //     setEditing(null);
+  //     console.log("handleUpdateTask", editing, title);
+  //   }
+  // };
 
   const TaskElement = styled(AccordionDetails)({
     cursor: "pointer",
@@ -84,7 +123,7 @@ export default function GroupWithcontent(props) {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBlockEnd: "5px",
+    //marginBlockEnd: "5px",
     height: "30px",
 
     "&:hover": {
@@ -92,6 +131,8 @@ export default function GroupWithcontent(props) {
       backgroundColor: "#ffff",
     },
   });
+
+  console.log("TaskElement", title, editing);
 
   return (
     <>
@@ -165,24 +206,103 @@ export default function GroupWithcontent(props) {
                           </Typography>
                         </AccordionSummary>
 
-                        {group.tasks.map((task) => {
-                          return (
-                            <TaskElement key={task._id} sx={{ "&:hover > div": { visibility: "visible", opacity: 1 } }}>
-                              <Box sx={{ display: "flex", alignItems: "center" }}>
-                                <Box sx={{ backgroundColor: color, width: "10px", height: "10px", borderRadius: "5px", marginInlineEnd: "8px" }}></Box>
-                                <Typography sx={{ marginInlineEnd: "8px" }}>{task.title}</Typography>
-                              </Box>
-                              <Box sx={{ visibility: "hidden", alignItems: "center", transition: "opacity .6s ease-in-out", opacity: 0 }}>
-                                <Button color="orange" sx={{ minWidth: "15px", padding: "7px 7px", borderRadius: "50%", marginInlineEnd: "10px" }}>
-                                  <img src={edit} alt="" />
-                                </Button>
-                                <Button color="delete" sx={{ minWidth: "15px", padding: "7px 7px", borderRadius: "50%" }}>
-                                  <img src={deleteTask} alt="" />
-                                </Button>
-                              </Box>
-                            </TaskElement>
-                          );
-                        })}
+                        <Grid container spacing={1}>
+                          {group.tasks.map((task, index) => (
+                            <Grid item xs={12} md={6} xl={4} key={task._id}>
+                              <TaskElement sx={{ "&:hover > div": { visibility: "visible", opacity: 1 } }}>
+                                <Box sx={{ display: "flex", alignItems: "center" }}>
+                                  <Box
+                                    sx={{
+                                      backgroundColor: colorsMix[index % colorsMix.length],
+                                      width: "10px",
+                                      height: "10px",
+                                      borderRadius: "5px",
+                                      marginInlineEnd: "8px",
+                                    }}
+                                  ></Box>
+                                  {editing === task._id ? (
+                                    <form onSubmit={handleUpdateTask}>
+                                      <TextField
+                                        className="inputRounded"
+                                        variant="outlined"
+                                        defaultValue={task.title}
+                                        type="text"
+                                        sx={{ backgroundColor: "#fff" }}
+                                        onBlur={(e) => {
+                                          setTitle(e.target.value);
+                                          setEditing(null);
+                                        }}
+                                        size="small"
+                                        onKeyDown={(e) => {
+                                          if (e.key === "Enter") {
+                                            e.preventDefault();
+                                            handleUpdateTask();
+                                            setEditing(null);
+                                          }
+                                        }}
+                                      />
+                                      <Button
+                                        color="orange"
+                                        sx={{
+                                          minWidth: "15px",
+                                          padding: "7px 7px",
+                                          borderRadius: "50%",
+                                          marginInlineEnd: "10px",
+                                        }}
+                                        type="submit"
+                                      >
+                                        Submit
+                                      </Button>
+                                    </form>
+                                  ) : (
+                                    <Typography
+                                      onClick={() => {
+                                        setEditing(task._id);
+                                        setTitle(task.title);
+                                      }}
+                                      onBlur={() => {
+                                        setEditing(null);
+                                      }}
+                                      sx={{
+                                        marginInlineEnd: "8px",
+                                        width: "150px",
+                                        whiteSpace: "nowrap",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                      }}
+                                    >
+                                      {task.title}
+                                    </Typography>
+                                  )}
+                                </Box>
+
+                                <Box
+                                  sx={{
+                                    visibility: "hidden",
+                                    alignItems: "center",
+                                    transition: "opacity .6s ease-in-out",
+                                    opacity: editing === task._id ? 1 : 0,
+                                  }}
+                                >
+                                  <Button
+                                    color="delete"
+                                    sx={{
+                                      minWidth: "15px",
+                                      padding: "7px 7px",
+                                      borderRadius: "50%",
+                                    }}
+                                    onClick={() => {
+                                      setEditing(task._id);
+                                      handleDeleteTask();
+                                    }}
+                                  >
+                                    <img src={deleteTask} alt="" />
+                                  </Button>
+                                </Box>
+                              </TaskElement>
+                            </Grid>
+                          ))}
+                        </Grid>
                       </AccordionBox>
                     </div>
                     <Box sx={{ display: "flex", justifyContent: "space-between", marginBlockStart: "15px" }}>
