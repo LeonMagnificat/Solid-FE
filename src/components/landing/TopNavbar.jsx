@@ -1,11 +1,5 @@
 import React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
+import { AppBar, Box, Toolbar, Typography, Menu, Container, Button } from "@mui/material";
 import LoginModel from "../login/login.jsx";
 import Register from "../register/Register.jsx";
 import { useState } from "react";
