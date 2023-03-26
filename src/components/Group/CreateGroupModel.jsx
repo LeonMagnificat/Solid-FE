@@ -31,6 +31,7 @@ export default function CreateGroupModel(props) {
     try {
       const response = await dispatch(createGroup(group, userId));
       if (response.status) {
+        props.handleClose();
       } else {
         setIsLoading(false);
         setErrorMessages(true);
