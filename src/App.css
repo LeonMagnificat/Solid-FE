@@ -31,10 +31,10 @@
 }
 
 .css-og8c7q-MuiPaper-root-MuiAccordion-root:before {
-  display: none;
+  display: none !important;
 }
 .css-icaj6e-MuiPaper-root-MuiAccordion-root:before {
-  display: none;
+  display: none !important;
 }
 
 .css-19kzrtu {

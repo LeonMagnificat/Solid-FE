@@ -81,7 +81,6 @@ export const AccordionBox = styled(Accordion)({
     boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
     backgroundColor: "#fafafa",
     transition: ".5s",
-    boxShadow: "none",
     padding: "10px",
   },
 });

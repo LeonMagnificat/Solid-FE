@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
-import { Box, Modal, Fade, Button, Typography, TextField, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
+import { Box, Modal, Fade, Button, Typography, TextField } from "@mui/material";
 import { style, titleStyle } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addNewTask } from "../../redux/actions/index.js";
 
 export default function AddTaskModel(props) {
+  const dispatch = useDispatch();
+
   const ModelTitles = styled(Typography)({
     fontSize: "24px",
     marginBlock: "39px",
@@ -19,15 +21,9 @@ export default function AddTaskModel(props) {
     textTransform: "capitalize",
   });
 
-  const [role, setRole] = useState("");
   const [task, setTask] = useState("");
   const groupId = props.groupId;
 
-  const handleChange = (event) => {
-    setRole(event.target.value);
-  };
-
-  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await dispatch(addNewTask(groupId, task));

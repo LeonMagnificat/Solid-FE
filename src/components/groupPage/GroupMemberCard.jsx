@@ -10,7 +10,6 @@ import UpdateContributionModel from "../groupPage/UpdateContributionModel.jsx";
 import DeleteUserModel from "../groupPage/DeleteUserModel.jsx";
 import { useState } from "react";
 import { profiles } from "../Group/profilesArray.js";
-import { useSelector } from "react-redux";
 
 export default function GroupMemberCard(props) {
   //const contributions = useSelector((state) => state.contribution.contributionMember);
@@ -50,7 +49,6 @@ export default function GroupMemberCard(props) {
       display: "flex",
       transition: "all .5s ease",
       opacity: 1,
-      transition: "all 3s ease",
     },
     "&:hover .cards-infos ": {
       display: "none",

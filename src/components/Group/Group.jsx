@@ -1,12 +1,10 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import empty from "../../icons/empty01.svg";
 import add from "../../icons/add.svg";
 import CreateGroupModel from "./CreateGroupModel.jsx";
 import { useState } from "react";
 import GroupWithcontent from "./GroupWithcontent.jsx";
-import { useSelector } from "react-redux";
 import { GroupBox2, AddButton2 } from "./groupDataStyle.jsx";
 
 export default function Group(props) {
@@ -19,7 +17,7 @@ export default function Group(props) {
     setOpen(false);
   };
 
-  let content = props.user.group.length > 0 ? true : false;
+  let content = props.user.group && props.user.group.length > 0 ? true : false;
 
   return (
     <Box sx={{ flexGrow: 1 }}>

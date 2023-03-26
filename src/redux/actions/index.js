@@ -1,8 +1,11 @@
+import { persistConfig } from "../store/store.js";
+//import dotenv from "dotenv";
+
 export const ADD_USER = "ADD_USER";
 export const GET_USER_DATA = "GET_USER_DATA";
-export const ERROR = "ERROR";
+export const DE_AUTHENTICATION = "DE_AUTHENTICATION";
 export const ADD_USER_CONTRIBUTION = "ADD_USER_CONTRIBUTION";
-const apiURL = "http://localhost:3002";
+const apiURL = process.env.REACT_APP_API_URL;
 console.log("apiURL", apiURL);
 
 export const RegisterUser = (newUser) => {
@@ -57,7 +60,7 @@ export const RegisterByInvitation = (newUser, groupId) => {
       body: JSON.stringify(newUser),
     };
     try {
-      const response = await fetch(`http://localhost:3002/user/register/${groupId}`, method);
+      const response = await fetch(`${apiURL}/user/register/${groupId}`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
@@ -95,7 +98,7 @@ export const loginUser = (user) => {
       body: JSON.stringify(user),
     };
     try {
-      const response = await fetch(`http://localhost:3002/user/login`, method);
+      const response = await fetch(`${apiURL}/user/login`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
@@ -134,7 +137,7 @@ export const loginInvitedUser = (user, groupId) => {
       body: JSON.stringify(user),
     };
     try {
-      const response = await fetch(`http://localhost:3002/user/login/${groupId}`, method);
+      const response = await fetch(`${apiURL}/user/login/${groupId}`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
@@ -171,7 +174,7 @@ export const checkLoggedIn = (userId) => {
 
     // Verify token with server
     try {
-      const response = await fetch(`http://localhost:3002/user/${userId}`, {
+      const response = await fetch(`${apiURL}/user/${userId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -231,7 +234,7 @@ export const createGroup = (group, userId) => {
       body: JSON.stringify(group),
     };
     try {
-      const response = await fetch(`http://localhost:3002/group/newGroup/${userId}`, method);
+      const response = await fetch(`${apiURL}/group/newGroup/${userId}`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
@@ -274,7 +277,7 @@ export const editGroup = (group, groupId) => {
       body: JSON.stringify(group),
     };
     try {
-      const response = await fetch(`http://localhost:3002/group/${groupId}`, method);
+      const response = await fetch(`${apiURL}/group/${groupId}`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("edited group", data);
@@ -316,7 +319,7 @@ export const deleteGroup = (groupId) => {
       },
     };
     try {
-      const response = await fetch(`http://localhost:3002/group/${groupId}`, method);
+      const response = await fetch(`${apiURL}/group/${groupId}`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
@@ -358,7 +361,7 @@ export const deleteUserInGroup = (groupId, userId) => {
       },
     };
     try {
-      const response = await fetch(`http://localhost:3002/user/deleteMember/${groupId}/${userId}`, method);
+      const response = await fetch(`${apiURL}/user/deleteMember/${groupId}/${userId}`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
@@ -401,7 +404,7 @@ export const addUserToGroup = (email, groupId) => {
       body: JSON.stringify({ email: email }),
     };
     try {
-      const response = await fetch(`http://localhost:3002/group/inviteGroup/${groupId}`, method);
+      const response = await fetch(`${apiURL}/group/inviteGroup/${groupId}`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
@@ -439,7 +442,7 @@ export const addContribution = (groupId, userId, data) => {
       body: JSON.stringify({ amount: data }),
     };
     try {
-      const response = await fetch(`http://localhost:3002/contribution/${groupId}/${userId}`, method);
+      const response = await fetch(`${apiURL}/contribution/${groupId}/${userId}`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("datapopopopop", data);
@@ -485,7 +488,7 @@ export const addNewTask = (groupId, data) => {
       body: JSON.stringify({ title: data }),
     };
     try {
-      const response = await fetch(`http://localhost:3002/task/${groupId}`, method);
+      const response = await fetch(`${apiURL}/task/${groupId}`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("datapopopopop", data);
@@ -529,7 +532,7 @@ export const editTask = (taskId, data) => {
       body: JSON.stringify({ title: data }),
     };
     try {
-      const response = await fetch(`http://localhost:3002/task/${taskId}`, method);
+      const response = await fetch(`${apiURL}/task/${taskId}`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("datapopopopop", data);
@@ -572,7 +575,7 @@ export const deleteTaskAction = (taskId) => {
       },
     };
     try {
-      const response = await fetch(`http://localhost:3002/task/${taskId}`, method);
+      const response = await fetch(`${apiURL}/task/${taskId}`, method);
       if (response.ok) {
         const data = await response.json();
         console.log("datapopopopop", data);
@@ -591,6 +594,27 @@ export const deleteTaskAction = (taskId) => {
         console.log("response", response, data.message);
         return data.message;
       }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+};
+
+export const logOutAction = () => {
+  return async (dispatch, getState) => {
+    try {
+      //Clear all items from local storage
+      localStorage.clear();
+      localStorage.removeItem("token");
+      localStorage.removeItem(persistConfig.key);
+
+      // Update isAuthenticated state to false
+      dispatch({
+        type: DE_AUTHENTICATION,
+        payload: false,
+      });
+
+      window.location.href = "/";
     } catch (error) {
       console.log("error", error);
     }

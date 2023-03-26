@@ -3,13 +3,13 @@ import { Backdrop, Box, Modal, Fade, InputLabel, TextField, MenuItem, FormContro
 import Select from "@mui/material/Select";
 import { style, titleStyle } from "../login/login-style.jsx";
 import { ModelTitles, MainButton } from "../Group/groupDataStyle.jsx";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { editGroup } from "../../redux/actions/index.js";
-import { useNavigate } from "react-router-dom";
 
 export default function EditGroupModel(props) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
+  // eslint-disable-next-line no-unused-vars
   const [currency, setCurrency] = useState("");
   const [group, setGroup] = useState({
     name: props.group.name,
@@ -31,11 +31,8 @@ export default function EditGroupModel(props) {
     e.preventDefault();
     try {
       const response = await dispatch(editGroup(group, groupId));
-      console.log("response", response);
       if (response.status) {
-        // setTimeout(() => {
-        //   window.location.href = "/home";
-        // }, 2000);
+        props.handleClose();
       } else {
         setIsLoading(false);
         setErrorMessages(true);
@@ -49,7 +46,7 @@ export default function EditGroupModel(props) {
     }
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1000);
   };
 
   return (

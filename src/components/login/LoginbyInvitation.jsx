@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import googleIcon from "../../icons/google.svg";
 import loginImage from "../../icons/loginillustration.svg";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginInvitedUser } from "../../redux/actions/index.js";
 import { useNavigate } from "react-router-dom";
 
@@ -17,8 +17,8 @@ function LoginbyInvitation(props) {
 
   const groupId = location.pathname.split("/")[2];
   const email = location.pathname.split("/")[3];
-  const params = new URLSearchParams(window.location.search);
-  const token = params.get("token");
+  //const params = new URLSearchParams(window.location.search);
+  //const token = params.get("token");
 
   const [user, setUser] = useState({
     email: email,
@@ -30,6 +30,7 @@ function LoginbyInvitation(props) {
   const [errorMessages, setErrorMessages] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -46,8 +47,6 @@ function LoginbyInvitation(props) {
     setIsLoading(true);
     e.preventDefault();
 
-    console.log("user", user);
-
     if (user.email === "") {
       setEmailErrors(true);
       console.log("email is empty");
@@ -59,15 +58,14 @@ function LoginbyInvitation(props) {
 
     try {
       const response = await dispatch(loginInvitedUser(user, groupId));
-      console.log("response", response);
+
       if (response.status) {
         setTimeout(() => {
           navigate("/home");
         }, 2000);
-        console.log("response", response.status);
       } else {
         setIsLoading(false);
-        console.log("response", response.message);
+        console.log("error message", response.message);
         setErrorText(response.message);
         setErrorMessages(true);
         setTimeout(() => {
@@ -99,11 +97,11 @@ function LoginbyInvitation(props) {
               Login
             </ModelTitles>
             <form onSubmit={handleSubmit}>
-              {false && (
+              {errorMessages && (
                 <Fade in={true} timeout={700}>
                   {/* <Slide direction="left" in={true} timeout={100} mountOnEnter unmountOnExit> */}
                   <Alert severity="error" sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
-                    "errorMessage"
+                    {errorText}
                   </Alert>
                   {/* </Slide> */}
                 </Fade>

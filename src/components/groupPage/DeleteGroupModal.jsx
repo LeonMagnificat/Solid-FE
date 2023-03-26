@@ -1,27 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Backdrop, Box, Modal, Fade, Button, Typography, Snackbar, Alert } from "@mui/material";
 import { style } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
-import { deleteGroup, checkLoggedIn } from "../../redux/actions/index.js";
+import { deleteGroup } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
-function Alertt(props) {
-  return <Alert elevation={6} variant="filled" {...props} />;
-}
 
 export default function DeleteGroupModel(props) {
   const dispatch = useDispatch();
-  const ModelTitles = styled(Typography)({
-    fontSize: "24px",
-    marginBlock: "39px",
-  });
-
-  const MainButton = styled(Button)({
-    height: "56px",
-    borderRadius: "20px",
-    textTransform: "capitalize",
-  });
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -34,13 +19,24 @@ export default function DeleteGroupModel(props) {
       setSnackbarOpen(true);
       setSnackbarMessage(response.data.message);
     } else {
-      console.log("responseeeeezzzz", response.data.message);
+      console.log("error message", response.data.message);
     }
   };
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
+
+  const ModelTitles = styled(Typography)({
+    fontSize: "24px",
+    marginBlock: "39px",
+  });
+
+  const MainButton = styled(Button)({
+    height: "56px",
+    borderRadius: "20px",
+    textTransform: "capitalize",
+  });
 
   return (
     <div>

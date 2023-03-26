@@ -1,19 +1,20 @@
 import { Box, Container, Grid, Fade } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import SideNavigation from "../sideNav/SideNavigation.jsx";
 import Group from "../Group/Group.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { checkLoggedIn } from "../../redux/actions/index.js";
-import { useEffect } from "react";
 
 function Account() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.UserData);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const userID = useSelector((state) => state.user.addedUser._id);
 
   useEffect(() => {
-    console.log("DISPATCH FIRED");
+    console.log("DISPATCH FIRED", isAuthenticated);
     dispatch(checkLoggedIn(userID));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

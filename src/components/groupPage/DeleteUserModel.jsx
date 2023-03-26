@@ -1,13 +1,10 @@
-import React, { useState } from "react";
-import { Backdrop, Box, Modal, Fade, Button, Typography, Alert } from "@mui/material";
+import React from "react";
+import { Backdrop, Box, Modal, Fade, Button, Typography } from "@mui/material";
 import { style } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
 import { deleteUserInGroup } from "../../redux/actions/index.js";
 
-function Alertt(props) {
-  return <Alert elevation={6} variant="filled" {...props} />;
-}
 export default function DeleteUserModel(props) {
   const dispatch = useDispatch();
   const ModelTitles = styled(Typography)({
@@ -21,28 +18,16 @@ export default function DeleteUserModel(props) {
     textTransform: "capitalize",
   });
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-
   const groupId = props.groupId;
   const userId = props.user._id;
-
-  console.log("userIddddddd", userId);
-  console.log("grouppppIddddddd", groupId);
 
   const handleDelete = async () => {
     const response = await dispatch(deleteUserInGroup(groupId, userId));
     if (response.status) {
-      setSnackbarOpen(true);
-      setSnackbarMessage(response.data.message);
-      console.log("responseeeeezzzz", response.data.message);
+      props.handleClose();
     } else {
-      console.log("responseeeeezzzz", response.data.message);
+      console.log("error message", response.data.message);
     }
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
   };
 
   return (

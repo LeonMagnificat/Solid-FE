@@ -1,9 +1,16 @@
-import { ADD_USER, GET_USER_DATA, ERROR } from "../actions/index.js";
-
 const initialState = {
-  addedUser: null,
-  accessToken: localStorage.getItem("token"),
-  isAuthenticated: false,
+  addedUser: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    role: "",
+    group: [],
+    contributions: [],
+    id: "",
+  },
+  accessToken: "",
+  isAuthenticated: "",
 
   UserData: {
     firstName: "",
@@ -19,7 +26,7 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_USER:
+    case "ADD_USER":
       localStorage.setItem("token", action.payload.accessToken);
       return {
         ...state,
@@ -27,15 +34,15 @@ const userReducer = (state = initialState, action) => {
         accessToken: action.payload.accessToken,
         isAuthenticated: true,
       };
-    case GET_USER_DATA:
+    case "GET_USER_DATA":
       return {
         ...state,
         UserData: action.payload,
       };
 
-    case ERROR:
+    case "DE_AUTHENTICATION":
       return {
-        errorMessage: action.payload,
+        isAuthenticated: action.payload,
       };
 
     default:

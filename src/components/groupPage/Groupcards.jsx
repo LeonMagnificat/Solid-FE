@@ -4,7 +4,7 @@ import { Box, Typography, Button } from "@mui/material";
 import empty from "../../icons/empty01.svg";
 import add from "../../icons/add.svg";
 import CreateGroupModel from "../Group/CreateGroupModel.jsx";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import GroupPageCards from "./GroupPageCards.jsx";
 
 const GroupBox = styled(Box)({

@@ -3,13 +3,11 @@ import { Backdrop, Box, Modal, Fade, InputLabel, TextField, MenuItem, FormContro
 import Select from "@mui/material/Select";
 import { style, titleStyle } from "../login/login-style.jsx";
 import { ModelTitles, MainButton } from "./groupDataStyle.jsx";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createGroup } from "../../redux/actions/index.js";
-import { useNavigate } from "react-router-dom";
 
 export default function CreateGroupModel(props) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [currency, setCurrency] = useState("");
   const [group, setGroup] = useState({
     name: "",
@@ -20,8 +18,6 @@ export default function CreateGroupModel(props) {
   const [isLoading, setIsLoading] = useState(false);
 
   const userId = props.user._id;
-
-  console.log("userId", userId);
 
   const handleChange = (event) => {
     const selectedCurrency = event.target.value;
@@ -34,7 +30,6 @@ export default function CreateGroupModel(props) {
     e.preventDefault();
     try {
       const response = await dispatch(createGroup(group, userId));
-      console.log("response", response);
       if (response.status) {
       } else {
         setIsLoading(false);

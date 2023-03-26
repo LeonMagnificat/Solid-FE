@@ -3,13 +3,13 @@ import React from "react";
 import { Typography, Box, Slide } from "@mui/material";
 import slide03 from "../../icons/slide03.svg";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+//import { useDispatch, useSelector } from "react-redux";
 //import { getUserData } from "../../redux/actions";
 import { MainButton } from "./getStartedStyle.jsx";
 
 const GetStarted03 = () => {
-  const dispatch = useDispatch();
-  const AddeduserId = useSelector((state) => state.user.addedUser._id);
+  // const dispatch = useDispatch();
+  // const AddeduserId = useSelector((state) => state.user.addedUser._id);
 
   return (
     <>

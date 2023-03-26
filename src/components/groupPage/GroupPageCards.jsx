@@ -1,11 +1,10 @@
 import * as React from "react";
-import { Typography, Box, Button, Grid, Container } from "@mui/material";
+import { Typography, Box, Button, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import add from "../../icons/add.svg";
 import CreateGroupModel from "../Group/CreateGroupModel.jsx";
 import TheListOfMembersCard from "./TheListOfMembersCard.jsx";
-import { useSelector } from "react-redux";
 
 const GroupBox = styled(Box)({
   height: "70px",

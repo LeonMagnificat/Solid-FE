@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import googleIcon from "../../icons/google.svg";
 import { Box, Typography, Fade, TextField, Modal, Backdrop, Alert, LinearProgress } from "@mui/material";
 import { style, titleStyle, MainButton, ModelTitles, GoogleButton } from "./login-style.jsx";
@@ -22,6 +22,7 @@ export default function LoginModel(props) {
   const [errorMessages, setErrorMessages] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {

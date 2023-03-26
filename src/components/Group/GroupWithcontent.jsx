@@ -1,8 +1,8 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { Typography, Tab, Tabs, Button, AccordionSummary, AccordionDetails, styled, Snackbar, Alert, Box, Grid, Tooltip, TextField } from "@mui/material";
+import { Typography, Tab, Tabs, Button, AccordionSummary, AccordionDetails, styled, Box, Grid, TextField } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import calendar from "../../icons/calendar.svg";
 import ActiveGroupMembers from "./ActiveGroupMembers.jsx";
 import AddMemberModel from "../groupPage/AddMemberModel.jsx";
@@ -13,7 +13,6 @@ import { useDispatch } from "react-redux";
 import { GroupBox, AddButton, AddContactButton, AccordionBox } from "./groupDataStyle.jsx";
 import { colorsMix } from "./profilesArray.js";
 import addTask from "../../icons/addTask.svg";
-import edit from "../../icons/edit.svg";
 import deleteTask from "../../icons/deleteTask.svg";
 import { editTask, deleteTaskAction } from "../../redux/actions/index.js";
 
@@ -83,6 +82,15 @@ export default function GroupWithcontent(props) {
       setTasks(response.data.group.map((group) => group.tasks));
     }
   };
+  const handleDeleteTask = async (taskId) => {
+    const response = await dispatch(deleteTaskAction(taskId));
+    if (response.status) {
+      console.log("======================", response.data.group);
+      setTasks(response.data.group.map((group) => group.tasks));
+      setEditing(null);
+      console.log("handleDeleteTask", taskId, title);
+    }
+  };
 
   const TaskElement = styled(AccordionDetails)({
     cursor: "pointer",
@@ -103,15 +111,6 @@ export default function GroupWithcontent(props) {
     },
   });
 
-  const handleDeleteTask = async (taskId) => {
-    const response = await dispatch(deleteTaskAction(taskId));
-    if (response.status) {
-      console.log("======================", response.data.group);
-      setTasks(response.data.group.map((group) => group.tasks));
-      setEditing(null);
-      console.log("handleDeleteTask", taskId, title);
-    }
-  };
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -187,7 +186,7 @@ export default function GroupWithcontent(props) {
                         <Grid container spacing={1}>
                           {tasks.map((taskGroups, index) => {
                             return taskGroups.map((task, index) => {
-                              if (task.group === group._id)
+                              if (task.group === group._id) {
                                 return (
                                   <Grid item xs={12} md={6} xl={4} key={task._id}>
                                     <TaskElement
@@ -275,6 +274,9 @@ export default function GroupWithcontent(props) {
                                     </TaskElement>
                                   </Grid>
                                 );
+                              } else {
+                                return null;
+                              }
                             });
                           })}
                         </Grid>

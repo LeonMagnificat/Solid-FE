@@ -8,7 +8,7 @@ import group from "../../icons/group2.svg";
 //import profile from "../../icons/profile01.svg";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { logOutAction, checkLoggedIn } from "../../redux/actions/index.js";
 
 const NavBarBox = styled(Box)({
   height: "350px",
@@ -52,6 +52,7 @@ function stringAvatar(name) {
 }
 
 export default function NavBar(props) {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.UserData);
   console.log("user", user);
 
@@ -88,7 +89,14 @@ export default function NavBar(props) {
                 "aria-labelledby": "basic-button",
               }}
             >
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  dispatch(logOutAction());
+                }}
+              >
+                Logout
+              </MenuItem>
             </Menu>
           </Box>
           <Box>
@@ -97,13 +105,24 @@ export default function NavBar(props) {
               to="/home"
               activeclassname="active"
               sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", textTransform: "capitalize", width: "200px", height: "50px" }}
+              onClick={() => {
+                dispatch(checkLoggedIn(user._id));
+              }}
             >
               <img src={home} alt="" />
               <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>Home</Typography>
             </Button>
 
             <StyledBadge badgeContent={props.user.group.length} color="secondary">
-              <Button component={NavLink} to="/group" activeclassname="active" sx={{ display: "flex", justifyContent: "flex-start", textTransform: "capitalize", width: "200px", height: "50px" }}>
+              <Button
+                component={NavLink}
+                to="/group"
+                activeclassname="active"
+                sx={{ display: "flex", justifyContent: "flex-start", textTransform: "capitalize", width: "200px", height: "50px" }}
+                onClick={() => {
+                  dispatch(checkLoggedIn(user._id));
+                }}
+              >
                 <img src={group} alt="" />
                 <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>Group</Typography>
               </Button>

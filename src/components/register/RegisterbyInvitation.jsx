@@ -9,7 +9,7 @@ import { RegisterByInvitation } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { MainButton, ModelTitles, GoogleButton, ImageLogin } from "./registerStyle.jsx";
-import { useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 
 function RegisterbyInvitation() {
@@ -18,8 +18,6 @@ function RegisterbyInvitation() {
   const navigate = useNavigate();
   const groupId = location.pathname.split("/")[2];
   const email = location.pathname.split("/")[3];
-
-  const errorMessage = useSelector((state) => state.user.errorMessage);
 
   const [user, setUser] = useState({
     firstName: "",
@@ -36,6 +34,7 @@ function RegisterbyInvitation() {
   const [errorText, setErrorText] = useState("");
   const [passwordErrors, setPasswordErrors] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -70,15 +69,14 @@ function RegisterbyInvitation() {
 
     try {
       const response = await dispatch(RegisterByInvitation(user, groupId));
-      console.log("response", response);
+
       if (response.status) {
         setTimeout(() => {
           navigate("/getStarted");
         }, 4000);
-        console.log("response", response.status);
       } else {
         setIsLoading(false);
-        console.log("response", response.message);
+        console.log("error message", response.message);
         setErrorText(response.message);
         setErrorMessages(true);
         setTimeout(() => {
@@ -111,11 +109,11 @@ function RegisterbyInvitation() {
             </ModelTitles>
 
             <form autoComplete="off" onSubmit={handleSubmit}>
-              {false && (
+              {errorMessages && (
                 <Fade in={true} timeout={700}>
                   {/* <Slide direction="left" in={true} timeout={100} mountOnEnter unmountOnExit> */}
                   <Alert severity="error" sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
-                    {errorMessage}
+                    {errorText}
                   </Alert>
                   {/* </Slide> */}
                 </Fade>

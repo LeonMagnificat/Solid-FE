@@ -7,6 +7,25 @@ import { useDispatch } from "react-redux";
 import { addUserToGroup } from "../../redux/actions/index.js";
 
 export default function AddMemberModel(props) {
+  const dispatch = useDispatch();
+
+  const [role, setRole] = useState("");
+  const [email, setEmail] = useState("");
+  const groupId = props.groupId;
+
+  const handleChange = (event) => {
+    setRole(event.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await dispatch(addUserToGroup(email, groupId));
+    if (response.status) {
+      props.handleClose();
+    }
+  };
+
   const SelectField = styled(FormControl)({
     border: "none",
     borderRadius: "20px",
@@ -26,24 +45,6 @@ export default function AddMemberModel(props) {
     borderRadius: "20px",
     textTransform: "capitalize",
   });
-
-  const [role, setRole] = useState("");
-  const [email, setEmail] = useState("");
-  const groupId = props.groupId;
-
-  const handleChange = (event) => {
-    setRole(event.target.value);
-  };
-
-  const dispatch = useDispatch();
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("group", email, groupId);
-    const response = await dispatch(addUserToGroup(email, groupId));
-    if (response.status) {
-      props.handleClose();
-    }
-  };
 
   return (
     <div>
@@ -76,7 +77,6 @@ export default function AddMemberModel(props) {
                 sx={{ marginBlockEnd: "25px" }}
                 onChange={(e) => {
                   setEmail(e.target.value);
-                  console.log("email", email);
                 }}
               />
               <SelectField fullWidth className="inputRounded">
@@ -90,7 +90,7 @@ export default function AddMemberModel(props) {
               </SelectField>
 
               <MainButton variant="contained" size="large" type="submit">
-                Send Invitaion
+                Send invitation
               </MainButton>
             </form>
           </Box>
