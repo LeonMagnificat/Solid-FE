@@ -10,14 +10,14 @@ import UpdateContributionModel from "../groupPage/UpdateContributionModel.jsx";
 import DeleteUserModel from "../groupPage/DeleteUserModel.jsx";
 import { useState } from "react";
 import { profiles } from "../Group/profilesArray.js";
-import { useSelector } from "react-redux";
+//import { useSelector } from "react-redux";
 
 export default function GroupMemberCard(props) {
   //const contributions = useSelector((state) => state.contribution.contributionMember);
-  const contributions = useSelector((state) => state.user.contributions);
+  //const contributions = useSelector((state) => state.user.contributions);
   const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
 
-  const filteredContribution = contributions.filter((contribution) => contribution.group === props.group._id);
+  const filteredContribution = props.member.contributions.filter((contribution) => contribution.group === props.group._id);
   const memberTotal = filteredContribution.reduce((acc, curr) => acc + curr.amount, 0);
   const formattedAmount = memberTotal.toFixed(2);
 
