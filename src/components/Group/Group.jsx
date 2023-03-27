@@ -6,9 +6,11 @@ import CreateGroupModel from "./CreateGroupModel.jsx";
 import { useState } from "react";
 import GroupWithcontent from "./GroupWithcontent.jsx";
 import { GroupBox2, AddButton2 } from "./groupDataStyle.jsx";
+import { useSelector } from "react-redux";
 
 export default function Group(props) {
   const [open, setOpen] = useState(false);
+  const groups = useSelector((state) => state.user.groups);
 
   const handleOpen = () => {
     setOpen(true);
@@ -17,7 +19,7 @@ export default function Group(props) {
     setOpen(false);
   };
 
-  let content = props.user.group && props.user.group.length > 0 ? true : false;
+  let content = groups && groups.length > 0 ? true : false;
 
   return (
     <Box sx={{ flexGrow: 1 }}>

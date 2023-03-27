@@ -9,7 +9,7 @@ import AddMemberModel from "../groupPage/AddMemberModel.jsx";
 import AddTaskModel from "./AddTaskModel.jsx";
 import add from "../../icons/add.svg";
 import emptyContact from "../../icons/nocontact.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GroupBox, AddButton, AddContactButton, AccordionBox } from "./groupDataStyle.jsx";
 import { colorsMix } from "./profilesArray.js";
 import addTask from "../../icons/addTask.svg";
@@ -44,8 +44,10 @@ function a11yProps(index) {
 }
 
 export default function GroupWithcontent(props) {
+  const groups = useSelector((state) => state.user.groups);
+  const tasksArray = useSelector((state) => state.user.tasks);
   const dispatch = useDispatch();
-  const userGroup = props.user.group;
+  //const userGroup = props.user.group;
   const [value, setValue] = useState(0);
   const [groupId, setGroupId] = useState("");
   const [open, setOpen] = useState(false);
@@ -53,9 +55,9 @@ export default function GroupWithcontent(props) {
   const [editing, setEditing] = useState(null);
   const [title, setTitle] = useState("");
 
-  const [tasks, setTasks] = useState(userGroup.map((group) => group.tasks));
+  const [tasks, setTasks] = useState([tasksArray]);
 
-  const content = userGroup.length > 0 ? true : false;
+  const content = groups.length > 0 ? true : false;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -78,14 +80,12 @@ export default function GroupWithcontent(props) {
     const response = await dispatch(editTask(taskId, data));
     if (response.status) {
       setEditing(null);
-      console.log("handleEditTask", editing, title);
       setTasks(response.data.group.map((group) => group.tasks));
     }
   };
   const handleDeleteTask = async (taskId) => {
     const response = await dispatch(deleteTaskAction(taskId));
     if (response.status) {
-      console.log("======================", response.data.group);
       setTasks(response.data.group.map((group) => group.tasks));
       setEditing(null);
       console.log("handleDeleteTask", taskId, title);
@@ -118,9 +118,8 @@ export default function GroupWithcontent(props) {
           <GroupBox>
             <Box sx={{ borderBottom: "none" }}>
               <Tabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="auto" aria-label="scrollable auto tabs example">
-                {userGroup &&
-                  userGroup.length &&
-                  userGroup.map((group, index) => {
+                {groups &&
+                  groups.map((group, index) => {
                     const currentGroupId = group._id;
                     return (
                       <Tab
@@ -136,7 +135,7 @@ export default function GroupWithcontent(props) {
               </Tabs>
             </Box>
           </GroupBox>
-          {userGroup.map((group, index) => {
+          {groups.map((group, index) => {
             const dateTimeString = group.createdAt;
             const dateTimeStringUpdate = group.updatedAt;
             const dateTime = new Date(dateTimeString);
@@ -311,7 +310,7 @@ export default function GroupWithcontent(props) {
                       </AddButton>
                     </GroupBox>
                     <GroupBox sx={{ maxHeight: "60vh", overflow: "auto" }}>
-                      <ActiveGroupMembers member={group.members} user={props.user} group={group} />
+                      <ActiveGroupMembers group={group} />
                     </GroupBox>
                   </>
                 ) : (
@@ -337,7 +336,7 @@ export default function GroupWithcontent(props) {
             );
           })}
         </Box>
-        <AddTaskModel open={open2} handleClose={handleClose2} groupId={groupId} />
+        <AddTaskModel open={open2} handleClose={handleClose2} groupId={groupId} setTasks={setTasks} />
 
         <AddMemberModel open={open} groupId={groupId} handleClose={handleClose} />
       </Box>

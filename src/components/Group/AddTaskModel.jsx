@@ -26,8 +26,10 @@ export default function AddTaskModel(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const response = await dispatch(addNewTask(groupId, task));
     if (response.status) {
+      props.setTasks(response.data.group.map((group) => group.tasks));
       props.handleClose();
     }
   };

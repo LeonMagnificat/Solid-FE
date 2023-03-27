@@ -184,7 +184,7 @@ export const checkLoggedIn = (userId) => {
       if (response.ok) {
         // Token is valid, dispatch action to log user in
         const user = await response.json();
-        console.log("userqwqweweweasasadwdw", user.contributions);
+        console.log("user", user);
         dispatch({
           type: GET_USER_DATA,
           payload: user,

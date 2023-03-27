@@ -35,8 +35,6 @@ export default function Groupcards(props) {
     setOpen(false);
   };
 
-  console.log(props.user._id, "------------------------");
-
   return (
     <>
       {!content ? (
@@ -63,7 +61,7 @@ export default function Groupcards(props) {
           <CreateGroupModel open={open} handleClose={handleClose} user={props.user} />
         </Box>
       ) : (
-        <Box>{props.user && group && <GroupPageCards group={group} user={props.user} />}</Box>
+        <Box>{props.user && group && <GroupPageCards />}</Box>
       )}
     </>
   );

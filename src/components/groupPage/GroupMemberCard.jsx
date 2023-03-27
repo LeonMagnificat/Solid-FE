@@ -10,12 +10,14 @@ import UpdateContributionModel from "../groupPage/UpdateContributionModel.jsx";
 import DeleteUserModel from "../groupPage/DeleteUserModel.jsx";
 import { useState } from "react";
 import { profiles } from "../Group/profilesArray.js";
+import { useSelector } from "react-redux";
 
 export default function GroupMemberCard(props) {
   //const contributions = useSelector((state) => state.contribution.contributionMember);
+  const contributions = useSelector((state) => state.user.contributions);
   const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
 
-  const filteredContribution = props.member.contributions.filter((contribution) => contribution.group === props.group._id);
+  const filteredContribution = contributions.filter((contribution) => contribution.group === props.group._id);
   const memberTotal = filteredContribution.reduce((acc, curr) => acc + curr.amount, 0);
   const formattedAmount = memberTotal.toFixed(2);
 
@@ -108,6 +110,8 @@ export default function GroupMemberCard(props) {
             filteredContribution.map((contribution, index) => {
               if (contribution.user === props.member._id) {
                 return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
+              } else {
+                return null;
               }
             })}
           <TotalContributionMemberCard total={memberTotal} currency={props.group.currency} />

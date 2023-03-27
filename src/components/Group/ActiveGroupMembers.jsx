@@ -12,38 +12,19 @@ import { profiles } from "./profilesArray";
 import { useSelector } from "react-redux";
 
 export default function ActiveGroupMembers(props) {
-  //const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
-  //const [myProfile, setMyprofile] = useState(false);
+  const user = useSelector((state) => state.user.UserData);
 
-  const AddeduserId = useSelector((state) => state.user.addedUser._id);
+  const AddeduserId = user._id;
+  const updatedMembersArray = props.group.members;
 
-  props.member.map((member) => {
+  const updatedMembers = updatedMembersArray.reduce((acc, member) => {
     if (member._id === AddeduserId) {
-      const index = props.member.indexOf(member);
-      if (index !== -1) {
-        props.member.splice(index, 1);
-        props.member.unshift(member);
-      }
-      return member;
+      acc.unshift(member); // add the matching member to the start of the array
+    } else {
+      acc.push(member); // add other members to the end of the array
     }
-    return member;
-  });
-
-  const filteredContribution = props.user.contributions.filter((contribution) => contribution.group === props.group._id);
-  //const filteredContribution = props.user.contributions.filter((contribution) => props.group.members.filter((member) => contribution.group === props.group._id && contribution.user === member._id));
-
-  //const memberTotal = filteredContribution.reduce((acc, curr) => acc + curr.amount, 0);
-
-  let myProfile;
-
-  props.member.map((member) => {
-    if (member._id === AddeduserId) {
-      myProfile = true;
-      return myProfile;
-    }
-    return myProfile;
-  });
-  console.log("MY PROFILE", myProfile);
+    return acc;
+  }, []);
 
   const AccordionBox = styled(Accordion)({
     boxShadow: "none",
@@ -65,10 +46,9 @@ export default function ActiveGroupMembers(props) {
 
   return (
     <div sx={{ marginBlockEnd: "30px" }}>
-      {props.member.map((member, index) => {
+      {updatedMembers.map((member, index) => {
         const filteredContr = member.contributions.filter((contribution) => contribution.group === props.group._id);
         const totalUser = filteredContr.reduce((acc, curr) => acc + curr.amount, 0);
-        console.log("--=-=-=-=-=--", filteredContr, totalUser);
 
         return (
           <>
@@ -93,6 +73,8 @@ export default function ActiveGroupMembers(props) {
                   filteredContr.map((contribution, index) => {
                     if (contribution.user === member._id) {
                       return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
+                    } else {
+                      return null;
                     }
                   })}
 
