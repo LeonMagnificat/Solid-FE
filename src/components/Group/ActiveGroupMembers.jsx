@@ -12,7 +12,6 @@ import { profiles } from "./profilesArray";
 import { useSelector } from "react-redux";
 
 export default function ActiveGroupMembers(props) {
-  //const contributions = useSelector((state) => state.contribution.contributionMember);
   //const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
   //const [myProfile, setMyprofile] = useState(false);
 
@@ -31,6 +30,7 @@ export default function ActiveGroupMembers(props) {
   });
 
   const filteredContribution = props.user.contributions.filter((contribution) => contribution.group === props.group._id);
+  //const filteredContribution = props.user.contributions.filter((contribution) => props.group.members.filter((member) => contribution.group === props.group._id && contribution.user === member._id));
 
   //const memberTotal = filteredContribution.reduce((acc, curr) => acc + curr.amount, 0);
 
@@ -66,7 +66,10 @@ export default function ActiveGroupMembers(props) {
   return (
     <div sx={{ marginBlockEnd: "30px" }}>
       {props.member.map((member, index) => {
-        const totalUser = member.contributions.reduce((acc, curr) => acc + curr.amount, 0);
+        const filteredContr = member.contributions.filter((contribution) => contribution.group === props.group._id);
+        const totalUser = filteredContr.reduce((acc, curr) => acc + curr.amount, 0);
+        console.log("--=-=-=-=-=--", filteredContr, totalUser);
+
         return (
           <>
             <AccordionBox sx={{ backgroundColor: member._id === AddeduserId ? "#FFF3DF" : "#fbfbfb" }}>
@@ -86,9 +89,11 @@ export default function ActiveGroupMembers(props) {
                 </Box>
               </AccordionSummary>
               <AccordionContent>
-                {filteredContribution &&
-                  filteredContribution.map((contribution, index) => {
-                    return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
+                {filteredContr &&
+                  filteredContr.map((contribution, index) => {
+                    if (contribution.user === member._id) {
+                      return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
+                    }
                   })}
 
                 <TotalContributionMemberCard total={totalUser} currency={props.group.currency} />

@@ -106,7 +106,9 @@ export default function GroupMemberCard(props) {
         <AccordionContent>
           {filteredContribution &&
             filteredContribution.map((contribution, index) => {
-              return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
+              if (contribution.user === props.member._id) {
+                return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
+              }
             })}
           <TotalContributionMemberCard total={memberTotal} currency={props.group.currency} />
         </AccordionContent>
