@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { Typography, Tab, Tabs, Button, AccordionSummary, AccordionDetails, styled, Box, Grid, TextField } from "@mui/material";
+import { Typography, Tab, Tabs, Button, AccordionSummary, Snackbar, Alert, AccordionDetails, styled, Box, Grid, TextField } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 import calendar from "../../icons/calendar.svg";
@@ -54,6 +54,9 @@ export default function GroupWithcontent(props) {
   const [open2, setOpen2] = useState(false);
   const [editing, setEditing] = useState(null);
   const [title, setTitle] = useState("");
+  const [message, setMessage] = useState(false);
+  const [infoText, setInfoText] = useState(false);
+  const [colors, setColors] = useState("primary");
 
   const [tasks, setTasks] = useState([tasksArray]);
 
@@ -110,6 +113,14 @@ export default function GroupWithcontent(props) {
       backgroundColor: "#ffff",
     },
   });
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setMessage(false);
+  };
 
   return (
     <>
@@ -336,10 +347,16 @@ export default function GroupWithcontent(props) {
             );
           })}
         </Box>
-        <AddTaskModel open={open2} handleClose={handleClose2} groupId={groupId} setTasks={setTasks} />
+        <AddTaskModel open={open2} handleClose={handleClose2} groupId={groupId} setTasks={setTasks} setMessage={setMessage} setInfoText={setInfoText} />
 
-        <AddMemberModel open={open} groupId={groupId} handleClose={handleClose} />
+        <AddMemberModel open={open} groupId={groupId} handleClose={handleClose} setMessage={setMessage} setInfoText={setInfoText} />
       </Box>
+
+      <Snackbar open={message} autoHideDuration={7000} onClose={handleCloseSnack}>
+        <Alert onClose={handleCloseSnack} sx={{ width: "100%" }} color="secondary">
+          {infoText}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

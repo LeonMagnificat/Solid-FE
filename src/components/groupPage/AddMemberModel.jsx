@@ -22,6 +22,9 @@ export default function AddMemberModel(props) {
 
     const response = await dispatch(addUserToGroup(email, groupId));
     if (response.status) {
+      props.setMessage(true);
+      props.setInfoText("Invitation email was successfully sent ");
+
       props.handleClose();
     }
   };

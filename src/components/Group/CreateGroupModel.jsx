@@ -31,6 +31,8 @@ export default function CreateGroupModel(props) {
     try {
       const response = await dispatch(createGroup(group, userId));
       if (response.status) {
+        props.setMessage(true);
+        props.setInfoText("Group Created Successfully");
         props.handleClose();
       } else {
         setIsLoading(false);

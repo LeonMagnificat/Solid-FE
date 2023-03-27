@@ -1,5 +1,5 @@
-import { Box, Container, Grid, Fade } from "@mui/material";
-import React, { useEffect } from "react";
+import { Box, Container, Grid, Fade, Alert } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import SideNavigation from "../sideNav/SideNavigation.jsx";
 import Group from "../Group/Group.jsx";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,11 +11,23 @@ function Account() {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const userID = useSelector((state) => state.user.addedUser._id);
 
+  const [welcome, setWelcome] = useState(false);
+
   useEffect(() => {
     console.log("DISPATCH FIRED", isAuthenticated);
     dispatch(checkLoggedIn(userID));
+
+    const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
+    if (!hasVisitedBefore) {
+      setWelcome(true);
+      localStorage.setItem("hasVisitedBefore", true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  setTimeout(() => {
+    setWelcome(false);
+  }, 3000);
 
   return (
     <Container maxWidth="lg">
@@ -29,6 +41,13 @@ function Account() {
           </Grid>
         </Fade>
       </Grid>
+      {welcome && (
+        <Fade in={true} timeout={700}>
+          <Alert variant="filled" severity="success" color="primary" sx={{ borderRadius: "15px", position: "absolute", bottom: "20px", textAlign: "center" }}>
+            Welcome Back {user.firstName}
+          </Alert>
+        </Fade>
+      )}
     </Container>
   );
 }

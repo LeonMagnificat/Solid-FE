@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import googleIcon from "../../icons/google.svg";
-import { Box, Typography, Fade, TextField, Modal, Backdrop, Alert, LinearProgress } from "@mui/material";
-import { style, titleStyle, MainButton, ModelTitles, GoogleButton } from "./login-style.jsx";
+//import googleIcon from "../../icons/google.svg";
+import { Box, Fade, TextField, Modal, Backdrop, Alert, LinearProgress } from "@mui/material";
+import { style, titleStyle, MainButton, ModelTitles } from "./login-style.jsx";
 import { loginUser } from "../../redux/actions/index.js";
 import { useNavigate } from "react-router-dom";
 
@@ -22,6 +22,7 @@ export default function LoginModel(props) {
   const [errorMessages, setErrorMessages] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   // eslint-disable-next-line no-unused-vars
   const [progress, setProgress] = useState(0);
 
@@ -55,7 +56,7 @@ export default function LoginModel(props) {
       if (response.status) {
         setTimeout(() => {
           navigate("/home");
-        }, 2000);
+        }, 1300);
         console.log("response", response.status);
       } else {
         setIsLoading(false);
@@ -71,7 +72,7 @@ export default function LoginModel(props) {
     }
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1500);
   };
   return (
     <div>
@@ -96,13 +97,12 @@ export default function LoginModel(props) {
             <form onSubmit={handleSubmit}>
               {errorMessages && (
                 <Fade in={true} timeout={700}>
-                  {/* <Slide direction="left" in={true} timeout={100} mountOnEnter unmountOnExit> */}
                   <Alert severity="error" onClose={() => setErrorMessages(false)} sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
                     {errorText}
                   </Alert>
-                  {/* </Slide> */}
                 </Fade>
               )}
+
               <TextField
                 className="inputRounded"
                 label="Email"
@@ -130,11 +130,11 @@ export default function LoginModel(props) {
                 fullWidth
                 required
               />
-              <Typography>Or continue with</Typography>
+              {/* <Typography>Or continue with</Typography>
               <GoogleButton fullWidth variant="contained">
                 <img src={googleIcon} alt="" className="margin-right" />
                 Google
-              </GoogleButton>
+              </GoogleButton> */}
 
               <MainButton sx={{ padding: "0px 0px" }} fullWidth variant="contained" size="large" type="submit" disabled={isLoading}>
                 {isLoading ? (

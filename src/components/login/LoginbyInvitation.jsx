@@ -135,11 +135,11 @@ function LoginbyInvitation(props) {
                 fullWidth
                 required
               />
-              <Typography>Or continue with</Typography>
+              {/* <Typography>Or continue with</Typography>
               <GoogleButton fullWidth variant="contained">
                 <img src={googleIcon} alt="" className="margin-right" />
                 Google
-              </GoogleButton>
+              </GoogleButton> */}
 
               <MainButton sx={{ padding: "0px 0px" }} fullWidth variant="contained" size="large" type="submit" disabled={isLoading}>
                 {isLoading ? (
@@ -153,8 +153,8 @@ function LoginbyInvitation(props) {
             </form>
             <Box sx={{ marginBlockStart: "30px", display: "flex" }}>
               <Typography sx={{ marginInlineEnd: "5px" }}>Don’t have an account? </Typography>
-              <Typography component={Link} to="/register/:id" sx={{ backgroundColor: "white", textDecoration: "none" }}>
-                Sign Up
+              <Typography component={Link} to="/" sx={{ backgroundColor: "white", textDecoration: "none" }}>
+                Click to get started
               </Typography>
             </Box>
           </Box>

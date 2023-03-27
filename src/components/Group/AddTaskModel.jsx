@@ -30,6 +30,8 @@ export default function AddTaskModel(props) {
     const response = await dispatch(addNewTask(groupId, task));
     if (response.status) {
       props.setTasks(response.data.group.map((group) => group.tasks));
+      props.setMessage(true);
+      props.setInfoText("Task created Successfully");
       props.handleClose();
     }
   };

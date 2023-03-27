@@ -170,11 +170,11 @@ function RegisterbyInvitation() {
                 fullWidth
                 required
               />
-              <Typography>Or continue with</Typography>
+              {/* <Typography>Or continue with</Typography>
               <GoogleButton fullWidth variant="contained">
                 <img src={googleIcon} alt="" className="margin-right" />
                 Google
-              </GoogleButton>
+              </GoogleButton> */}
               <MainButton sx={{ padding: "0px 0px" }} fullWidth variant="contained" size="large" type="submit" disabled={isLoading}>
                 {isLoading ? (
                   <Box sx={{ width: "100%", height: "56px" }}>
@@ -187,8 +187,8 @@ function RegisterbyInvitation() {
             </form>
             <Box sx={{ marginBlockStart: "30px", display: "flex" }}>
               <Typography sx={{ marginInlineEnd: "5px" }}>Already have an account? </Typography>
-              <Typography component={Link} to="/login/:id" sx={{ backgroundColor: "white", textDecoration: "none" }}>
-                Log in here
+              <Typography component={Link} to="/" sx={{ backgroundColor: "white", textDecoration: "none" }}>
+                Click here to get started
               </Typography>
             </Box>
           </Box>

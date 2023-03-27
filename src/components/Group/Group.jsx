@@ -7,9 +7,12 @@ import { useState } from "react";
 import GroupWithcontent from "./GroupWithcontent.jsx";
 import { GroupBox2, AddButton2 } from "./groupDataStyle.jsx";
 import { useSelector } from "react-redux";
+import { Snackbar, Alert } from "@mui/material";
 
 export default function Group(props) {
   const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState(false);
+  const [infoText, setInfoText] = useState(false);
   const groups = useSelector((state) => state.user.groups);
 
   const handleOpen = () => {
@@ -20,6 +23,14 @@ export default function Group(props) {
   };
 
   let content = groups && groups.length > 0 ? true : false;
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setMessage(false);
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -47,7 +58,12 @@ export default function Group(props) {
         <GroupWithcontent user={props.user} />
       )}
 
-      <CreateGroupModel open={open} handleClose={handleClose} user={props.user} />
+      <CreateGroupModel open={open} handleClose={handleClose} user={props.user} setMessage={setMessage} setInfoText={setInfoText} />
+      <Snackbar open={message} autoHideDuration={7000} onClose={handleCloseSnack}>
+        <Alert onClose={handleCloseSnack} sx={{ width: "100%" }} color="primary">
+          {infoText}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

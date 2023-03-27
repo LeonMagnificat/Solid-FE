@@ -159,11 +159,11 @@ export default function RegisterModel(props) {
                 fullWidth
                 required
               />
-              <Typography>Or continue with</Typography>
+              {/* <Typography>Or continue with</Typography>
               <GoogleButton fullWidth variant="contained">
                 <img src={googleIcon} alt="" className="margin-right" />
                 Google
-              </GoogleButton>
+              </GoogleButton> */}
               <MainButton sx={{ padding: "0px 0px" }} fullWidth variant="contained" size="large" type="submit" disabled={isLoading}>
                 {isLoading ? (
                   <Box sx={{ width: "100%", height: "56px" }}>
