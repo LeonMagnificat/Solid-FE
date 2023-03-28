@@ -56,7 +56,7 @@ export default function GroupWithcontent(props) {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState(false);
   const [infoText, setInfoText] = useState(false);
-  const [colors, setColors] = useState("primary");
+  const [admin, setAdmin] = useState("visible");
 
   const [tasks, setTasks] = useState([tasksArray]);
 
@@ -316,12 +316,13 @@ export default function GroupWithcontent(props) {
                           handleOpen();
                           setGroupId(group._id);
                         }}
+                        sx={{ visibility: admin }}
                       >
                         <img className="mr-3" src={add} alt="" /> Add Member
                       </AddButton>
                     </GroupBox>
                     <GroupBox sx={{ maxHeight: "60vh", overflow: "auto" }}>
-                      <ActiveGroupMembers group={group} />
+                      <ActiveGroupMembers group={group} setAdmin={setAdmin} />
                     </GroupBox>
                   </>
                 ) : (

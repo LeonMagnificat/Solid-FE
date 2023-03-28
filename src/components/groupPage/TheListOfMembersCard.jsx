@@ -79,7 +79,7 @@ export default function TheListOfMembersCard(props) {
 
   return (
     <>
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6}>
         <GroupBox>
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", marginBlockEnd: "20px" }}>
             <Box>

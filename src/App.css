@@ -9,13 +9,6 @@
   margin-right: 10px;
 }
 
-.home-image {
-  width: 55em;
-  position: absolute;
-  right: 15%;
-  top: 12.5%;
-}
-
 .avatar-profile {
   width: 35px;
 }
@@ -57,3 +50,24 @@
   top: 130px;
   left: 95px;
 }
+
+.home-image {
+  width: 55em;
+}
+
+@media (max-width: 900px) {
+  .home-image {
+    width: 100%;
+  }
+}
+@media (max-width: 900px) {
+  .css-142p52v-MuiTypography-root {
+    display: block !important;
+    width: 8%;
+  }
+}
+/* @media (min-width: 400px) {
+  .css-142p52v-MuiTypography-root {
+    width: 50%;
+  }
+} */

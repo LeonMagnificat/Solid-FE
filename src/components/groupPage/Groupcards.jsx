@@ -61,7 +61,7 @@ export default function Groupcards(props) {
           <CreateGroupModel open={open} handleClose={handleClose} user={props.user} />
         </Box>
       ) : (
-        <Box>{props.user && group && <GroupPageCards />}</Box>
+        <>{props.user && group && <GroupPageCards />}</>
       )}
     </>
   );
