@@ -82,7 +82,7 @@ export default function UpdateContributionModel(props) {
                   }
                 }}
                 type="number"
-                inputProps={{ min: "0" }} // set minimum value to 0
+                inputProps={{ min: "1" }}
                 required
               />
 
