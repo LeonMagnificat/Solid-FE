@@ -44,6 +44,7 @@ function a11yProps(index) {
 }
 
 export default function GroupWithcontent(props) {
+  const user = useSelector((state) => state.user.UserData);
   const groups = useSelector((state) => state.user.groups);
   const tasksArray = useSelector((state) => state.user.tasks);
   const dispatch = useDispatch();
@@ -56,7 +57,6 @@ export default function GroupWithcontent(props) {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState(false);
   const [infoText, setInfoText] = useState(false);
-  const [admin, setAdmin] = useState("visible");
 
   const [tasks, setTasks] = useState([tasksArray]);
 
@@ -152,9 +152,16 @@ export default function GroupWithcontent(props) {
             const dateTime = new Date(dateTimeString);
             const dateTimeUpdate = new Date(dateTimeStringUpdate);
             const options = { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric", second: "numeric" };
-
             const formattedDateTime = dateTime.toLocaleString("en-US", options);
             const formattedDateTimeUpdate = dateTimeUpdate.toLocaleString("en-US", options);
+
+            if (group.admins.includes(user._id)) {
+              console.log("admin");
+              props.setAdmin("visible");
+            } else {
+              props.setAdmin("hidden");
+            }
+
             return (
               <TabPanel value={value} index={index}>
                 <GroupBox sx={{ padding: "30px" }}>
@@ -182,7 +189,7 @@ export default function GroupWithcontent(props) {
                                 height: "50px",
                                 backgroundColor: "#f4f4f4",
                                 marginInlineEnd: "23px",
-                                visibility: admin,
+                                visibility: group.admins.includes(user._id) ? "visible" : "hidden",
                               }}
                               onClick={() => {
                                 handleOpen2();
@@ -202,8 +209,8 @@ export default function GroupWithcontent(props) {
                                   <Grid item xs={12} md={6} xl={4} key={task._id}>
                                     <TaskElement
                                       sx={{ "&:hover > div": { visibility: "visible", opacity: 1 } }}
-                                      onDoubleClick={(e) => {
-                                        setEditing(task._id);
+                                      onDoubleClick={() => {
+                                        group.admins.includes(user._id) ? setEditing(task._id) : console.log("not admin");
                                       }}
                                     >
                                       <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -216,7 +223,7 @@ export default function GroupWithcontent(props) {
                                             marginInlineEnd: "8px",
                                           }}
                                         ></Box>
-                                        {editing === task._id ? (
+                                        {editing === task._id && group.admins.includes(user._id) ? (
                                           <form onSubmit={() => handleUpdateTask(task._id, title)}>
                                             <TextField
                                               className="inputRounded"
@@ -274,6 +281,7 @@ export default function GroupWithcontent(props) {
                                             minWidth: "15px",
                                             padding: "7px 7px",
                                             borderRadius: "50%",
+                                            visibility: group.admins.includes(user._id) ? "visible" : "hidden",
                                           }}
                                           onClick={() => {
                                             handleDeleteTask(task._id);
@@ -317,13 +325,13 @@ export default function GroupWithcontent(props) {
                           handleOpen();
                           setGroupId(group._id);
                         }}
-                        sx={{ visibility: admin }}
+                        sx={{ visibility: group.admins.includes(user._id) ? "visible" : "hidden" }}
                       >
                         <img className="mr-3" src={add} alt="" /> Add Member
                       </AddButton>
                     </GroupBox>
                     <GroupBox sx={{ maxHeight: "60vh", overflow: "auto" }}>
-                      <ActiveGroupMembers group={group} setAdmin={setAdmin} />
+                      <ActiveGroupMembers group={group} />
                     </GroupBox>
                   </>
                 ) : (

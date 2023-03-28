@@ -49,13 +49,6 @@ export default function ActiveGroupMembers(props) {
       {updatedMembers.map((member, index) => {
         const filteredContr = member.contributions.filter((contribution) => contribution.group === props.group._id);
         const totalUser = filteredContr.reduce((acc, curr) => acc + curr.amount, 0);
-        if (member._id === user._id) {
-          if (member.role === "Member") {
-            props.setAdmin("hidden");
-          } else {
-            props.setAdmin("visible");
-          }
-        }
 
         return (
           <>

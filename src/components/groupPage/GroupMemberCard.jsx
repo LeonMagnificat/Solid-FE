@@ -10,11 +10,11 @@ import UpdateContributionModel from "../groupPage/UpdateContributionModel.jsx";
 import DeleteUserModel from "../groupPage/DeleteUserModel.jsx";
 import { useState } from "react";
 import { profiles } from "../Group/profilesArray.js";
-//import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function GroupMemberCard(props) {
   //const contributions = useSelector((state) => state.contribution.contributionMember);
-  //const contributions = useSelector((state) => state.user.contributions);
+  const user = useSelector((state) => state.user.UserData);
   const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
 
   const filteredContribution = props.member.contributions.filter((contribution) => contribution.group === props.group._id);
@@ -52,7 +52,7 @@ export default function GroupMemberCard(props) {
       transition: "all .5s ease",
     },
     "&:hover .cards-infos ": {
-      display: props.admin ? "none" : "flex",
+      display: props.group.admins.includes(user._id) ? "none" : "flex",
     },
     gridColumn: "1 / -1",
     position: "relative",
@@ -86,12 +86,12 @@ export default function GroupMemberCard(props) {
           </Box>
           <Box className="cards-icons" sx={{ display: "none", transition: "opacity .5s ease" }}>
             <Tooltip arrow title="Update member's contribution">
-              <TopButton sx={{ display: props.admin ? "flex" : "none" }} variant="outlined" color="orange" onClick={handleOpen}>
+              <TopButton sx={{ display: props.group.admins.includes(user._id) ? "flex" : "none" }} variant="outlined" color="orange" onClick={handleOpen}>
                 <img src={update} alt="" />
               </TopButton>
             </Tooltip>
             <Tooltip arrow title="Delete member">
-              <TopButton sx={{ display: props.admin ? "flex" : "none" }} variant="outlined" color="delete" onClick={handleOpenDelete}>
+              <TopButton sx={{ display: props.group.admins.includes(user._id) ? "flex" : "none" }} variant="outlined" color="delete" onClick={handleOpenDelete}>
                 <img src={deleteIcon} alt="" />
               </TopButton>
             </Tooltip>

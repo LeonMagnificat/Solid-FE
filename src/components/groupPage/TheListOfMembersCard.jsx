@@ -31,28 +31,6 @@ const AddContactButton = styled(Button)({
 });
 
 export default function TheListOfMembersCard(props) {
-  const GroupBox = styled(Box)({
-    backgroundColor: "white",
-    borderRadius: "20px",
-    paddingInline: "30px",
-    paddingBlock: "20px",
-    boxSizing: "border-box",
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    cursor: "pointer",
-    "&:hover": {
-      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
-      transition: "all 0.4s ease",
-    },
-    "&:hover .icons-box": {
-      display: props.admin ? "flex" : "none",
-      transition: "all 0.4s ease",
-    },
-    "&:hover .infos-box": {
-      display: props.admin ? "none" : "flex",
-    },
-  });
   const user = useSelector((state) => state.user.UserData);
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -77,6 +55,29 @@ export default function TheListOfMembersCard(props) {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
+
+  const GroupBox = styled(Box)({
+    backgroundColor: "white",
+    borderRadius: "20px",
+    paddingInline: "30px",
+    paddingBlock: "20px",
+    boxSizing: "border-box",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    cursor: "pointer",
+    "&:hover": {
+      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
+      transition: "all 0.4s ease",
+    },
+    "&:hover .icons-box": {
+      display: props.group.admins.includes(user._id) ? "flex" : "none",
+      transition: "all 0.4s ease",
+    },
+    "&:hover .infos-box": {
+      display: props.group.admins.includes(user._id) ? "none" : "flex",
+    },
+  });
 
   return (
     <>
@@ -114,13 +115,6 @@ export default function TheListOfMembersCard(props) {
               <Box>
                 {props.group &&
                   props.group.members.map((member) => {
-                    if (member._id === user._id) {
-                      if (member.role === "Member") {
-                        props.setAdmin(false);
-                      } else {
-                        props.setAdmin(true);
-                      }
-                    }
                     return <GroupMemberCard member={member} key={member._id} group={props.group} admin={props.admin} />;
                   })}
               </Box>

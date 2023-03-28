@@ -13,6 +13,7 @@ export default function Group(props) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState(false);
   const [infoText, setInfoText] = useState(false);
+  const [admin, setAdmin] = useState("visible");
   const groups = useSelector((state) => state.user.groups);
 
   const handleOpen = () => {
@@ -55,7 +56,7 @@ export default function Group(props) {
           </Box>
         </GroupBox2>
       ) : (
-        <GroupWithcontent user={props.user} />
+        <GroupWithcontent user={props.user} setAdmin={setAdmin} admin={admin} />
       )}
 
       <CreateGroupModel open={open} handleClose={handleClose} user={props.user} setMessage={setMessage} setInfoText={setInfoText} />
