@@ -50,7 +50,7 @@ export default function PhoneNavigation(props) {
   const user = useSelector((state) => state.user.UserData);
 
   return (
-    <Box sx={{ position: "fixed", bottom: 0, left: 0, right: 0, boxShadow: "0px -1px 5px rgba(0, 0, 0, 0.1)", backgroundColor: "#f8f8f8" }}>
+    <Box sx={{ position: "fixed", bottom: 0, left: 0, right: 0, boxShadow: "0px -1px 5px rgba(0, 0, 0, 0.1)", backgroundColor: "#f8f8f8", zIndex: 1 }}>
       <BottomNavigation>
         <BottomNavigationAction
           icon={<img src={home} alt="Home" />}
