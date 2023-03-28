@@ -109,7 +109,6 @@ export default function LoginModel(props) {
                 variant="outlined"
                 onChange={(e) => {
                   setUser({ ...user, email: e.target.value });
-                  console.log(user);
                 }}
                 error={emailErrors}
                 type="email"
@@ -123,7 +122,6 @@ export default function LoginModel(props) {
                 sx={{ marginBlockStart: "25px", marginBlockEnd: "25px" }}
                 onChange={(e) => {
                   setUser({ ...user, password: e.target.value });
-                  console.log(user);
                 }}
                 error={passwordErrors}
                 type="password"

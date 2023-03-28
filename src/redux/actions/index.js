@@ -6,7 +6,6 @@ export const GET_USER_DATA = "GET_USER_DATA";
 export const DE_AUTHENTICATION = "DE_AUTHENTICATION";
 export const ADD_USER_CONTRIBUTION = "ADD_USER_CONTRIBUTION";
 const apiURL = process.env.REACT_APP_API_URL;
-console.log("apiURL", apiURL);
 
 export const RegisterUser = (newUser) => {
   return async (dispatch, getState) => {
@@ -184,7 +183,7 @@ export const checkLoggedIn = (userId) => {
       if (response.ok) {
         // Token is valid, dispatch action to log user in
         const user = await response.json();
-        console.log("user", user);
+
         dispatch({
           type: GET_USER_DATA,
           payload: user,

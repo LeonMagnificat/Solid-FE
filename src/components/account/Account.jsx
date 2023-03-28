@@ -15,7 +15,6 @@ function Account() {
   const [welcome, setWelcome] = useState(false);
 
   useEffect(() => {
-    console.log("DISPATCH FIRED", isAuthenticated);
     dispatch(checkLoggedIn(userID));
 
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");

@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { Tooltip, Fade } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import { colors, colorsDark } from "../Group/profilesArray.js";
@@ -32,8 +33,8 @@ export default function MemberContributionCard(props) {
   });
   const NumberingBox = styled(Box)({
     backgroundColor: randomProfile,
-    width: "40px",
-    height: "40px",
+    minWidth: "40px",
+    minHeight: "40px",
     borderRadius: "50%",
     display: "flex",
     alignItems: "center",
@@ -48,8 +49,25 @@ export default function MemberContributionCard(props) {
           <NumberingBox>
             <Typography sx={{ fontWeight: "bold" }}>{props.index + 1} </Typography>
           </NumberingBox>
-          <Typography sx={{ marginInlineStart: "10px", fontSize: "13px", width: "185px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}> {formattedDateTime} </Typography>
-          <Typography sx={{ marginInlineStart: "10px", color: colorsDark[colors.indexOf(randomProfile)], fontSize: "16px", fontWeight: "bold" }}>{formattedAmount} </Typography>
+          <Tooltip title={formattedDateTime} placement="top" TransitionComponent={Fade} TransitionProps={{ timeout: 700 }} arrow>
+            <Typography sx={{ marginInlineStart: "10px", fontSize: "13px", width: "8em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}> {formattedDateTime} </Typography>
+          </Tooltip>
+          <Tooltip title={formattedAmount} placement="top" TransitionComponent={Fade} TransitionProps={{ timeout: 700 }} arrow>
+            <Typography
+              sx={{
+                marginInlineStart: "10px",
+                color: colorsDark[colors.indexOf(randomProfile)],
+                fontSize: "16px",
+                fontWeight: "bold",
+                width: "8em",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {formattedAmount}
+            </Typography>
+          </Tooltip>
         </AccordionMemberBox>
       </AccordionBox>
     </div>

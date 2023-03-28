@@ -182,6 +182,7 @@ export default function GroupWithcontent(props) {
                                 height: "50px",
                                 backgroundColor: "#f4f4f4",
                                 marginInlineEnd: "23px",
+                                visibility: admin,
                               }}
                               onClick={() => {
                                 handleOpen2();

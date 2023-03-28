@@ -11,29 +11,7 @@ import GroupMemberCard from "./GroupMemberCard.jsx";
 import AddMemberModel from "./AddMemberModel.jsx";
 import DeleteGroupModel from "./DeleteGroupModal.jsx";
 import EditGroupModel from "./EditGroupModal.jsx";
-
-const GroupBox = styled(Box)({
-  backgroundColor: "white",
-  borderRadius: "20px",
-  paddingInline: "30px",
-  paddingBlock: "20px",
-  boxSizing: "border-box",
-  width: "100%",
-  display: "flex",
-  flexDirection: "column",
-  cursor: "pointer",
-  "&:hover": {
-    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
-    transition: "all 0.4s ease",
-  },
-  "&:hover .icons-box": {
-    opacity: "1",
-    transition: "all 0.4s ease",
-  },
-  "&:hover .infos-box": {
-    display: "none",
-  },
-});
+import { useSelector } from "react-redux";
 
 const AddButton = styled(Button)({
   height: "35px",
@@ -53,6 +31,29 @@ const AddContactButton = styled(Button)({
 });
 
 export default function TheListOfMembersCard(props) {
+  const GroupBox = styled(Box)({
+    backgroundColor: "white",
+    borderRadius: "20px",
+    paddingInline: "30px",
+    paddingBlock: "20px",
+    boxSizing: "border-box",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    cursor: "pointer",
+    "&:hover": {
+      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
+      transition: "all 0.4s ease",
+    },
+    "&:hover .icons-box": {
+      display: props.admin ? "flex" : "none",
+      transition: "all 0.4s ease",
+    },
+    "&:hover .infos-box": {
+      display: props.admin ? "none" : "flex",
+    },
+  });
+  const user = useSelector((state) => state.user.UserData);
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -81,11 +82,11 @@ export default function TheListOfMembersCard(props) {
     <>
       <Grid item xs={12} md={6}>
         <GroupBox>
-          <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", marginBlockEnd: "20px" }}>
+          <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", marginBlockEnd: "20px", minHeight: "50px" }}>
             <Box>
               <Typography>{props.group.name}</Typography>
             </Box>
-            <Box className="icons-box" sx={{ opacity: "0", display: "flex", width: "120px", justifyContent: "space-between" }}>
+            <Box className="icons-box" sx={{ display: "none", width: "120px", justifyContent: "space-between" }}>
               <Tooltip arrow title="Add a member to this Group">
                 <AddButton variant="outlined" color="secondary" onClick={handleOpen}>
                   <img src={addsm} alt="" />
@@ -102,7 +103,7 @@ export default function TheListOfMembersCard(props) {
                 </AddButton>
               </Tooltip>
             </Box>
-            <Box className="infos-box" sx={{ opacity: "1", transition: "all 0.6s ease", display: "flex", width: "120px", justifyContent: "flex-end" }}>
+            <Box className="infos-box" sx={{ display: props.admin ? "flex" : "none", transition: "all 0.6s ease", width: "120px", justifyContent: "flex-end" }}>
               <Typography sx={{ fontSize: ".8em", color: "#9a9a9a" }}>
                 <span style={{ color: "#000" }}>{props.group.members.length}</span> {props.group.members.length > 1 ? "members" : "member"}
               </Typography>
@@ -113,7 +114,14 @@ export default function TheListOfMembersCard(props) {
               <Box>
                 {props.group &&
                   props.group.members.map((member) => {
-                    return <GroupMemberCard member={member} key={member._id} group={props.group} />;
+                    if (member._id === user._id) {
+                      if (member.role === "Member") {
+                        props.setAdmin(false);
+                      } else {
+                        props.setAdmin(true);
+                      }
+                    }
+                    return <GroupMemberCard member={member} key={member._id} group={props.group} admin={props.admin} />;
                   })}
               </Box>
             ) : (

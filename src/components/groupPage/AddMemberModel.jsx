@@ -88,7 +88,7 @@ export default function AddMemberModel(props) {
                 </InputLabel>
                 <Select labelId="demo-simple-select-label" id="demo-simple-select" value={role} label="Age" onChange={handleChange}>
                   <MenuItem value={10}>Admin</MenuItem>
-                  <MenuItem value={20}>User</MenuItem>
+                  <MenuItem value={20}>Member</MenuItem>
                 </Select>
               </SelectField>
 

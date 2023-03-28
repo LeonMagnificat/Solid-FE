@@ -54,7 +54,6 @@ function stringAvatar(name) {
 export default function NavBar(props) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.UserData);
-  console.log("user", user);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);

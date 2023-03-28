@@ -66,8 +66,9 @@
     width: 8%;
   }
 }
-/* @media (min-width: 400px) {
-  .css-142p52v-MuiTypography-root {
-    width: 50%;
-  }
-} */
+.text-tranc {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 3em;
+}

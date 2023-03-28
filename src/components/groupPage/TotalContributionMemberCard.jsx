@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box } from "@mui/material";
+import { Box, Tooltip, Fade } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
@@ -26,8 +26,8 @@ export default function TotalContributionMemberCard(props) {
   });
   const NumberingBox = styled(Box)({
     backgroundColor: randomProfile,
-    width: "40px",
-    height: "40px",
+    minWidth: "40px",
+    minHeight: "40px",
     borderRadius: "50%",
     display: "flex",
     alignItems: "center",
@@ -37,19 +37,19 @@ export default function TotalContributionMemberCard(props) {
 
   return (
     <div>
-      <AccordionBox>
-        <AccordionMemberBox expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-          <NumberingBox>
-            <Typography sx={{ fontWeight: "bold" }}>T</Typography>
-          </NumberingBox>
-          <Typography sx={{ marginInlineStart: "10px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}> Total Contribution </Typography>
-          <Typography sx={{ marginInlineStart: "10px", fontSize: "14px", fontWeight: "bold" }}>
-            <Typography sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "80px" }}>
+      <Tooltip title={formattedAmount} placement="top-end" TransitionComponent={Fade} TransitionProps={{ timeout: 700 }} arrow>
+        <AccordionBox>
+          <AccordionMemberBox expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+            <NumberingBox>
+              <Typography sx={{ fontWeight: "bold" }}>T</Typography>
+            </NumberingBox>
+            <Typography sx={{ marginInlineStart: "10px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}> Total Contribution </Typography>
+            <Typography sx={{ marginInlineStart: "10px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "6em" }}>
               {formattedAmount} {props.currency}
             </Typography>
-          </Typography>
-        </AccordionMemberBox>
-      </AccordionBox>
+          </AccordionMemberBox>
+        </AccordionBox>
+      </Tooltip>
     </div>
   );
 }

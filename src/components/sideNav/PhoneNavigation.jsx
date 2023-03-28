@@ -1,11 +1,11 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Typography, Button, Avatar, Badge, Menu, MenuItem, BottomNavigation } from "@mui/material";
+import { Box, Avatar, Badge, BottomNavigation } from "@mui/material";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import home from "../../icons/homeIcon.svg";
 import group from "../../icons/group2.svg";
 //import profile from "../../icons/profile01.svg";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logOutAction, checkLoggedIn } from "../../redux/actions/index.js";
 
@@ -48,9 +48,6 @@ function stringAvatar(name) {
 export default function PhoneNavigation(props) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.UserData);
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
 
   return (
     <Box sx={{ position: "fixed", bottom: 0, left: 0, right: 0, boxShadow: "0px -1px 5px rgba(0, 0, 0, 0.1)", backgroundColor: "#f8f8f8" }}>

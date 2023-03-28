@@ -18,6 +18,7 @@ export default function DeleteGroupModel(props) {
     if (response.status) {
       setSnackbarOpen(true);
       setSnackbarMessage(response.data.message);
+      props.handleClose();
     } else {
       console.log("error message", response.data.message);
     }

@@ -50,10 +50,9 @@ export default function GroupMemberCard(props) {
     "&:hover .cards-icons": {
       display: "flex",
       transition: "all .5s ease",
-      opacity: 1,
     },
     "&:hover .cards-infos ": {
-      display: "none",
+      display: props.admin ? "none" : "flex",
     },
     gridColumn: "1 / -1",
     position: "relative",
@@ -76,8 +75,8 @@ export default function GroupMemberCard(props) {
   return (
     <div>
       <AccordionBox disableGutters={true} TransitionProps={{ unmountOnExit: true }} sx={{ justifyContent: "space-between" }}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" sx={{ justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <img className="avatar-profile" src={randomProfile} alt="" />
             <Tooltip title={props.member.firstName + " " + props.member.lastName} arrow TransitionComponent={Fade} TransitionProps={{ timeout: 700 }}>
               <Typography sx={{ marginInlineStart: "10px", width: "130px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} noWrap>
@@ -85,23 +84,21 @@ export default function GroupMemberCard(props) {
               </Typography>
             </Tooltip>
           </Box>
-          <Box className="cards-icons" sx={{ display: "none", opacity: 0, transition: "opacity .5s ease" }}>
+          <Box className="cards-icons" sx={{ display: "none", transition: "opacity .5s ease" }}>
             <Tooltip arrow title="Update member's contribution">
-              <TopButton variant="outlined" color="orange" onClick={handleOpen}>
+              <TopButton sx={{ display: props.admin ? "flex" : "none" }} variant="outlined" color="orange" onClick={handleOpen}>
                 <img src={update} alt="" />
               </TopButton>
             </Tooltip>
             <Tooltip arrow title="Delete member">
-              <TopButton variant="outlined" color="delete" onClick={handleOpenDelete}>
+              <TopButton sx={{ display: props.admin ? "flex" : "none" }} variant="outlined" color="delete" onClick={handleOpenDelete}>
                 <img src={deleteIcon} alt="" />
               </TopButton>
             </Tooltip>
           </Box>
-          <Box className="cards-infos" sx={{ display: "flex", alignItems: "center" }}>
-            <Typography sx={{ fontSize: ".8em", color: "#9a9a9a" }}>
-              <span>
-                Total {formattedAmount} {props.group.currency}
-              </span>
+          <Box className="cards-infos" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <Typography sx={{ display: "flex", alignItems: "center", fontSize: ".8em", color: "#9a9a9a" }}>
+              <Typography sx={{ fontSize: "13px", width: "8em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{formattedAmount}</Typography> {props.group.currency}
             </Typography>
           </Box>
         </AccordionSummary>

@@ -32,6 +32,7 @@ export default function GroupPageCards(props) {
   const user = useSelector((state) => state.user.UserData);
   const groups = useSelector((state) => state.user.groups);
   const [open, setOpen] = useState(false);
+  const [admin, setAdmin] = useState(true);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -57,7 +58,7 @@ export default function GroupPageCards(props) {
 
         <Grid container spacing={2} columns={12}>
           {groups.map((group) => {
-            return <TheListOfMembersCard key={group._id} group={group} user={user} setGroupsFunction={props.setGroupsFunction} />;
+            return <TheListOfMembersCard key={group._id} group={group} user={user} setGroupsFunction={props.setGroupsFunction} setAdmin={setAdmin} admin={admin} />;
           })}
         </Grid>
 
