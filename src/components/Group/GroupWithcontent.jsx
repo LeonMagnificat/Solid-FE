@@ -155,13 +155,6 @@ export default function GroupWithcontent(props) {
             const formattedDateTime = dateTime.toLocaleString("en-US", options);
             const formattedDateTimeUpdate = dateTimeUpdate.toLocaleString("en-US", options);
 
-            if (group.admins.includes(user._id)) {
-              console.log("admin");
-              props.setAdmin("visible");
-            } else {
-              props.setAdmin("hidden");
-            }
-
             return (
               <TabPanel value={value} index={index}>
                 <GroupBox sx={{ padding: "30px" }}>
