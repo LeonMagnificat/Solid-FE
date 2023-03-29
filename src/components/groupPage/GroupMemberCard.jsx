@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Button, Box, Tooltip, Fade } from "@mui/material";
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Button, Box, Tooltip, Fade, Avatar } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import update from "../../icons/update.svg";
@@ -35,6 +35,34 @@ export default function GroupMemberCard(props) {
   const handleCloseDelete = () => {
     setDeletemodel(false);
   };
+
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    };
+  }
 
   const AccordionBox = styled(Accordion)({
     backgroundColor: "#fbfbfb",
@@ -77,7 +105,7 @@ export default function GroupMemberCard(props) {
       <AccordionBox disableGutters={true} TransitionProps={{ unmountOnExit: true }} sx={{ justifyContent: "space-between" }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" sx={{ justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <img className="avatar-profile" src={randomProfile} alt="" />
+            <Avatar {...stringAvatar(`${props.member.firstName} ${props.member.lastName}`)} />
             <Tooltip title={props.member.firstName + " " + props.member.lastName} arrow TransitionComponent={Fade} TransitionProps={{ timeout: 700 }}>
               <Typography sx={{ marginInlineStart: "10px", width: "130px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} noWrap>
                 <span>{props.member.firstName} </span> <span>{props.member.lastName}</span>
@@ -114,8 +142,8 @@ export default function GroupMemberCard(props) {
           <TotalContributionMemberCard total={memberTotal} currency={props.group.currency} />
         </AccordionContent>
       </AccordionBox>
-      <UpdateContributionModel open={open} handleClose={handleClose} user={props.member} group={props.group} total={formattedAmount} />
-      <DeleteUserModel open={deletemodel} handleClose={handleCloseDelete} user={props.member} groupId={props.group._id} />
+      <UpdateContributionModel open={open} handleClose={handleClose} user={props.member} group={props.group} total={formattedAmount} setMessage={props.setMessage} setInfoText={props.setInfoText} />
+      <DeleteUserModel open={deletemodel} handleClose={handleCloseDelete} user={props.member} groupId={props.group._id} setMessage={props.setMessage} setInfoText={props.setInfoText} />
     </div>
   );
 }

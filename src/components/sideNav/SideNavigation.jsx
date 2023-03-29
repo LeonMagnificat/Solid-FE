@@ -9,6 +9,7 @@ import group from "../../icons/group2.svg";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logOutAction, checkLoggedIn } from "../../redux/actions/index.js";
+import { profiles } from "../Group/profilesArray.js";
 
 const NavBarBox = styled(Box)({
   height: "350px",
@@ -53,6 +54,7 @@ function stringAvatar(name) {
 
 export default function NavBar(props) {
   const dispatch = useDispatch();
+  const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
   const user = useSelector((state) => state.user.UserData);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -128,7 +130,6 @@ export default function NavBar(props) {
             </StyledBadge>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            {/* <img className="avatar-profile" src={profile} alt="" /> */}
             <Avatar {...stringAvatar(`${props.user.firstName} ${props.user.lastName}`)} />
             <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>
               <span>{props.user.firstName}</span> <span>{props.user.lastName}</span>

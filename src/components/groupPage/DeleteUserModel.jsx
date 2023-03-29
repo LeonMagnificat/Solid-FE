@@ -23,10 +23,15 @@ export default function DeleteUserModel(props) {
 
   const handleDelete = async () => {
     const response = await dispatch(deleteUserInGroup(groupId, userId));
-    if (response.status) {
+    if (response.ok) {
+      props.setMessage(true);
+      props.setInfoText(`User was deleted successfully`);
       props.handleClose();
     } else {
-      console.log("error message", response.data.message);
+      props.setMessage(true);
+      props.setInfoText(response.message);
+      props.handleClose();
+      console.log("error message", response.message);
     }
   };
 

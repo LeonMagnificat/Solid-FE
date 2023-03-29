@@ -236,7 +236,6 @@ export const createGroup = (group, userId) => {
       const response = await fetch(`${apiURL}/group/newGroup/${userId}`, method);
       if (response.ok) {
         const data = await response.json();
-        console.log("data", data);
         dispatch({
           type: GET_USER_DATA,
           payload: data,

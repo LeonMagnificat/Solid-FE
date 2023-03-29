@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Typography, Box, Button, Grid } from "@mui/material";
+import { Typography, Box, Button, Grid, Snackbar, Alert } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import add from "../../icons/add.svg";
@@ -32,7 +32,9 @@ export default function GroupPageCards(props) {
   const user = useSelector((state) => state.user.UserData);
   const groups = useSelector((state) => state.user.groups);
   const [open, setOpen] = useState(false);
-  const [admin, setAdmin] = useState(true);
+  const [message, setMessage] = useState(false);
+  const [infoText, setInfoText] = useState(false);
+  const [color, setColor] = useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -40,6 +42,13 @@ export default function GroupPageCards(props) {
     setOpen(false);
   };
 
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setMessage(false);
+  };
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -58,12 +67,17 @@ export default function GroupPageCards(props) {
 
         <Grid container spacing={2} columns={12}>
           {groups.map((group) => {
-            return <TheListOfMembersCard key={group._id} group={group} user={user} setGroupsFunction={props.setGroupsFunction} setAdmin={setAdmin} admin={admin} />;
+            return <TheListOfMembersCard key={group._id} group={group} user={user} setGroupsFunction={props.setGroupsFunction} setMessage={setMessage} setInfoText={setInfoText} />;
           })}
         </Grid>
 
-        <CreateGroupModel open={open} handleClose={handleClose} user={user} />
+        <CreateGroupModel open={open} handleClose={handleClose} user={user} setMessage={setMessage} setInfoText={setInfoText} />
       </Box>
+      <Snackbar open={message} autoHideDuration={7000} onClose={handleCloseSnack}>
+        <Alert severity="info" onClose={handleCloseSnack} sx={{ width: "100%" }}>
+          {infoText}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

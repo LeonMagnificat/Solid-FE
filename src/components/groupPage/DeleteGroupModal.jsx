@@ -8,24 +8,17 @@ import { useDispatch } from "react-redux";
 export default function DeleteGroupModel(props) {
   const dispatch = useDispatch();
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-
   const groupId = props.group._id;
 
   const handleDelete = async () => {
     const response = await dispatch(deleteGroup(groupId));
     if (response.status) {
-      setSnackbarOpen(true);
-      setSnackbarMessage(response.data.message);
+      props.setMessage(true);
+      props.setInfoText(`Group deleted successfully`);
       props.handleClose();
     } else {
       console.log("error message", response.data.message);
     }
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
   };
 
   const ModelTitles = styled(Typography)({
@@ -85,11 +78,6 @@ export default function DeleteGroupModel(props) {
           </Box>
         </Fade>
       </Modal>
-      <Snackbar open={snackbarOpen} autoHideDuration={5000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: "bottom", horizontal: "right" }}>
-        <Alert onClose={handleCloseSnackbar} severity={"success"}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </div>
   );
 }

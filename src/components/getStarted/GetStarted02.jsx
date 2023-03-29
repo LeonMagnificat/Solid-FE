@@ -13,18 +13,20 @@ export default function getStarted02() {
   });
   return (
     <>
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly", height: "100vh", backgroundColor: "#008A93" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh", backgroundColor: "#008A93" }}>
         <Slide direction="left" in={true} timeout={900} mountOnEnter unmountOnExit>
           <Box>
-            <img src={slide02} alt="" style={{ width: "900px" }} />
+            <img src={slide02} alt="" style={{ width: "30em" }} />
           </Box>
         </Slide>
         <Slide direction="left" in={true} timeout={1300} mountOnEnter unmountOnExit>
           <Box>
-            <Typography sx={{ color: "#fff", fontSize: "24px" }}>Easily bring your friends on board with just one click using our hassle-free invitation feature.</Typography>
+            <Typography sx={{ color: "#fff", fontSize: "1.5em", marginBlockEnd: "70px", width: "20em", textAlign: "center" }}>
+              Bring your friends on board with just a hassle-free invitation feature.
+            </Typography>
           </Box>
         </Slide>
-        <Box>
+        <Box sx={{ marginBlockEnd: "20px" }}>
           <MainButton LinkComponent={NavLink} to="/getStarted03" variant="contained" color="white" size="large" type="submit">
             Next
           </MainButton>

@@ -4,7 +4,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box } from "@mui/material";
+import { Box, Avatar } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MemberContributionCard from "../groupPage/MemberContributionCard.jsx";
 import TotalContributionMemberCard from "../groupPage/TotalContributionMemberCard.jsx";
@@ -44,6 +44,34 @@ export default function ActiveGroupMembers(props) {
     overflow: "scroll",
   });
 
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    };
+  }
+
   return (
     <div sx={{ marginBlockEnd: "30px" }}>
       {updatedMembers.map((member, index) => {
@@ -55,7 +83,7 @@ export default function ActiveGroupMembers(props) {
             <AccordionBox sx={{ backgroundColor: member._id === AddeduserId ? "#FFF3DF" : "#fbfbfb" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Box sx={{ display: "flex", marginInlineEnd: "55px" }}>
-                  <img className="avatar-profile" src={profiles[index]} alt="" />
+                  <Avatar {...stringAvatar(`${member.firstName} ${member.lastName}`)} />
 
                   <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px", textTransform: "capitalize" }}>
                     {member._id === AddeduserId ? (

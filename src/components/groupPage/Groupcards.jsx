@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, Snackbar, Alert } from "@mui/material";
 import empty from "../../icons/empty01.svg";
 import add from "../../icons/add.svg";
 import CreateGroupModel from "../Group/CreateGroupModel.jsx";
@@ -26,6 +26,8 @@ const AddButton = styled(Button)({
 export default function Groupcards(props) {
   const group = props.user.group;
   const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState(false);
+  const [infoText, setInfoText] = useState(false);
 
   const content = props.user.group.length > 0 ? true : false;
   const handleOpen = () => {
@@ -33,6 +35,13 @@ export default function Groupcards(props) {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setMessage(false);
   };
 
   return (
@@ -58,11 +67,17 @@ export default function Groupcards(props) {
               </Box>
             </Box>
           </GroupBox>
-          <CreateGroupModel open={open} handleClose={handleClose} user={props.user} />
+          <CreateGroupModel open={open} handleClose={handleClose} user={props.user} setMessage={setMessage} setInfoText={setInfoText} />
         </Box>
       ) : (
         <>{props.user && group && <GroupPageCards />}</>
       )}
+
+      <Snackbar open={message} autoHideDuration={7000} onClose={handleCloseSnack}>
+        <Alert onClose={handleCloseSnack} sx={{ width: "100%" }} color="secondary">
+          {infoText}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

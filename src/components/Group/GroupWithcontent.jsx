@@ -355,7 +355,7 @@ export default function GroupWithcontent(props) {
         <AddMemberModel open={open} groupId={groupId} handleClose={handleClose} setMessage={setMessage} setInfoText={setInfoText} />
       </Box>
 
-      <Snackbar open={message} autoHideDuration={7000} onClose={handleCloseSnack}>
+      <Snackbar open={message} autoHideDuration={5000} onClose={handleCloseSnack}>
         <Alert onClose={handleCloseSnack} sx={{ width: "100%" }} color="secondary">
           {infoText}
         </Alert>

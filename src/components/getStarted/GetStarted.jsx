@@ -18,18 +18,18 @@ export default function GetStarted() {
   });
   return (
     <>
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly", height: "100vh", backgroundColor: "#A62BF2" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh", backgroundColor: "#A62BF2" }}>
         <Slide direction="left" in={true} timeout={900} mountOnEnter unmountOnExit>
           <Box>
-            <img src={slide01} alt="" style={{ width: "900px" }} />
+            <img src={slide01} alt="" style={{ width: "30em" }} />
           </Box>
         </Slide>
         <Slide direction="left" in={true} timeout={1300} mountOnEnter unmountOnExit>
           <Box>
-            <Typography sx={{ color: "#fff", fontSize: "24px" }}>Create a Solid community With Our Powerful Group-Building Solutions.</Typography>
+            <Typography sx={{ color: "#fff", fontSize: "1.5em", marginBlockEnd: "70px", width: "20em", textAlign: "center" }}>Connecting Groups Of People With Common Plans</Typography>
           </Box>
         </Slide>
-        <Box>
+        <Box sx={{ marginBlockEnd: "20px" }}>
           <MainButton
             LinkComponent={NavLink}
             to="/getStarted02"

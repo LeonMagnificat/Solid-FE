@@ -32,6 +32,8 @@ export default function EditGroupModel(props) {
     try {
       const response = await dispatch(editGroup(group, groupId));
       if (response.status) {
+        props.setMessage(true);
+        props.setInfoText(`Group updated successfully to ${group.name} `);
         props.handleClose();
       } else {
         setIsLoading(false);

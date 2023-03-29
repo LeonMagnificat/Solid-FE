@@ -32,6 +32,8 @@ export default function UpdateContributionModel(props) {
     e.preventDefault();
     const response = await dispatch(addContribution(groupId, userId, Number(amount)));
     if (response.status) {
+      props.setMessage(true);
+      props.setInfoText(`Contribution added successfully, amount added ${amount}`);
       props.handleClose();
     }
   };

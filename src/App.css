@@ -72,3 +72,13 @@
   text-overflow: ellipsis;
   width: 3em;
 }
+
+.MuiAlert-root {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 55px !important;
+  background-color: rgb(4, 1, 7) !important;
+  color: white !important;
+}

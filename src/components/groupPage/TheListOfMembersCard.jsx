@@ -115,7 +115,17 @@ export default function TheListOfMembersCard(props) {
               <Box>
                 {props.group &&
                   props.group.members.map((member) => {
-                    return <GroupMemberCard member={member} key={member._id} group={props.group} admin={props.admin} />;
+                    return (
+                      <GroupMemberCard
+                        member={member}
+                        key={member._id}
+                        group={props.group}
+                        setMessage={props.setMessage}
+                        setInfoText={props.setInfoText}
+                        setColor={props.setColor}
+                        setSeverity={props.setSeverity}
+                      />
+                    );
                   })}
               </Box>
             ) : (
@@ -135,9 +145,9 @@ export default function TheListOfMembersCard(props) {
             )}
           </Box>
         </GroupBox>
-        <AddMemberModel open={open} handleClose={handleClose} groupId={props.group._id} />
-        <EditGroupModel open={openEdit} handleClose={handleCloseEdit} group={props.group} />
-        <DeleteGroupModel open={openDelete} handleClose={handleCloseDelete} group={props.group} user={props.user} key={props.group._id} />
+        <AddMemberModel open={open} handleClose={handleClose} groupId={props.group._id} setMessage={props.setMessage} setInfoText={props.setInfoText} />
+        <EditGroupModel open={openEdit} handleClose={handleCloseEdit} group={props.group} setMessage={props.setMessage} setInfoText={props.setInfoText} />
+        <DeleteGroupModel open={openDelete} handleClose={handleCloseDelete} group={props.group} user={props.user} key={props.group._id} setMessage={props.setMessage} setInfoText={props.setInfoText} />
       </Grid>
     </>
   );
