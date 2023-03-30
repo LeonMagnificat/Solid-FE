@@ -87,8 +87,8 @@ mark {
   background-color: #ff00fb;
   color: rgb(255, 255, 255);
   padding-inline-start: 0.4em;
-  border-bottom-left-radius: 5px;
-  border-top-left-radius: 5px;
+  /* border-bottom-left-radius: 5px; */
+  /* border-top-left-radius: 5px; */
   opacity: 0.5;
   transition: all 1s ease;
 }
