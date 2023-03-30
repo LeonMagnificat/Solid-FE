@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Typography, Box, Button, Grid, Snackbar, Alert, InputBase, TextField } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
+import { Typography, Box, Button, Grid, Snackbar, Alert, TextField } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import add from "../../icons/add.svg";
 import CreateGroupModel from "../Group/CreateGroupModel.jsx";
 import TheListOfMembersCard from "./TheListOfMembersCard.jsx";
 import { useSelector } from "react-redux";
-import SearchIcon from "@mui/icons-material/Search";
+//import SearchIcon from "@mui/icons-material/Search";
 //import ReactHtmlParser from "html-react-parser";
 import parse from "html-react-parser";
 
@@ -34,11 +34,10 @@ const AddButton = styled(Button)({
 export default function GroupPageCards(props) {
   const user = useSelector((state) => state.user.UserData);
   const groups = useSelector((state) => state.user.groups);
-  const members = useSelector((state) => state.user.members);
+  //const members = useSelector((state) => state.user.members);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState(false);
   const [infoText, setInfoText] = useState(false);
-  const [color, setColor] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   //const [searchResults, setSearchResults] = useState([]);
   const handleOpen = () => {
@@ -56,48 +55,6 @@ export default function GroupPageCards(props) {
     setMessage(false);
   };
 
-  const Search = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto",
-    },
-  }));
-
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
-
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        width: "12ch",
-        "&:focus": {
-          width: "20ch",
-        },
-      },
-    },
-  }));
-
   const getHighlightedText = (text, search) => {
     if (search.trim() === "") {
       return text;
@@ -108,20 +65,25 @@ export default function GroupPageCards(props) {
     return parse(parts.map((part, index) => (index % 2 !== 0 ? `<mark>${search}</mark>` + part : part)).join(""));
   };
 
-  const searchResults = groups.map((group) => {
-    const highlightedGroup = { ...group };
-    const highlightedMembers = group.members.map((member) => {
-      const fullName = `${member.firstName} ${member.lastName}`;
-      const highlightedFullName = getHighlightedText(fullName, searchTerm);
-      return { ...member, fullName: highlightedFullName };
+  const searchResults = groups
+    .filter((group) => {
+      const hasMatchingName = group.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const hasMatchingCurrency = group.currency.toLowerCase().includes(searchTerm.toLowerCase());
+      const hasMatchingMemberName = group.members.some((member) => `${member.firstName} ${member.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()));
+      return hasMatchingName || hasMatchingCurrency || hasMatchingMemberName;
+    })
+    .map((group) => {
+      const highlightedGroup = { ...group };
+      const highlightedMembers = group.members.map((member) => {
+        const fullName = `${member.firstName} ${member.lastName}`;
+        const highlightedFullName = getHighlightedText(fullName, searchTerm);
+        return { ...member, fullName: highlightedFullName };
+      });
+      highlightedGroup.members = highlightedMembers;
+      highlightedGroup.name = getHighlightedText(group.name, searchTerm);
+      highlightedGroup.currency = getHighlightedText(group.currency, searchTerm);
+      return highlightedGroup;
     });
-    highlightedGroup.members = highlightedMembers;
-    highlightedGroup.name = getHighlightedText(group.name, searchTerm);
-    highlightedGroup.currency = getHighlightedText(group.currency, searchTerm);
-    return highlightedGroup;
-  });
-
-  console.log("searchResults", searchResults);
 
   return (
     <>
