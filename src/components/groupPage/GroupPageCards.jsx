@@ -113,12 +113,13 @@ export default function GroupPageCards(props) {
             </Box>
           </Box>
         </GroupBox>
-
-        <Grid container spacing={2} columns={12}>
-          {searchResults.map((group) => {
-            return <TheListOfMembersCard key={group._id} group={group} user={user} setGroupsFunction={props.setGroupsFunction} setMessage={setMessage} setInfoText={setInfoText} />;
-          })}
-        </Grid>
+        <Box sx={{ height: "85vh", overflow: "auto", borderRadius: "20px" }}>
+          <Grid container spacing={2} columns={12}>
+            {searchResults.map((group) => {
+              return <TheListOfMembersCard key={group._id} group={group} user={user} setGroupsFunction={props.setGroupsFunction} setMessage={setMessage} setInfoText={setInfoText} />;
+            })}
+          </Grid>
+        </Box>
 
         <CreateGroupModel open={open} handleClose={handleClose} user={user} setMessage={setMessage} setInfoText={setInfoText} />
       </Box>
