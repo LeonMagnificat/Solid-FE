@@ -82,3 +82,13 @@
   background-color: rgb(4, 1, 7) !important;
   color: white !important;
 }
+
+mark {
+  background-color: #008a93;
+  color: rgb(255, 255, 255);
+  padding-inline-start: 0.4em;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  opacity: 0.5;
+  transition: all 1s ease;
+}

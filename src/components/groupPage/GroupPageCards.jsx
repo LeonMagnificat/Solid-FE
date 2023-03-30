@@ -7,6 +7,8 @@ import CreateGroupModel from "../Group/CreateGroupModel.jsx";
 import TheListOfMembersCard from "./TheListOfMembersCard.jsx";
 import { useSelector } from "react-redux";
 import SearchIcon from "@mui/icons-material/Search";
+//import ReactHtmlParser from "html-react-parser";
+import parse from "html-react-parser";
 
 const GroupBox = styled(Box)({
   height: "70px",
@@ -96,12 +98,27 @@ export default function GroupPageCards(props) {
     },
   }));
 
-  const searchResults = groups.filter((group) => {
-    const isMemberFound = group.members.some((member) => {
+  const getHighlightedText = (text, search) => {
+    if (search.trim() === "") {
+      return text;
+    }
+
+    const regex = new RegExp(search, "gi");
+    const parts = text.split(regex);
+    return parse(parts.map((part, index) => (index % 2 !== 0 ? `<mark>${search}</mark>` + part : part)).join(""));
+  };
+
+  const searchResults = groups.map((group) => {
+    const highlightedGroup = { ...group };
+    const highlightedMembers = group.members.map((member) => {
       const fullName = `${member.firstName} ${member.lastName}`;
-      return fullName.toLowerCase().includes(searchTerm.toLowerCase());
+      const highlightedFullName = getHighlightedText(fullName, searchTerm);
+      return { ...member, fullName: highlightedFullName };
     });
-    return group.name.toLowerCase().includes(searchTerm.toLowerCase()) || group.currency.toLowerCase().includes(searchTerm.toLowerCase()) || isMemberFound;
+    highlightedGroup.members = highlightedMembers;
+    highlightedGroup.name = getHighlightedText(group.name, searchTerm);
+    highlightedGroup.currency = getHighlightedText(group.currency, searchTerm);
+    return highlightedGroup;
   });
 
   console.log("searchResults", searchResults);
