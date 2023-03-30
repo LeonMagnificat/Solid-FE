@@ -98,7 +98,8 @@ export default function GroupPageCards(props) {
 
   const searchResults = groups.filter((group) => {
     const isMemberFound = group.members.some((member) => {
-      return member.firstName.toLowerCase().includes(searchTerm.toLowerCase()) || member.lastName.toLowerCase().includes(searchTerm.toLowerCase());
+      const fullName = `${member.firstName} ${member.lastName}`;
+      return fullName.toLowerCase().includes(searchTerm.toLowerCase());
     });
     return group.name.toLowerCase().includes(searchTerm.toLowerCase()) || group.currency.toLowerCase().includes(searchTerm.toLowerCase()) || isMemberFound;
   });
