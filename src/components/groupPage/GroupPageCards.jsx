@@ -97,10 +97,10 @@ export default function GroupPageCards(props) {
   }));
 
   const searchResults = groups.filter((group) => {
-    group.members.map((member) => {
+    const isMemberFound = group.members.some((member) => {
       return member.firstName.toLowerCase().includes(searchTerm.toLowerCase()) || member.lastName.toLowerCase().includes(searchTerm.toLowerCase());
     });
-    return group.name.toLowerCase().includes(searchTerm.toLowerCase()) || group.currency.toLowerCase().includes(searchTerm.toLowerCase());
+    return group.name.toLowerCase().includes(searchTerm.toLowerCase()) || group.currency.toLowerCase().includes(searchTerm.toLowerCase()) || isMemberFound;
   });
 
   console.log("searchResults", searchResults);
