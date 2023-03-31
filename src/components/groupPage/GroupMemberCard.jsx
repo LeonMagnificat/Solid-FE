@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Button, Box, Tooltip, Fade, Avatar } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
@@ -8,14 +8,12 @@ import MemberContributionCard from "../groupPage/MemberContributionCard.jsx";
 import TotalContributionMemberCard from "../groupPage/TotalContributionMemberCard.jsx";
 import UpdateContributionModel from "../groupPage/UpdateContributionModel.jsx";
 import DeleteUserModel from "../groupPage/DeleteUserModel.jsx";
-import { useState } from "react";
-import { profiles } from "../Group/profilesArray.js";
 import { useSelector } from "react-redux";
 
 export default function GroupMemberCard(props) {
   //const contributions = useSelector((state) => state.contribution.contributionMember);
   const user = useSelector((state) => state.user.UserData);
-  const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
+  //const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
 
   const filteredContribution = props.member.contributions.filter((contribution) => contribution.group === props.group._id);
   const memberTotal = filteredContribution.reduce((acc, curr) => acc + curr.amount, 0);

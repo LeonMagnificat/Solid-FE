@@ -9,7 +9,6 @@ import PhoneNavigation from "../sideNav/PhoneNavigation.jsx";
 function Account() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.UserData);
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const userID = useSelector((state) => state.user.addedUser._id);
 
   const [welcome, setWelcome] = useState(false);

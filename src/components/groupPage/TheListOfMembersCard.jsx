@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Typography, Box, Button, Grid, Tooltip } from "@mui/material";
+import { Typography, Box, Button, Tooltip } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import addsm from "../../icons/addsm.svg";
@@ -81,74 +81,72 @@ export default function TheListOfMembersCard(props) {
 
   return (
     <>
-      <Grid item xs={12} md={6}>
-        <GroupBox>
-          <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", marginBlockEnd: "20px", minHeight: "50px" }}>
-            <Box>
-              <Typography>{props.group.name}</Typography>
-            </Box>
-            <Box className="icons-box" sx={{ display: "none", width: "120px", justifyContent: "space-between" }}>
-              <Tooltip arrow title="Add a member to this Group">
-                <AddButton variant="outlined" color="secondary" onClick={handleOpen}>
-                  <img src={addsm} alt="" />
-                </AddButton>
-              </Tooltip>
-              <Tooltip arrow title="Edit this Group information">
-                <AddButton variant="outlined" color="orange" onClick={handleOpenEdit}>
-                  <img src={edit} alt="" />
-                </AddButton>
-              </Tooltip>
-              <Tooltip arrow title="Delete this Group">
-                <AddButton variant="outlined" color="delete" onClick={handleOpenDelete}>
-                  <img src={deleteIcon} alt="" />
-                </AddButton>
-              </Tooltip>
-            </Box>
-            <Box className="infos-box" sx={{ display: props.admin ? "flex" : "none", transition: "all 0.6s ease", width: "120px", justifyContent: "flex-end" }}>
-              <Typography sx={{ fontSize: ".8em", color: "#9a9a9a" }}>
-                <span style={{ color: "#000" }}>{props.group.members.length}</span> {props.group.members.length > 1 ? "members" : "member"}
-              </Typography>
-            </Box>
-          </Box>
+      <GroupBox>
+        <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", marginBlockEnd: "20px", minHeight: "50px" }}>
           <Box>
-            {!content ? (
-              <Box>
-                {props.group &&
-                  props.group.members.map((member) => {
-                    return (
-                      <GroupMemberCard
-                        member={member}
-                        key={member._id}
-                        group={props.group}
-                        setMessage={props.setMessage}
-                        setInfoText={props.setInfoText}
-                        setColor={props.setColor}
-                        setSeverity={props.setSeverity}
-                      />
-                    );
-                  })}
-              </Box>
-            ) : (
-              <Box sx={{ display: " flex", flexDirection: "column", alignItems: "center", height: "250px", justifyContent: "space-around", textAlign: "center" }}>
-                <Box sx={{ width: "100px" }}>
-                  <img style={{ width: "100%" }} src={emptyContact} alt="" />
-                </Box>
-                <Box>
-                  <Typography>There are no members in this group; click the button below to add members.</Typography>
-                </Box>
-                <Box>
-                  <AddContactButton variant="contained" color="secondary" onClick={handleOpen}>
-                    <img className="mr-3" src={add} alt="" /> Add Member
-                  </AddContactButton>
-                </Box>
-              </Box>
-            )}
+            <Typography>{props.group.name}</Typography>
           </Box>
-        </GroupBox>
-        <AddMemberModel open={open} handleClose={handleClose} groupId={props.group._id} setMessage={props.setMessage} setInfoText={props.setInfoText} />
-        <EditGroupModel open={openEdit} handleClose={handleCloseEdit} group={props.group} setMessage={props.setMessage} setInfoText={props.setInfoText} />
-        <DeleteGroupModel open={openDelete} handleClose={handleCloseDelete} group={props.group} user={props.user} key={props.group._id} setMessage={props.setMessage} setInfoText={props.setInfoText} />
-      </Grid>
+          <Box className="icons-box" sx={{ display: "none", width: "120px", justifyContent: "space-between" }}>
+            <Tooltip arrow title="Add a member to this Group">
+              <AddButton variant="outlined" color="secondary" onClick={handleOpen}>
+                <img src={addsm} alt="" />
+              </AddButton>
+            </Tooltip>
+            <Tooltip arrow title="Edit this Group information">
+              <AddButton variant="outlined" color="orange" onClick={handleOpenEdit}>
+                <img src={edit} alt="" />
+              </AddButton>
+            </Tooltip>
+            <Tooltip arrow title="Delete this Group">
+              <AddButton variant="outlined" color="delete" onClick={handleOpenDelete}>
+                <img src={deleteIcon} alt="" />
+              </AddButton>
+            </Tooltip>
+          </Box>
+          <Box className="infos-box" sx={{ display: props.admin ? "flex" : "none", transition: "all 0.6s ease", width: "120px", justifyContent: "flex-end" }}>
+            <Typography sx={{ fontSize: ".8em", color: "#9a9a9a" }}>
+              <span style={{ color: "#000" }}>{props.group.members.length}</span> {props.group.members.length > 1 ? "members" : "member"}
+            </Typography>
+          </Box>
+        </Box>
+        <Box>
+          {!content ? (
+            <Box>
+              {props.group &&
+                props.group.members.map((member) => {
+                  return (
+                    <GroupMemberCard
+                      member={member}
+                      key={member._id}
+                      group={props.group}
+                      setMessage={props.setMessage}
+                      setInfoText={props.setInfoText}
+                      setColor={props.setColor}
+                      setSeverity={props.setSeverity}
+                    />
+                  );
+                })}
+            </Box>
+          ) : (
+            <Box sx={{ display: " flex", flexDirection: "column", alignItems: "center", height: "250px", justifyContent: "space-around", textAlign: "center" }}>
+              <Box sx={{ width: "100px" }}>
+                <img style={{ width: "100%" }} src={emptyContact} alt="" />
+              </Box>
+              <Box>
+                <Typography>There are no members in this group; click the button below to add members.</Typography>
+              </Box>
+              <Box>
+                <AddContactButton variant="contained" color="secondary" onClick={handleOpen}>
+                  <img className="mr-3" src={add} alt="" /> Add Member
+                </AddContactButton>
+              </Box>
+            </Box>
+          )}
+        </Box>
+      </GroupBox>
+      <AddMemberModel open={open} handleClose={handleClose} groupId={props.group._id} setMessage={props.setMessage} setInfoText={props.setInfoText} />
+      <EditGroupModel open={openEdit} handleClose={handleCloseEdit} group={props.group} setMessage={props.setMessage} setInfoText={props.setInfoText} />
+      <DeleteGroupModel open={openDelete} handleClose={handleCloseDelete} group={props.group} user={props.user} key={props.group._id} setMessage={props.setMessage} setInfoText={props.setInfoText} />
     </>
   );
 }

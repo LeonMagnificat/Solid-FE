@@ -1,9 +1,8 @@
 import React from "react";
 import { Grid, Box, Typography, Fade, TextField, Alert, LinearProgress } from "@mui/material";
 
-import { style2, titleStyle, MainButton, ModelTitles, GoogleButton, ImageLogin } from "./login-style.jsx";
+import { style2, titleStyle, MainButton, ModelTitles, ImageLogin } from "./login-style.jsx";
 import { Link, useLocation } from "react-router-dom";
-import googleIcon from "../../icons/google.svg";
 import loginImage from "../../icons/loginillustration.svg";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";

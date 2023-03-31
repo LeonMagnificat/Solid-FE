@@ -1,14 +1,16 @@
 import * as React from "react";
-import { Typography, Box, Button, Grid, Snackbar, Alert, TextField } from "@mui/material";
+import { Typography, Box, Button, Grid, Snackbar, Alert, InputBase } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import add from "../../icons/add.svg";
 import CreateGroupModel from "../Group/CreateGroupModel.jsx";
 import TheListOfMembersCard from "./TheListOfMembersCard.jsx";
 import { useSelector } from "react-redux";
-//import SearchIcon from "@mui/icons-material/Search";
-//import ReactHtmlParser from "html-react-parser";
 import parse from "html-react-parser";
+import SearchIcon from "@mui/icons-material/Search";
+import { IconButton } from "@mui/material";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useEffect } from "react";
 
 const GroupBox = styled(Box)({
   height: "70px",
@@ -34,12 +36,21 @@ const AddButton = styled(Button)({
 export default function GroupPageCards(props) {
   const user = useSelector((state) => state.user.UserData);
   const groups = useSelector((state) => state.user.groups);
-  //const members = useSelector((state) => state.user.members);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState(false);
   const [infoText, setInfoText] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  //const [searchResults, setSearchResults] = useState([]);
+  const [groupsdrag, setGroupsdrag] = useState(groups);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setGroupsdrag(groups);
+  }, [groups]);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -55,6 +66,16 @@ export default function GroupPageCards(props) {
     setMessage(false);
   };
 
+  const handleDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const reorderedItems = Array.from(groupsdrag);
+    const [removedItem] = reorderedItems.splice(result.source.index, 1);
+    reorderedItems.splice(result.destination.index, 0, removedItem);
+
+    setGroupsdrag(reorderedItems);
+  };
+
   const getHighlightedText = (text, search) => {
     if (search.trim() === "") {
       return text;
@@ -65,7 +86,7 @@ export default function GroupPageCards(props) {
     return parse(parts.map((part, index) => (index % 2 !== 0 ? `<mark>${search}</mark>` + part : part)).join(""));
   };
 
-  const searchResults = groups
+  const searchResults = groupsdrag
     .filter((group) => {
       const hasMatchingName = group.name.toLowerCase().includes(searchTerm.toLowerCase());
       const hasMatchingCurrency = group.currency.toLowerCase().includes(searchTerm.toLowerCase());
@@ -94,17 +115,34 @@ export default function GroupPageCards(props) {
               <Typography>All Groups ({groups && groups.length})</Typography>
             </Box>
             <Box>
-              <TextField
-                variant="standard"
-                placeholder="Search…"
+              {/* <TextField
+                className="TextField-border-radius"
+                placeholder="Search form group or member…"
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton>
+                        <SearchIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: "20em" }}
+              /> */}
+              <InputBase
+                sx={{ ml: 1, flex: 1, width: "300px" }}
+                placeholder="Search by group or member…"
+                inputProps={{ "aria-label": "search google maps" }}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
                 }}
               />
-              {/* {searchResults.length > 0 &&
-                searchResults.map((results) => {
-                  return <div>{results.name}</div>;
-                })} */}
+              <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+                <SearchIcon />
+              </IconButton>
             </Box>
             <Box>
               <AddButton variant="contained" onClick={handleOpen}>
@@ -114,11 +152,24 @@ export default function GroupPageCards(props) {
           </Box>
         </GroupBox>
         <Box sx={{ height: "85vh", overflow: "auto", borderRadius: "20px" }}>
-          <Grid container spacing={2} columns={12}>
-            {searchResults.map((group) => {
-              return <TheListOfMembersCard key={group._id} group={group} user={user} setGroupsFunction={props.setGroupsFunction} setMessage={setMessage} setInfoText={setInfoText} />;
-            })}
-          </Grid>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="searchResults">
+              {(provided) => (
+                <Grid container spacing={2} columns={12} ref={provided.innerRef} {...provided.droppableProps}>
+                  {searchResults.map((group, index) => (
+                    <Draggable key={group._id} draggableId={group._id} index={index}>
+                      {(provided) => (
+                        <Grid className={isVisible ? "fade-in" : ""} item xs={12} sm={6} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                          <TheListOfMembersCard group={group} user={user} setGroupsFunction={props.setGroupsFunction} setMessage={setMessage} setInfoText={setInfoText} />
+                        </Grid>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </Grid>
+              )}
+            </Droppable>
+          </DragDropContext>
         </Box>
 
         <CreateGroupModel open={open} handleClose={handleClose} user={user} setMessage={setMessage} setInfoText={setInfoText} />

@@ -1,14 +1,13 @@
 import React from "react";
 import { Grid, Box, Typography, Fade, TextField, Alert, LinearProgress } from "@mui/material";
 import { style2, titleStyle } from "../login/login-style.jsx";
-import googleIcon from "../../icons/google.svg";
 import registerImage from "../../icons/registerillustration.svg";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { RegisterByInvitation } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { MainButton, ModelTitles, GoogleButton, ImageLogin } from "./registerStyle.jsx";
+import { MainButton, ModelTitles, ImageLogin } from "./registerStyle.jsx";
 
 import { useNavigate } from "react-router-dom";
 

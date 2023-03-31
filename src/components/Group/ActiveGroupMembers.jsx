@@ -8,7 +8,6 @@ import { Box, Avatar } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MemberContributionCard from "../groupPage/MemberContributionCard.jsx";
 import TotalContributionMemberCard from "../groupPage/TotalContributionMemberCard.jsx";
-import { profiles } from "./profilesArray";
 import { useSelector } from "react-redux";
 
 export default function ActiveGroupMembers(props) {

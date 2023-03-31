@@ -9,7 +9,7 @@ import group from "../../icons/group2.svg";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logOutAction, checkLoggedIn } from "../../redux/actions/index.js";
-import { profiles } from "../Group/profilesArray.js";
+//import { profiles } from "../Group/profilesArray.js";
 
 const NavBarBox = styled(Box)({
   height: "350px",
@@ -54,7 +54,7 @@ function stringAvatar(name) {
 
 export default function NavBar(props) {
   const dispatch = useDispatch();
-  const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
+  //const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
   const user = useSelector((state) => state.user.UserData);
 
   const [anchorEl, setAnchorEl] = React.useState(null);

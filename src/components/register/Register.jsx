@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Backdrop, Box, Modal, Fade, Alert, Typography, TextField, LinearProgress } from "@mui/material";
+import { Backdrop, Box, Modal, Fade, Alert, TextField, LinearProgress } from "@mui/material";
 import { style, titleStyle } from "../login/login-style.jsx";
-import googleIcon from "../../icons/google.svg";
-import { ModelTitles, MainButton, GoogleButton } from "./registerStyle.jsx";
+import { ModelTitles, MainButton } from "./registerStyle.jsx";
 import { useDispatch } from "react-redux";
 import { RegisterUser } from "../../redux/actions/index.js";
 import { useNavigate } from "react-router-dom";
