@@ -63,9 +63,10 @@ export default function MemberContributionCard(props) {
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
+                textAlign: "end",
               }}
             >
-              {formattedAmount}
+              {formattedAmount} {props.currency}
             </Typography>
           </Tooltip>
         </AccordionMemberBox>

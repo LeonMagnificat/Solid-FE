@@ -99,7 +99,7 @@ export default function ActiveGroupMembers(props) {
                 {filteredContr &&
                   filteredContr.map((contribution, index) => {
                     if (contribution.user === member._id) {
-                      return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
+                      return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} currency={props.group.currency} />;
                     } else {
                       return null;
                     }

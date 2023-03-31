@@ -11,7 +11,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import { IconButton } from "@mui/material";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect } from "react";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const GroupBox = styled(Box)({
   height: "70px",
