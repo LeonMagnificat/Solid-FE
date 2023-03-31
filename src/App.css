@@ -73,7 +73,7 @@
   width: 3em;
 }
 
-.MuiAlert-root {
+/* .MuiAlert-root {
   bottom: 0;
   left: 0;
   right: 0;
@@ -81,7 +81,7 @@
   border-radius: 55px !important;
   background-color: rgb(4, 1, 7) !important;
   color: white !important;
-}
+} */
 
 mark {
   background-color: #ff00fb;
