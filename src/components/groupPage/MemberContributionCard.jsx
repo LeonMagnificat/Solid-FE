@@ -6,9 +6,11 @@ import { Tooltip, Fade } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import { colors, colorsDark } from "../Group/profilesArray.js";
+import { useSelector } from "react-redux";
 
 export default function MemberContributionCard(props) {
   const randomProfile = colors[Math.floor(Math.random() * colors.length)];
+  const darkMode = useSelector((state) => state.user.darkMode);
   const dateTimeString = props.contribution.createdAt;
   const dateTime = new Date(dateTimeString);
   const options = { weekday: "short", day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric" };
@@ -18,7 +20,8 @@ export default function MemberContributionCard(props) {
   const formattedAmount = props.contribution.amount.toFixed(2);
 
   const AccordionBox = styled(Box)({
-    backgroundColor: "white",
+    backgroundColor: darkMode ? "black" : "white",
+    color: darkMode ? "white" : "black",
     boxShadow: "none",
     borderRadius: "15px !important",
     paddingInline: "20px",
@@ -45,18 +48,18 @@ export default function MemberContributionCard(props) {
   return (
     <div>
       <AccordionBox>
-        <AccordionMemberBox expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+        <AccordionMemberBox expandIcon={<ExpandMoreIcon sx={{ color: darkMode ? "#fff" : "#000" }} />} aria-controls="panel1a-content" id="panel1a-header">
           <NumberingBox>
             <Typography sx={{ fontWeight: "bold" }}>{props.index + 1} </Typography>
           </NumberingBox>
           <Tooltip title={formattedDateTime} placement="top" TransitionComponent={Fade} TransitionProps={{ timeout: 700 }} arrow>
-            <Typography sx={{ marginInlineStart: "10px", fontSize: "13px", width: "8em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}> {formattedDateTime} </Typography>
+            <Typography sx={{ marginInlineStart: "10px", fontSize: "13px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}> {formattedDateTime} </Typography>
           </Tooltip>
           <Tooltip title={formattedAmount} placement="top" TransitionComponent={Fade} TransitionProps={{ timeout: 700 }} arrow>
             <Typography
               sx={{
                 marginInlineStart: "10px",
-                color: colorsDark[colors.indexOf(randomProfile)],
+                color: darkMode ? randomProfile : colorsDark[colors.indexOf(randomProfile)],
                 fontSize: "16px",
                 fontWeight: "bold",
                 width: "8em",

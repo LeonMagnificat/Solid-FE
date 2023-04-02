@@ -18,8 +18,8 @@
 }
 
 .active {
-  color: rgb(71, 1, 96) !important;
-  background-color: rgb(247, 224, 255) !important;
+  color: #70edf5 !important;
+  background-color: #008a93 !important;
   border-radius: 10px !important;
 }
 
@@ -45,10 +45,11 @@
   justify-content: space-between;
 }
 
-.MuiPaper-root.MuiPaper-elevation.css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper {
-  border-radius: 20px;
-  top: 130px;
-  left: 95px;
+.MuiMenu-root {
+  border-radius: 290px;
+}
+.MuiMenu-paper {
+  border-radius: 290px;
 }
 
 .home-image {
@@ -104,4 +105,24 @@ mark {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.flex-space-btn {
+  display: flex;
+  justify-content: space-between !important;
+  align-items: center;
+  border: solid;
+}
+
+.upper-caseDark {
+  text-transform: uppercase;
+  color: rgb(4, 1, 7) !important;
+  font-size: 0.95em !important;
+  font-weight: 700 !important;
+}
+.upper-case {
+  text-transform: uppercase;
+  color: rgb(255, 255, 255) !important;
+  font-size: 0.95em !important;
+  font-weight: 700 !important;
 }

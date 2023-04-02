@@ -4,18 +4,20 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import { colors, colorsDark } from "../Group/profilesArray.js";
+import { useSelector } from "react-redux";
 
 export default function TotalContributionMemberCard(props) {
   const randomProfile = colors[Math.floor(Math.random() * colors.length)];
   const formattedAmount = props.total.toFixed(2);
+  const darkMode = useSelector((state) => state.user.darkMode);
 
   const AccordionBox = styled(Box)({
-    backgroundColor: "black",
+    backgroundColor: darkMode ? "#c8c8c8" : "black",
     boxShadow: "none",
     borderRadius: "15px !important",
     paddingInline: "20px",
     marginBottom: "10px",
-    color: "white",
+    color: darkMode ? "black" : "white",
   });
 
   const AccordionMemberBox = styled(Box)({
@@ -39,7 +41,7 @@ export default function TotalContributionMemberCard(props) {
     <div>
       <Tooltip title={formattedAmount} placement="top-end" TransitionComponent={Fade} TransitionProps={{ timeout: 700 }} arrow>
         <AccordionBox>
-          <AccordionMemberBox expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+          <AccordionMemberBox expandIcon={<ExpandMoreIcon sx={{ color: darkMode ? "#fff" : "#000" }} />} aria-controls="panel1a-content" id="panel1a-header">
             <NumberingBox>
               <Typography sx={{ fontWeight: "bold" }}>T</Typography>
             </NumberingBox>

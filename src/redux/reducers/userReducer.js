@@ -29,6 +29,7 @@ const initialState = {
   contributions: [],
   members: [],
   tasks: [],
+  darkMode: false,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -55,6 +56,9 @@ const userReducer = (state = initialState, action) => {
         break;
       case "DE_AUTHENTICATION":
         draft.isAuthenticated = action.payload;
+        break;
+      case "DARK_MODE":
+        draft.darkMode = action.payload;
         break;
       default:
         return state;

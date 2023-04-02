@@ -618,3 +618,16 @@ export const logOutAction = () => {
     }
   };
 };
+
+export const setDarkMode = (status) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: "DARK_MODE",
+        payload: status,
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+};

@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 
 export default function ActiveGroupMembers(props) {
   const user = useSelector((state) => state.user.UserData);
+  const darkMode = useSelector((state) => state.user.darkMode);
 
   const AddeduserId = user._id;
   const updatedMembersArray = props.group.members;
@@ -33,7 +34,7 @@ export default function ActiveGroupMembers(props) {
     transition: ".5s",
     "&:hover": {
       boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
-      backgroundColor: "#f5e6ff",
+      backgroundColor: darkMode ? "#694581" : "#f5e6ff",
       transition: ".5s",
     },
   });
@@ -79,10 +80,10 @@ export default function ActiveGroupMembers(props) {
 
         return (
           <>
-            <AccordionBox sx={{ backgroundColor: member._id === AddeduserId ? "#FFF3DF" : "#fbfbfb" }}>
+            <AccordionBox sx={{ backgroundColor: darkMode ? (member._id === AddeduserId ? "#947c56" : "#2d2d2d") : member._id === AddeduserId ? "#FFF3DF" : "#fbfbfb" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                <Box sx={{ display: "flex", marginInlineEnd: "55px" }}>
-                  <Avatar {...stringAvatar(`${member.firstName} ${member.lastName}`)} />
+                <Box sx={{ display: "flex", marginInlineEnd: "55px", color: darkMode ? "#fff" : "#000" }}>
+                  <Avatar {...stringAvatar(`${member.firstName} ${member.lastName}`)} className={darkMode ? "upper-caseDark" : "upper-case"} />
 
                   <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px", textTransform: "capitalize" }}>
                     {member._id === AddeduserId ? (

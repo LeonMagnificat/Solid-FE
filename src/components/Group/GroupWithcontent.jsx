@@ -60,6 +60,7 @@ export default function GroupWithcontent(props) {
   const [infoText, setInfoText] = useState(false);
   const [tasks, setTasks] = useState(tasksArray);
   //const [tasksdrag, settasksdrag] = useState([tasksArray]);
+  const darkMode = useSelector((state) => state.user.darkMode);
 
   React.useEffect(() => {
     setTasks(tasksArray);
@@ -103,18 +104,18 @@ export default function GroupWithcontent(props) {
     cursor: "pointer",
     borderRadius: "8px",
     transition: "all 0.7s",
-    backgroundColor: "#f9f9f9",
+    backgroundColor: darkMode ? "#2d2d2d" : "#f9f9f9",
+    color: darkMode ? "#f9f9f9" : "#2d2d2d",
     paddingBlock: "5px",
     paddingInlineStart: "15px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    //marginBlockEnd: "5px",
     height: "30px",
 
     "&:hover": {
       transition: "all 0.3s",
-      backgroundColor: "#ffff",
+      backgroundColor: darkMode ? "#181818" : "#ffff",
     },
   });
 
@@ -140,7 +141,7 @@ export default function GroupWithcontent(props) {
     <>
       <Box sx={{ flexGrow: 1 }}>
         <Box sx={{ width: "100%" }}>
-          <GroupBox>
+          <GroupBox sx={{ backgroundColor: darkMode ? "black" : "#fff" }}>
             <Box sx={{ borderBottom: "none" }}>
               <Tabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="auto" aria-label="scrollable auto tabs example">
                 {groups &&
@@ -148,6 +149,7 @@ export default function GroupWithcontent(props) {
                     const currentGroupId = group._id;
                     return (
                       <Tab
+                        sx={{ color: darkMode ? "#fff" : "black" }}
                         label={group.name}
                         {...a11yProps(0)}
                         key={index}
@@ -171,18 +173,33 @@ export default function GroupWithcontent(props) {
 
             return (
               <TabPanel value={value} index={index}>
-                <GroupBox sx={{ padding: "30px" }}>
-                  <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <GroupBox sx={{ padding: "30px", backgroundColor: darkMode ? "black" : "#fff" }}>
+                  <Box sx={{ display: "flex", flexDirection: "column", color: darkMode ? "#fff" : "black" }}>
                     <Typography sx={{ fontSize: "16px", marginBlockEnd: "10px" }}>Total Contributed</Typography>
                     <Typography sx={{ fontSize: "14px", marginBlockEnd: "10px", color: "grey" }}>{formattedDateTime}</Typography>
                     <div>
-                      <AccordionBox defaultExpanded>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" sx={{ height: "20px", padding: "0px" }}>
+                      <AccordionBox
+                        defaultExpanded
+                        sx={{
+                          "&:hover": {
+                            boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
+                            backgroundColor: darkMode ? "#292929" : "#fafafa",
+                            transition: ".5s",
+                            padding: "10px",
+                          },
+                        }}
+                      >
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon sx={{ color: darkMode ? "#70edf5" : "" }} />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header"
+                          sx={{ height: "20px", padding: "0px" }}
+                        >
                           <Typography
                             color="primary"
                             sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", fontSize: "40px", fontWeight: "bold", marginBlock: "0px" }}
                           >
-                            <Box>
+                            <Box sx={{ color: darkMode ? "#70edf5" : "" }}>
                               <span>{group.total}</span>
                               <span>{group.currency}</span>
                             </Box>
@@ -194,7 +211,7 @@ export default function GroupWithcontent(props) {
                                 borderRadius: "50%",
                                 minWidth: "50px",
                                 height: "50px",
-                                backgroundColor: "#f4f4f4",
+                                backgroundColor: darkMode ? "#2d2d2d" : "#f4f4f4",
                                 marginInlineEnd: "23px",
                                 visibility: group.admins.includes(user._id) ? "visible" : "hidden",
                               }}
@@ -330,8 +347,8 @@ export default function GroupWithcontent(props) {
 
                 {content ? (
                   <>
-                    <GroupBox sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "70px", paddingInline: "20px" }}>
-                      <Box>
+                    <GroupBox sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "70px", paddingInline: "20px", backgroundColor: darkMode ? "black" : "#fff" }}>
+                      <Box sx={{ color: darkMode ? "#fff" : "black" }}>
                         <Typography>Group Members</Typography>
                       </Box>
                       <AddButton
@@ -346,7 +363,7 @@ export default function GroupWithcontent(props) {
                         <img className="mr-3" src={add} alt="" /> Add Member
                       </AddButton>
                     </GroupBox>
-                    <GroupBox sx={{ maxHeight: "60vh", overflow: "auto" }}>
+                    <GroupBox sx={{ maxHeight: "60vh", overflow: "auto", backgroundColor: darkMode ? "black" : "#fff" }}>
                       <ActiveGroupMembers group={group} />
                     </GroupBox>
                   </>

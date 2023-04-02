@@ -13,7 +13,9 @@ import { useSelector } from "react-redux";
 export default function GroupMemberCard(props) {
   //const contributions = useSelector((state) => state.contribution.contributionMember);
   const user = useSelector((state) => state.user.UserData);
+  const darkMode = useSelector((state) => state.user.darkMode);
   //const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
+  const AddeduserId = user._id;
 
   const filteredContribution = props.member.contributions.filter((contribution) => contribution.group === props.group._id);
   const memberTotal = filteredContribution.reduce((acc, curr) => acc + curr.amount, 0);
@@ -70,7 +72,7 @@ export default function GroupMemberCard(props) {
     justifyContent: "space-between",
     transition: ".5s",
     "&:hover": {
-      backgroundColor: "#fbf0ff",
+      backgroundColor: darkMode ? "#694581" : "#f5e6ff",
       transition: ".5s",
     },
     "&:hover .cards-icons": {
@@ -100,17 +102,33 @@ export default function GroupMemberCard(props) {
 
   return (
     <div>
-      <AccordionBox disableGutters={true} TransitionProps={{ unmountOnExit: true }} sx={{ justifyContent: "space-between" }}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" sx={{ justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <Avatar {...stringAvatar(`${props.member.firstName} ${props.member.lastName}`)} />
+      <AccordionBox
+        disableGutters={true}
+        TransitionProps={{ unmountOnExit: true }}
+        sx={{ justifyContent: "space-between", backgroundColor: darkMode ? (props.member._id === AddeduserId ? "#947c56" : "#2d2d2d") : props.member._id === AddeduserId ? "#FFF3DF" : "#fbfbfb" }}
+      >
+        <AccordionSummary
+          className="flex-space-btn"
+          expandIcon={<ExpandMoreIcon sx={{ color: darkMode ? "#FFF3DF" : "" }} />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+          sx={{ justifyContent: "space-between" }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", color: darkMode ? "#fff" : "#000" }}>
+            <Avatar {...stringAvatar(`${props.member.firstName} ${props.member.lastName}`)} className={darkMode ? "upper-caseDark" : "upper-case"} />
             <Tooltip title={props.member.firstName + " " + props.member.lastName} arrow TransitionComponent={Fade} TransitionProps={{ timeout: 700 }}>
               <Typography sx={{ marginInlineStart: "10px", width: "130px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} noWrap>
-                <span>{props.member.firstName} </span> <span>{props.member.lastName}</span>
+                {props.member._id === AddeduserId ? (
+                  "You"
+                ) : (
+                  <span>
+                    {props.member.firstName} {props.member.lastName}{" "}
+                  </span>
+                )}
               </Typography>
             </Tooltip>
           </Box>
-          <Box className="cards-icons" sx={{ display: "none", transition: "opacity .5s ease" }}>
+          <Box className="cards-icons" sx={{ display: "none", justifyContent: "flex-end", width: "100%", transition: "opacity .5s ease" }}>
             <Tooltip arrow title="Update member's contribution">
               <TopButton sx={{ display: props.group.admins.includes(user._id) ? "flex" : "none" }} variant="outlined" color="orange" onClick={handleOpen}>
                 <img src={update} alt="" />
@@ -123,8 +141,10 @@ export default function GroupMemberCard(props) {
             </Tooltip>
           </Box>
           <Box className="cards-infos" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <Typography sx={{ display: "flex", alignItems: "center", fontSize: ".8em", color: "#9a9a9a" }}>
-              <Typography sx={{ fontSize: "13px", width: "8em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{formattedAmount}</Typography> {props.group.currency}
+            <Typography
+              sx={{ fontSize: "13px", width: "8em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", color: "black", textAlign: "end", color: darkMode ? "#fff" : "#000" }}
+            >
+              {formattedAmount} {props.group.currency}
             </Typography>
           </Box>
         </AccordionSummary>
@@ -132,7 +152,7 @@ export default function GroupMemberCard(props) {
           {filteredContribution &&
             filteredContribution.map((contribution, index) => {
               if (contribution.user === props.member._id) {
-                return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} />;
+                return <MemberContributionCard contribution={contribution} index={index} key={contribution._id} currency={props.group.currency} />;
               } else {
                 return null;
               }

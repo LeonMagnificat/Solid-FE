@@ -32,9 +32,13 @@ const AddContactButton = styled(Button)({
 
 export default function TheListOfMembersCard(props) {
   const user = useSelector((state) => state.user.UserData);
+  const AddeduserId = user._id;
+  const darkMode = useSelector((state) => state.user.darkMode);
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+
+  const updatedMembersArray = props.group.members;
 
   const content = false;
   const handleOpen = () => {
@@ -67,7 +71,7 @@ export default function TheListOfMembersCard(props) {
     flexDirection: "column",
     cursor: "pointer",
     "&:hover": {
-      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
+      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.3)",
       transition: "all 0.4s ease",
     },
     "&:hover .icons-box": {
@@ -79,10 +83,19 @@ export default function TheListOfMembersCard(props) {
     },
   });
 
+  const updatedMembers = updatedMembersArray.reduce((acc, member) => {
+    if (member._id === AddeduserId) {
+      acc.unshift(member); // add the matching member to the start of the array
+    } else {
+      acc.push(member); // add other members to the end of the array
+    }
+    return acc;
+  }, []);
+
   return (
     <>
-      <GroupBox>
-        <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", marginBlockEnd: "20px", minHeight: "50px" }}>
+      <GroupBox sx={{ backgroundColor: darkMode ? "black" : "" }}>
+        <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", marginBlockEnd: "20px", minHeight: "50px", color: darkMode ? "#fff" : "#000" }}>
           <Box>
             <Typography>{props.group.name}</Typography>
           </Box>
@@ -103,9 +116,9 @@ export default function TheListOfMembersCard(props) {
               </AddButton>
             </Tooltip>
           </Box>
-          <Box className="infos-box" sx={{ display: props.admin ? "flex" : "none", transition: "all 0.6s ease", width: "120px", justifyContent: "flex-end" }}>
+          <Box className="infos-box" sx={{ display: "flex", transition: "all 0.6s ease", width: "120px", justifyContent: "flex-end", color: darkMode ? "#fff" : "#000" }}>
             <Typography sx={{ fontSize: ".8em", color: "#9a9a9a" }}>
-              <span style={{ color: "#000" }}>{props.group.members.length}</span> {props.group.members.length > 1 ? "members" : "member"}
+              <span style={{ color: darkMode ? "#fff" : "#000" }}>{props.group.members.length}</span> {props.group.members.length > 1 ? "members" : "member"}
             </Typography>
           </Box>
         </Box>
@@ -113,7 +126,7 @@ export default function TheListOfMembersCard(props) {
           {!content ? (
             <Box>
               {props.group &&
-                props.group.members.map((member) => {
+                updatedMembers.map((member) => {
                   return (
                     <GroupMemberCard
                       member={member}

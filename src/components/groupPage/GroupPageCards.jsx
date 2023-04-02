@@ -36,6 +36,7 @@ const AddButton = styled(Button)({
 export default function GroupPageCards(props) {
   const user = useSelector((state) => state.user.UserData);
   const groups = useSelector((state) => state.user.groups);
+  const darkMode = useSelector((state) => state.user.darkMode);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState(false);
   const [infoText, setInfoText] = useState(false);
@@ -109,8 +110,8 @@ export default function GroupPageCards(props) {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <GroupBox>
-          <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
+        <GroupBox sx={{ backgroundColor: darkMode ? "#000" : "#fff" }}>
+          <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", color: darkMode ? "#fff" : "#000" }}>
             <Box>
               <Typography>All Groups ({groups && groups.length})</Typography>
             </Box>
@@ -133,15 +134,15 @@ export default function GroupPageCards(props) {
                 sx={{ width: "20em" }}
               /> */}
               <InputBase
-                sx={{ ml: 1, flex: 1, width: "300px" }}
+                sx={{ ml: 1, flex: 1, width: "300px", color: darkMode ? "#fff" : "#000" }}
                 placeholder="Search by group or member…"
-                inputProps={{ "aria-label": "search google maps" }}
+                inputProps={{ "aria-label": "Search by group or member…" }}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
                 }}
               />
               <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-                <SearchIcon />
+                <SearchIcon sx={{ color: darkMode ? "#fff" : "#000" }} />
               </IconButton>
             </Box>
             <Box>
