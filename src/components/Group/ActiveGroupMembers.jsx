@@ -80,7 +80,7 @@ export default function ActiveGroupMembers(props) {
 
         return (
           <>
-            <AccordionBox sx={{ backgroundColor: darkMode ? (member._id === AddeduserId ? "#947c56" : "#2d2d2d") : member._id === AddeduserId ? "#FFF3DF" : "#fbfbfb" }}>
+            <AccordionBox sx={{ backgroundColor: darkMode ? (member._id === AddeduserId ? "#0a282a" : "#2d2d2d") : member._id === AddeduserId ? "#e4f0f1" : "#fbfbfb" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                 <Box sx={{ display: "flex", marginInlineEnd: "55px", color: darkMode ? "#fff" : "#000" }}>
                   <Avatar {...stringAvatar(`${member.firstName} ${member.lastName}`)} className={darkMode ? "upper-caseDark" : "upper-case"} />

@@ -5,6 +5,7 @@ import { style, titleStyle } from "../login/login-style.jsx";
 import { ModelTitles, MainButton } from "./groupDataStyle.jsx";
 import { useDispatch } from "react-redux";
 import { createGroup } from "../../redux/actions/index.js";
+import { useSelector } from "react-redux";
 
 export default function CreateGroupModel(props) {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ export default function CreateGroupModel(props) {
   const [errorMessages, setErrorMessages] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const darkMode = useSelector((state) => state.user.darkMode);
 
   const userId = props.user._id;
 
@@ -47,6 +49,21 @@ export default function CreateGroupModel(props) {
     }
 
     setIsLoading(false);
+  };
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "551px",
+    bgcolor: darkMode ? "#333" : "#fff",
+    color: darkMode ? "#fff" : "#000",
+    boxShadow: 24,
+    borderRadius: "20px",
+    paddingInline: "70px",
+    paddingBlockEnd: "39px",
+    boxSizing: "border-box",
   };
 
   return (
@@ -82,6 +99,16 @@ export default function CreateGroupModel(props) {
                 label="Group Name"
                 variant="outlined"
                 fullWidth
+                required
+                InputProps={{
+                  style: {
+                    color: darkMode ? "white" : "black",
+                    borderColor: "#000",
+                    "&:hover": {
+                      borderColor: "rgba(255, 255, 255, 0.7)", // sets the border color to a slightly lighter color when hovered with some transparency
+                    },
+                  },
+                }}
                 sx={{ marginBlockEnd: "25px" }}
                 onChange={(event) => {
                   setGroup({ ...group, name: event.target.value });

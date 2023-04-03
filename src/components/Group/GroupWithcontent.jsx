@@ -257,8 +257,16 @@ export default function GroupWithcontent(props) {
                                                       className="inputRounded"
                                                       variant="outlined"
                                                       defaultValue={task.title}
+                                                      InputProps={{
+                                                        style: {
+                                                          color: darkMode ? "white" : "black",
+                                                          borderColor: "#000",
+                                                          "&:hover": {
+                                                            borderColor: "rgba(255, 255, 255, 0.7)",
+                                                          },
+                                                        },
+                                                      }}
                                                       type="text"
-                                                      sx={{ backgroundColor: "#fff" }}
                                                       onBlur={(e) => {
                                                         setEditing(null);
                                                       }}

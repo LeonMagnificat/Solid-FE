@@ -71,7 +71,7 @@ export default function TheListOfMembersCard(props) {
     flexDirection: "column",
     cursor: "pointer",
     "&:hover": {
-      boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.3)",
+      boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.2)",
       transition: "all 0.4s ease",
     },
     "&:hover .icons-box": {
@@ -94,7 +94,7 @@ export default function TheListOfMembersCard(props) {
 
   return (
     <>
-      <GroupBox sx={{ backgroundColor: darkMode ? "black" : "" }}>
+      <GroupBox sx={{ backgroundColor: darkMode ? "black" : "", minHeight: "258px" }}>
         <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", marginBlockEnd: "20px", minHeight: "50px", color: darkMode ? "#fff" : "#000" }}>
           <Box>
             <Typography>{props.group.name}</Typography>

@@ -9,12 +9,17 @@ import home from "../../icons/homeIcon.svg";
 import homeDark from "../../icons/homeDark.svg";
 import group from "../../icons/group.svg";
 import groupDark from "../../icons/groupDark.svg";
+import settings from "../../icons/settings.svg";
 //import profile from "../../icons/profile01.svg";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logOutAction, checkLoggedIn } from "../../redux/actions/index.js";
 //import { profiles } from "../Group/profilesArray.js";
 import { setDarkMode } from "../../redux/actions/index.js";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function stringToColor(string) {
   let hash = 0;
@@ -60,7 +65,7 @@ export default function NavBar(props) {
     setAnchorEl(null);
   };
   const NavBarBox = styled(Box)({
-    height: "350px",
+    minHeight: "3§50px",
     backgroundColor: darkMode ? "#000" : "#FFFFFF",
     borderRadius: "20px",
   });
@@ -80,47 +85,8 @@ export default function NavBar(props) {
         <Box sx={{ height: "100%", padding: "37px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <Box sx={{ backgroundColor: "transparent", display: "flex", justifyContent: "space-between" }}>
             <img component={Link} to="/" src={darkMode ? logoDark : logo} alt="" />
-
-            <Box>
-              <Button
-                id="basic-button"
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClick}
-                sx={{ minWidth: "40px", height: "40px", borderRadius: "50%", padding: 0 }}
-              >
-                <img src={darkMode ? logoutDark : logout} alt="" />
-              </Button>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-              >
-                <MenuItem
-                  onClick={() => {
-                    handleClose();
-                    dispatch(setDarkMode(!darkMode));
-                  }}
-                >
-                  {darkMode ? "Light Mode" : "Dark Mode"}
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    handleClose();
-                    dispatch(logOutAction());
-                  }}
-                >
-                  Logout
-                </MenuItem>
-              </Menu>
-            </Box>
           </Box>
-          <Box>
+          <Box sx={{ marginBlock: "30px" }}>
             <Button
               component={NavLink}
               to="/home"
@@ -134,7 +100,7 @@ export default function NavBar(props) {
               <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>Home</Typography>
             </Button>
 
-            <StyledBadge badgeContent={props.user.group.length} color="orange" sx={{ color: "#fff" }}>
+            <StyledBadge badgeContent={props.user.group.length} color="primary" sx={{ color: "#fff" }}>
               <Button
                 component={NavLink}
                 to="/group"
@@ -148,6 +114,42 @@ export default function NavBar(props) {
                 <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>Group</Typography>
               </Button>
             </StyledBadge>
+
+            <Accordion sx={{ boxShadow: "none", backgroundColor: darkMode ? "#000" : "#fff", color: darkMode ? "#767676" : "#767676", minHeight: "45px" }}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon sx={{ color: darkMode ? "#767676" : "#767676" }} />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+                sx={{ paddingInline: "0", paddingInlineStart: "10px", height: "30px", width: "100%" }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", textTransform: "capitalize" }}>
+                  <img src={darkMode ? settings : settings} alt="" />
+                  <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>Settings</Typography>
+                </Box>
+              </AccordionSummary>
+              <AccordionDetails sx={{ backgroundColor: darkMode ? "black" : "#fff", color: darkMode ? "#fff" : "#000", padding: "0", paddingInlineStart: "20px" }}>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    dispatch(setDarkMode(!darkMode));
+                  }}
+                  sx={{ fontSize: "14px" }}
+                >
+                  {darkMode ? "Light Mode" : "Dark Mode"}
+                </MenuItem>
+              </AccordionDetails>
+              <AccordionDetails sx={{ backgroundColor: darkMode ? "black" : "#fff", color: darkMode ? "#fff" : "#000", padding: "0", paddingInlineStart: "20px" }}>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    dispatch(logOutAction());
+                  }}
+                  sx={{ fontSize: "14px" }}
+                >
+                  Logout
+                </MenuItem>
+              </AccordionDetails>
+            </Accordion>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", color: darkMode ? "#fff" : "#000" }}>
             <Avatar {...stringAvatar(`${props.user.firstName} ${props.user.lastName}`)} className={darkMode ? "upper-caseDark" : "upper-case"} />

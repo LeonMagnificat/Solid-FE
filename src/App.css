@@ -18,8 +18,8 @@
 }
 
 .active {
-  color: #70edf5 !important;
-  background-color: #008a93 !important;
+  color: #028a93 !important;
+  background-color: #008a9321 !important;
   border-radius: 10px !important;
 }
 
@@ -83,12 +83,11 @@
 }
 
 mark {
-  background-color: #ff00fb;
+  background-color: #a8876494;
   color: rgb(255, 255, 255);
   padding-inline-start: 0.4em;
   /* border-bottom-left-radius: 5px; */
   /* border-top-left-radius: 5px; */
-  opacity: 0.5;
   transition: all 1s ease;
 }
 

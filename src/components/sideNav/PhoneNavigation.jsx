@@ -3,11 +3,14 @@ import { styled } from "@mui/material/styles";
 import { Box, Avatar, Badge, BottomNavigation } from "@mui/material";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import home from "../../icons/homeIcon.svg";
-import group from "../../icons/group2.svg";
+import group from "../../icons/group.svg";
 //import profile from "../../icons/profile01.svg";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logOutAction, checkLoggedIn } from "../../redux/actions/index.js";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { setDarkMode } from "../../redux/actions/index.js";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -48,10 +51,20 @@ function stringAvatar(name) {
 export default function PhoneNavigation(props) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.UserData);
+  const darkMode = useSelector((state) => state.user.darkMode);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Box sx={{ position: "fixed", bottom: 0, left: 0, right: 0, boxShadow: "0px -1px 5px rgba(0, 0, 0, 0.1)", backgroundColor: "#f8f8f8", zIndex: 1 }}>
-      <BottomNavigation>
+      <BottomNavigation sx={{ backgroundColor: darkMode ? "black" : "" }}>
         <BottomNavigationAction
           icon={<img src={home} alt="Home" />}
           component={NavLink}
@@ -61,7 +74,7 @@ export default function PhoneNavigation(props) {
           }}
           sx={{ maxWidth: "100px" }}
         />
-        <StyledBadge badgeContent={props.user.group.length} color="secondary">
+        <StyledBadge badgeContent={props.user.group.length} color="primary">
           <BottomNavigationAction
             label="Group"
             icon={<img src={group} alt="Group" />}
@@ -75,11 +88,40 @@ export default function PhoneNavigation(props) {
         </StyledBadge>
         <BottomNavigationAction
           icon={<Avatar {...stringAvatar(`${props.user.firstName} ${props.user.lastName}`)} />}
-          onClick={() => {
-            dispatch(logOutAction());
-          }}
           sx={{ maxWidth: "100px" }}
+          id="basic-button"
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
         />
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              dispatch(setDarkMode(!darkMode));
+            }}
+          >
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </MenuItem>
+
+          <MenuItem
+            onClick={() => {
+              dispatch(logOutAction());
+              handleClose();
+            }}
+          >
+            Logout
+          </MenuItem>
+        </Menu>
       </BottomNavigation>
     </Box>
   );

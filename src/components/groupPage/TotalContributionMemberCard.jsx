@@ -42,7 +42,7 @@ export default function TotalContributionMemberCard(props) {
       <Tooltip title={formattedAmount} placement="top-end" TransitionComponent={Fade} TransitionProps={{ timeout: 700 }} arrow>
         <AccordionBox>
           <AccordionMemberBox expandIcon={<ExpandMoreIcon sx={{ color: darkMode ? "#fff" : "#000" }} />} aria-controls="panel1a-content" id="panel1a-header">
-            <NumberingBox>
+            <NumberingBox sx={{ backgroundColor: darkMode ? "#000" : "#fff", color: darkMode ? "#fff" : "#000" }}>
               <Typography sx={{ fontWeight: "bold" }}>T</Typography>
             </NumberingBox>
             <Typography sx={{ marginInlineStart: "10px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}> Total Contribution </Typography>

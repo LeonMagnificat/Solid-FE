@@ -105,7 +105,7 @@ export default function GroupMemberCard(props) {
       <AccordionBox
         disableGutters={true}
         TransitionProps={{ unmountOnExit: true }}
-        sx={{ justifyContent: "space-between", backgroundColor: darkMode ? (props.member._id === AddeduserId ? "#947c56" : "#2d2d2d") : props.member._id === AddeduserId ? "#FFF3DF" : "#fbfbfb" }}
+        sx={{ justifyContent: "space-between", backgroundColor: darkMode ? (props.member._id === AddeduserId ? "#0a282a" : "#2d2d2d") : props.member._id === AddeduserId ? "#e4f0f1" : "#fbfbfb" }}
       >
         <AccordionSummary
           className="flex-space-btn"

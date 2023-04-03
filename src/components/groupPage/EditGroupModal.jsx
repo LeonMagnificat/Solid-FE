@@ -5,9 +5,12 @@ import { style, titleStyle } from "../login/login-style.jsx";
 import { ModelTitles, MainButton } from "../Group/groupDataStyle.jsx";
 import { useDispatch } from "react-redux";
 import { editGroup } from "../../redux/actions/index.js";
+import { useSelector } from "react-redux";
 
 export default function EditGroupModel(props) {
   const dispatch = useDispatch();
+
+  const darkMode = useSelector((state) => state.user.darkMode);
 
   // eslint-disable-next-line no-unused-vars
   const [currency, setCurrency] = useState("");
@@ -51,6 +54,21 @@ export default function EditGroupModel(props) {
     }, 1000);
   };
 
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "551px",
+    bgcolor: darkMode ? "#333" : "#fff",
+    color: darkMode ? "#fff" : "#000",
+    boxShadow: 24,
+    borderRadius: "20px",
+    paddingInline: "70px",
+    paddingBlockEnd: "39px",
+    boxSizing: "border-box",
+  };
+
   return (
     <div>
       <Modal
@@ -84,6 +102,15 @@ export default function EditGroupModel(props) {
                 label="Group Name"
                 variant="outlined"
                 fullWidth
+                InputProps={{
+                  style: {
+                    color: darkMode ? "white" : "black",
+                    borderColor: "#000",
+                    "&:hover": {
+                      borderColor: "rgba(255, 255, 255, 0.7)", // sets the border color to a slightly lighter color when hovered with some transparency
+                    },
+                  },
+                }}
                 defaultValue={group.name}
                 sx={{ marginBlockEnd: "25px" }}
                 onChange={(event) => {

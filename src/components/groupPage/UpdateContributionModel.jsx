@@ -12,9 +12,12 @@ import { style } from "../login/login-style.jsx";
 import { styled } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
 import { addContribution } from "../../redux/actions/index.js";
+import Divider from "@mui/material/Divider";
+import { useSelector } from "react-redux";
 
 export default function UpdateContributionModel(props) {
   const [amount, setAmount] = useState(0);
+  const darkMode = useSelector((state) => state.user.darkMode);
   const dispatch = useDispatch();
   const userId = props.user._id;
   const groupId = props.group._id;
@@ -38,6 +41,21 @@ export default function UpdateContributionModel(props) {
     }
   };
 
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "551px",
+    bgcolor: darkMode ? "#333" : "#fff",
+    color: darkMode ? "#fff" : "#000",
+    boxShadow: 24,
+    borderRadius: "20px",
+    paddingInline: "70px",
+    paddingBlockEnd: "39px",
+    boxSizing: "border-box",
+  };
+
   return (
     <div>
       <Modal
@@ -58,16 +76,14 @@ export default function UpdateContributionModel(props) {
             <ModelTitles sx={{ marginBlockEnd: "10px" }} variant="h3" gutterBottom>
               Update Member Contribution
             </ModelTitles>
-            <Box sx={{ display: "flex", marginInlineEnd: "55px", marginBlock: "20px" }}>
+            <Box sx={{ display: "flex", alignItems: "center", marginInlineEnd: "55px", marginBlock: "20px", width: "100%" }}>
               <img className="avatar-profile" src={profile16} alt="" />
-              <Typography sx={{ marginBlockStart: "8px", marginInlineStart: "10px" }}>
+              <Typography sx={{ marginInlineStart: "10px", marginInlineEnd: "15px" }}>
                 {props.user.firstName} {props.user.lastName}{" "}
               </Typography>
-            </Box>
-            <Box sx={{ display: "flex", marginInlineEnd: "55px", marginBlock: "20px" }}>
-              <img className="avatar-profile" src={contribution} alt="" />
-              <Typography sx={{ marginBlockStart: "5px", marginInlineStart: "10px", color: "#418DF9", fontSize: "25px", fontWeight: "bold" }}>
-                {props.total} {props.group.currency}{" "}
+              <Divider orientation="vertical" flexItem />
+              <Typography sx={{ marginInlineStart: "10px", color: "gray", fontSize: "15px" }}>
+                Balance: {props.total} {props.group.currency}{" "}
               </Typography>
             </Box>
             <form onSubmit={handleSubmit}>
@@ -77,6 +93,15 @@ export default function UpdateContributionModel(props) {
                 label="Last amount added..."
                 variant="outlined"
                 fullWidth
+                InputProps={{
+                  style: {
+                    color: darkMode ? "white" : "black",
+                    borderColor: "#000",
+                    "&:hover": {
+                      borderColor: "rgba(255, 255, 255, 0.7)",
+                    },
+                  },
+                }}
                 onChange={(e) => {
                   const enteredValue = e.target.value;
                   if (enteredValue > 0 || enteredValue === "") {
