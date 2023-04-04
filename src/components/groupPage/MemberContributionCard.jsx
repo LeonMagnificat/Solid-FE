@@ -17,7 +17,7 @@ export default function MemberContributionCard(props) {
 
   const formattedDateTime = dateTime.toLocaleString("en-US", options);
 
-  const formattedAmount = props.contribution.amount.toFixed(2);
+  const formattedAmount = props.contribution.amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
   const AccordionBox = styled(Box)({
     backgroundColor: darkMode ? "black" : "white",
@@ -62,14 +62,15 @@ export default function MemberContributionCard(props) {
                 color: darkMode ? randomProfile : colorsDark[colors.indexOf(randomProfile)],
                 fontSize: "16px",
                 fontWeight: "bold",
-                width: "8em",
+                width: "15em",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 textAlign: "end",
               }}
             >
-              {formattedAmount} {props.currency}
+              <span>{formattedAmount} </span>
+              <span>{props.currency === "USD" ? "$" : props.currency === "EUR" ? "€" : props.currency === "PLN" ? "zł" : ""}</span>
             </Typography>
           </Tooltip>
         </AccordionMemberBox>

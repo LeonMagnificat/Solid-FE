@@ -200,8 +200,8 @@ export default function GroupWithcontent(props) {
                             sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", fontSize: "40px", fontWeight: "bold", marginBlock: "0px" }}
                           >
                             <Box sx={{ color: darkMode ? "#70edf5" : "" }}>
-                              <span>{group.total}</span>
-                              <span>{group.currency}</span>
+                              <span>{group.total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}</span> <span></span>
+                              <span>{group.currency === "USD" ? "$" : group.currency === "EUR" ? "€" : group.currency === "PLN" ? "zł" : ""}</span>
                             </Box>
                             <Button
                               sx={{

@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Box, Typography, Fade, TextField, Alert, LinearProgress } from "@mui/material";
+import { Grid, Box, Typography, Fade, TextField, Alert, LinearProgress, IconButton, InputAdornment } from "@mui/material";
 
 import { style2, titleStyle, MainButton, ModelTitles, ImageLogin } from "./login-style.jsx";
 import { Link, useLocation } from "react-router-dom";
@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginInvitedUser } from "../../redux/actions/index.js";
 import { useNavigate } from "react-router-dom";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function LoginbyInvitation(props) {
   const location = useLocation();
@@ -31,6 +32,11 @@ function LoginbyInvitation(props) {
   const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [progress, setProgress] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -123,12 +129,19 @@ function LoginbyInvitation(props) {
                 className="inputRounded"
                 label="Password"
                 variant="outlined"
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleTogglePassword}>{showPassword ? <VisibilityOff /> : <Visibility />}</IconButton>
+                    </InputAdornment>
+                  ),
+                }}
                 sx={{ marginBlockStart: "25px", marginBlockEnd: "25px" }}
                 onChange={(e) => {
                   setUser({ ...user, password: e.target.value });
                 }}
                 error={passwordErrors}
-                type="password"
                 fullWidth
                 required
               />

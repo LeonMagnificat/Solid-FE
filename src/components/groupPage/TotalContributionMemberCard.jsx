@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 export default function TotalContributionMemberCard(props) {
   const randomProfile = colors[Math.floor(Math.random() * colors.length)];
-  const formattedAmount = props.total.toFixed(2);
+  const formattedAmount = props.total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
   const darkMode = useSelector((state) => state.user.darkMode);
 
   const AccordionBox = styled(Box)({
@@ -46,8 +46,8 @@ export default function TotalContributionMemberCard(props) {
               <Typography sx={{ fontWeight: "bold" }}>T</Typography>
             </NumberingBox>
             <Typography sx={{ marginInlineStart: "10px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}> Total Contribution </Typography>
-            <Typography sx={{ marginInlineStart: "10px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "6em" }}>
-              {formattedAmount} {props.currency}
+            <Typography sx={{ marginInlineStart: "10px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "15em", textAlign: "end" }}>
+              {formattedAmount} <span>{props.currency === "USD" ? "$" : props.currency === "EUR" ? "€" : props.currency === "PLN" ? "zł" : ""}</span>
             </Typography>
           </AccordionMemberBox>
         </AccordionBox>

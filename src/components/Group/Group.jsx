@@ -14,6 +14,7 @@ export default function Group(props) {
   const [message, setMessage] = useState(false);
   const [infoText, setInfoText] = useState(false);
   const groups = useSelector((state) => state.user.groups);
+  const darkMode = useSelector((state) => state.user.darkMode);
 
   const handleOpen = () => {
     setOpen(true);
@@ -35,14 +36,14 @@ export default function Group(props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       {!content ? (
-        <GroupBox2>
+        <GroupBox2 sx={{ backgroundColor: darkMode ? "#363636" : "white" }}>
           <Box sx={{ height: "100%", padding: "37px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <Box>
               <img src={empty} alt="" />
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center", marginBlockEnd: "10px" }}>
-              <Typography sx={{ fontSize: "14px", cursor: "pointer", width: "301px", textAlign: "center", marginBlock: "25px" }}>
+              <Typography sx={{ fontSize: "14px", cursor: "pointer", width: "301px", textAlign: "center", marginBlock: "25px", color: darkMode ? "#fff" : "black" }}>
                 There are no groups available, click the button below to create one and add members.
               </Typography>
             </Box>

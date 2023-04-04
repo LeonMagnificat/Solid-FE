@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Backdrop, Box, Modal, Fade, Alert, TextField, LinearProgress } from "@mui/material";
+import { Backdrop, Box, Modal, Fade, Alert, TextField, LinearProgress, IconButton, InputAdornment } from "@mui/material";
 import { style, titleStyle } from "../login/login-style.jsx";
 import { ModelTitles, MainButton } from "./registerStyle.jsx";
 import { useDispatch } from "react-redux";
 import { RegisterUser } from "../../redux/actions/index.js";
 import { useNavigate } from "react-router-dom";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export default function RegisterModel(props) {
   const dispatch = useDispatch();
@@ -24,6 +25,11 @@ export default function RegisterModel(props) {
   const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [progress, setProgress] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -149,12 +155,19 @@ export default function RegisterModel(props) {
                 className="inputRounded"
                 label="Password"
                 variant="outlined"
+                type={showPassword ? "text" : "password"}
                 sx={{ marginBlockStart: "25px", marginBlockEnd: "25px" }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleTogglePassword}>{showPassword ? <VisibilityOff /> : <Visibility />}</IconButton>
+                    </InputAdornment>
+                  ),
+                }}
                 onChange={(e) => {
                   setUser({ ...user, password: e.target.value });
                 }}
                 error={passwordErrors}
-                type="password"
                 fullWidth
                 required
               />

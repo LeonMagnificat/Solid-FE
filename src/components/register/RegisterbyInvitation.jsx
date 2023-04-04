@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Box, Typography, Fade, TextField, Alert, LinearProgress } from "@mui/material";
+import { Grid, Box, Typography, Fade, TextField, Alert, LinearProgress, IconButton, InputAdornment } from "@mui/material";
 import { style2, titleStyle } from "../login/login-style.jsx";
 import registerImage from "../../icons/registerillustration.svg";
 import { useState, useEffect } from "react";
@@ -8,8 +8,8 @@ import { RegisterByInvitation } from "../../redux/actions/index.js";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { MainButton, ModelTitles, ImageLogin } from "./registerStyle.jsx";
-
 import { useNavigate } from "react-router-dom";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function RegisterbyInvitation() {
   const location = useLocation();
@@ -35,6 +35,11 @@ function RegisterbyInvitation() {
   const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [progress, setProgress] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -160,12 +165,19 @@ function RegisterbyInvitation() {
                 sx={{ marginBlockStart: "25px", marginBlockEnd: "25px" }}
                 label="Password"
                 variant="outlined"
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleTogglePassword}>{showPassword ? <VisibilityOff /> : <Visibility />}</IconButton>
+                    </InputAdornment>
+                  ),
+                }}
                 className="inputRounded"
                 onChange={(e) => {
                   setUser({ ...user, password: e.target.value });
                 }}
                 error={passwordErrors}
-                type="password"
                 fullWidth
                 required
               />

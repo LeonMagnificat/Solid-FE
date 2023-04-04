@@ -23,11 +23,10 @@ function Body() {
   });
 
   const HomeTitle = styled(Typography)({
-    fontSize: "74px",
+    fontSize: "3.5em",
     fontWeight: "bold",
-    width: "558px",
-    lineHeight: "90px",
-    marginTop: "15vh",
+    width: "600px",
+    lineHeight: "60px",
 
     "@media (max-width: 900px)": {
       fontSize: "50px",
@@ -58,24 +57,26 @@ function Body() {
       <Container maxWidth="lg">
         <Fade in={true} timeout={1500}>
           <Grid container spacing={2} columns={12}>
-            <Grid item xs={12} md={6} sx={{ position: "relative", top: "20%" }}>
-              <HomeTitle sx={{ zIndex: 1 }}>Elevate Your Group Planning Experience.</HomeTitle>
-              <Typography
-                sx={{
-                  width: "468px",
-                  marginBlock: "62px",
-                  "@media (max-width: 600px)": {
-                    width: "100%",
-                    marginBlock: "32px",
-                  },
-                }}
-              >
-                "The strength of the team is each individual member. The strength of each member is the team." - Phil Jackson
-              </Typography>
+            <Grid item xs={12} md={6} sx={{ display: "flex", alignItems: "center", position: "relative", top: "20%" }}>
+              <Box>
+                <HomeTitle sx={{ zIndex: 1 }}>Easily create groups, invite friends and achieve your goals together!</HomeTitle>
+                <Typography
+                  sx={{
+                    width: "468px",
+                    marginBlock: "62px",
+                    "@media (max-width: 600px)": {
+                      width: "100%",
+                      marginBlock: "32px",
+                    },
+                  }}
+                >
+                  "The strength of the team is each individual member. The strength of each member is the team." - Phil Jackson
+                </Typography>
 
-              <HomeButton variant="contained" onClick={handleOpen2}>
-                Get Started
-              </HomeButton>
+                <HomeButton variant="contained" onClick={handleOpen2}>
+                  Try Now Free!
+                </HomeButton>
+              </Box>
             </Grid>
             <Grid
               item
