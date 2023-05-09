@@ -2,13 +2,17 @@ import * as React from "react";
 
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { Tooltip, Fade } from "@mui/material";
+import { Tooltip, Fade, Button, Menu, MenuItem } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import { colors, colorsDark } from "../Group/profilesArray.js";
 import { useSelector } from "react-redux";
+import { deleteContribution } from "../../redux/actions/index.js";
+import { useDispatch } from "react-redux";
+import deleteIcon from "../../icons/delete.svg";
 
 export default function MemberContributionCard(props) {
+  const dispatch = useDispatch();
   const randomProfile = colors[Math.floor(Math.random() * colors.length)];
   const darkMode = useSelector((state) => state.user.darkMode);
   const dateTimeString = props.contribution.createdAt;
@@ -45,6 +49,24 @@ export default function MemberContributionCard(props) {
     color: colorsDark[colors.indexOf(randomProfile)],
   });
 
+  const CustomButton = styled(Button)({
+    height: "30px",
+    width: "30px",
+    borderRadius: "50px",
+    boxShadow: "none",
+    minWidth: "0",
+    marginInlineStart: "10px",
+  });
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div>
       <AccordionBox>
@@ -69,8 +91,18 @@ export default function MemberContributionCard(props) {
                 textAlign: "end",
               }}
             >
-              <span>{formattedAmount} </span>
+              <span>{formattedAmount}</span>
               <span>{props.currency === "USD" ? "$" : props.currency === "EUR" ? "€" : props.currency === "PLN" ? "zł" : ""}</span>
+              <CustomButton
+                variant="outlined"
+                color="delete"
+                onClick={() => {
+                  dispatch(deleteContribution(props.contribution._id));
+                  console.log(props.contribution._id, "props.contribution._id");
+                }}
+              >
+                <img src={deleteIcon} alt="" />
+              </CustomButton>
             </Typography>
           </Tooltip>
         </AccordionMemberBox>

@@ -467,6 +467,91 @@ export const addContribution = (groupId, userId, data) => {
     }
   };
 };
+export const updateContribution = (contributionId, data) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token does not exist, user is not logged in");
+      return;
+    }
+    const method = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ amount: data }),
+    };
+    try {
+      const response = await fetch(`${apiURL}/contribution/${contributionId}`, method);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("datapopopopop", data);
+        // dispatch({
+        //   type: ADD_USER_CONTRIBUTION,
+        //   payload: data.contributions,
+        // });
+        dispatch({
+          type: GET_USER_DATA,
+          payload: data.loggedInUser,
+        });
+        const responseData = {
+          data: data,
+          status: true,
+        };
+        return responseData;
+      } else {
+        const data = await response.json();
+        console.log("response", response, data.message);
+        return data.message;
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+};
+export const deleteContribution = (contributionId) => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token does not exist, user is not logged in");
+      return;
+    }
+    const method = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await fetch(`${apiURL}/contribution/${contributionId}`, method);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("datapopopopop", data);
+        // dispatch({
+        //   type: ADD_USER_CONTRIBUTION,
+        //   payload: data.contributions,
+        // });
+        dispatch({
+          type: GET_USER_DATA,
+          payload: data.loggedInUser,
+        });
+        const responseData = {
+          data: data,
+          status: true,
+        };
+        return responseData;
+      } else {
+        const data = await response.json();
+        console.log("response", response, data.message);
+        return data.message;
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+};
 
 //-------Add Tasks------------
 
