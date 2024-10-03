@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 //import googleIcon from "../../icons/google.svg";
-import { Box, Fade, TextField, Modal, Backdrop, Alert, LinearProgress, IconButton, InputAdornment } from "@mui/material";
+import {
+  Box,
+  Fade,
+  TextField,
+  Modal,
+  Backdrop,
+  Alert,
+  LinearProgress,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 import { style, titleStyle, MainButton, ModelTitles } from "./login-style.jsx";
 import { loginUser } from "../../redux/actions/index.js";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +44,9 @@ export default function LoginModel(props) {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 25));
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 25
+      );
     }, 800);
 
     return () => {
@@ -59,15 +71,15 @@ export default function LoginModel(props) {
     try {
       const response = await dispatch(loginUser(user));
       console.log("response", response);
-      if (response.status) {
+      if (response && response.status) {
         setTimeout(() => {
           navigate("/home");
         }, 1300);
         console.log("response", response.status);
       } else {
         setIsLoading(false);
-        console.log("response", response.message);
-        setErrorText(response.message);
+        // console.log("response", response.message);
+        setErrorText("errorrr");
         setErrorMessages(true);
         setTimeout(() => {
           setErrorMessages(false);
@@ -103,7 +115,17 @@ export default function LoginModel(props) {
             <form onSubmit={handleSubmit}>
               {errorMessages && (
                 <Fade in={true} timeout={700}>
-                  <Alert severity="error" onClose={() => setErrorMessages(false)} sx={{ position: "absolute", top: "-20px", width: "380px", borderRadius: "10px", border: "solid 1px red" }}>
+                  <Alert
+                    severity="error"
+                    onClose={() => setErrorMessages(false)}
+                    sx={{
+                      position: "absolute",
+                      top: "-20px",
+                      width: "380px",
+                      borderRadius: "10px",
+                      border: "solid 1px red",
+                    }}
+                  >
                     {errorText}
                   </Alert>
                 </Fade>
@@ -129,7 +151,9 @@ export default function LoginModel(props) {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={handleTogglePassword}>{showPassword ? <VisibilityOff /> : <Visibility />}</IconButton>
+                      <IconButton onClick={handleTogglePassword}>
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
                     </InputAdornment>
                   ),
                 }}
@@ -147,10 +171,20 @@ export default function LoginModel(props) {
                 Google
               </GoogleButton> */}
 
-              <MainButton sx={{ padding: "0px 0px" }} fullWidth variant="contained" size="large" type="submit" disabled={isLoading}>
+              <MainButton
+                sx={{ padding: "0px 0px" }}
+                fullWidth
+                variant="contained"
+                size="large"
+                type="submit"
+                disabled={isLoading}
+              >
                 {isLoading ? (
                   <Box sx={{ width: "100%", height: "56px" }}>
-                    <LinearProgress color="primary" sx={{ height: "100%", borderRadius: "20px" }} />
+                    <LinearProgress
+                      color="primary"
+                      sx={{ height: "100%", borderRadius: "20px" }}
+                    />
                   </Box>
                 ) : (
                   "Sign In"
