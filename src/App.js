@@ -10,12 +10,17 @@ import GetStarted02 from "./components/getStarted/GetStarted02.jsx";
 import GetStarted03 from "./components/getStarted/GetStarted03.jsx";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { inject } from "@vercel/analytics";
+
+inject();
 
 function App() {
   const darkMode = useSelector((state) => state.user.darkMode);
 
   useEffect(() => {
-    document.body.style.backgroundColor = darkMode ? "#1a1a1a" : " rgb(238, 238, 238)";
+    document.body.style.backgroundColor = darkMode
+      ? "#1a1a1a"
+      : " rgb(238, 238, 238)";
   }, [darkMode]);
   return (
     <>

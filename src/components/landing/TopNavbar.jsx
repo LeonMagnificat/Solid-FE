@@ -1,5 +1,13 @@
 import React from "react";
-import { AppBar, Box, Toolbar, Typography, Menu, Container, Button } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
+  Menu,
+  Container,
+  Button,
+} from "@mui/material";
 import LoginModel from "../login/login.jsx";
 import Register from "../register/Register.jsx";
 import { useState } from "react";
@@ -98,11 +106,13 @@ function TopNavbar() {
             >
               LOGo
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}> </Box>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {" "}
+            </Box>
 
             <Box sx={{ flexGrow: 0 }}>
               <MainButton variant="contained" onClick={handleOpen}>
-                Login
+                Login Here
               </MainButton>
               <SecondButton variant="outlined" onClick={handleOpen2}>
                 Register
