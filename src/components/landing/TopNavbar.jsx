@@ -112,7 +112,7 @@ function TopNavbar() {
 
             <Box sx={{ flexGrow: 0 }}>
               <MainButton variant="contained" onClick={handleOpen}>
-                Login Here
+                Login Here Now
               </MainButton>
               <SecondButton variant="outlined" onClick={handleOpen2}>
                 Register
