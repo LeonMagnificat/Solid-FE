@@ -1,6 +1,14 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Typography, Button, Avatar, Badge, Menu, MenuItem } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Avatar,
+  Badge,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import logo from "../../icons/logo.svg";
 import logoDark from "../../icons/logoDark.svg";
 import logout from "../../icons/logout.svg";
@@ -82,52 +90,129 @@ export default function NavBar(props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <NavBarBox>
-        <Box sx={{ height: "100%", padding: "37px", boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <Box sx={{ backgroundColor: "transparent", display: "flex", justifyContent: "space-between" }}>
-            <img component={Link} to="/" src={darkMode ? logoDark : logo} alt="" />
+        <Box
+          sx={{
+            height: "100%",
+            padding: "37px",
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box
+            sx={{
+              backgroundColor: "transparent",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <img
+              component={Link}
+              to="/"
+              src={darkMode ? logoDark : logo}
+              alt=""
+            />
           </Box>
           <Box sx={{ marginBlock: "30px" }}>
             <Button
               component={NavLink}
               to="/home"
               activeclassname="active"
-              sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", textTransform: "capitalize", width: "200px", height: "50px" }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                textTransform: "capitalize",
+                width: "200px",
+                height: "50px",
+              }}
               onClick={() => {
                 dispatch(checkLoggedIn(user._id));
               }}
             >
               <img src={darkMode ? homeDark : home} alt="" />
-              <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>Home</Typography>
+              <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>
+                Home
+              </Typography>
             </Button>
 
-            <StyledBadge badgeContent={props.user.group.length} color="primary" sx={{ color: "#fff" }}>
+            <StyledBadge
+              badgeContent={props.user.group.length}
+              color="primary"
+              sx={{ color: "#fff" }}
+            >
               <Button
                 component={NavLink}
                 to="/group"
                 activeclassname="active"
-                sx={{ display: "flex", justifyContent: "flex-start", textTransform: "capitalize", width: "200px", height: "50px" }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  textTransform: "capitalize",
+                  width: "200px",
+                  height: "50px",
+                }}
                 onClick={() => {
                   dispatch(checkLoggedIn(user._id));
                 }}
               >
                 <img src={darkMode ? groupDark : group} alt="" />
-                <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>Group</Typography>
+                <Typography
+                  sx={{ fontSize: "16px", marginInlineStart: "10px" }}
+                >
+                  Group
+                </Typography>
               </Button>
             </StyledBadge>
 
-            <Accordion sx={{ boxShadow: "none", backgroundColor: darkMode ? "#000" : "#fff", color: darkMode ? "#767676" : "#767676", minHeight: "45px" }}>
+            <Accordion
+              sx={{
+                boxShadow: "none",
+                backgroundColor: darkMode ? "#000" : "#fff",
+                color: darkMode ? "#767676" : "#767676",
+                minHeight: "45px",
+              }}
+            >
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon sx={{ color: darkMode ? "#767676" : "#767676" }} />}
+                expandIcon={
+                  <ExpandMoreIcon
+                    sx={{ color: darkMode ? "#767676" : "#767676" }}
+                  />
+                }
                 aria-controls="panel2a-content"
                 id="panel2a-header"
-                sx={{ paddingInline: "0", paddingInlineStart: "10px", height: "30px", width: "100%" }}
+                sx={{
+                  paddingInline: "0",
+                  paddingInlineStart: "10px",
+                  height: "30px",
+                  width: "100%",
+                }}
               >
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", textTransform: "capitalize" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    textTransform: "capitalize",
+                  }}
+                >
                   <img src={darkMode ? settings : settings} alt="" />
-                  <Typography sx={{ fontSize: "16px", marginInlineStart: "10px" }}>Settings</Typography>
+                  <Typography
+                    sx={{ fontSize: "16px", marginInlineStart: "10px" }}
+                  >
+                    Settings
+                  </Typography>
                 </Box>
               </AccordionSummary>
-              <AccordionDetails sx={{ backgroundColor: darkMode ? "black" : "#fff", color: darkMode ? "#fff" : "#000", padding: "0", paddingInlineStart: "20px" }}>
+              <AccordionDetails
+                sx={{
+                  backgroundColor: darkMode ? "black" : "#fff",
+                  color: darkMode ? "#fff" : "#000",
+                  padding: "0",
+                  paddingInlineStart: "20px",
+                }}
+              >
                 <MenuItem
                   onClick={() => {
                     handleClose();
@@ -138,7 +223,14 @@ export default function NavBar(props) {
                   {darkMode ? "Light Mode" : "Dark Mode"}
                 </MenuItem>
               </AccordionDetails>
-              <AccordionDetails sx={{ backgroundColor: darkMode ? "black" : "#fff", color: darkMode ? "#fff" : "#000", padding: "0", paddingInlineStart: "20px" }}>
+              <AccordionDetails
+                sx={{
+                  backgroundColor: darkMode ? "black" : "#fff",
+                  color: darkMode ? "#fff" : "#000",
+                  padding: "0",
+                  paddingInlineStart: "20px",
+                }}
+              >
                 <MenuItem
                   onClick={() => {
                     handleClose();
@@ -151,10 +243,28 @@ export default function NavBar(props) {
               </AccordionDetails>
             </Accordion>
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center", color: darkMode ? "#fff" : "#000" }}>
-            <Avatar {...stringAvatar(`${props.user.firstName} ${props.user.lastName}`)} className={darkMode ? "upper-caseDark" : "upper-case"} />
-            <Typography sx={{ fontSize: "18px", marginInlineStart: "10px", textTransform: "capitalize" }}>
-              <span>{props.user.firstName}</span> <span>{props.user.lastName}</span>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              color: darkMode ? "#fff" : "#000",
+            }}
+          >
+            <Avatar
+              {...stringAvatar(
+                `${props.user.firstName} ${props.user.lastName}`
+              )}
+              className={darkMode ? "upper-caseDark" : "upper-case"}
+            />
+            <Typography
+              sx={{
+                fontSize: "18px",
+                marginInlineStart: "10px",
+                textTransform: "capitalize",
+              }}
+            >
+              <span>{props.user.firstName}</span>{" "}
+              <span>{props.user.lastName}</span>
               <Typography sx={{ fontSize: "13px", textTransform: "lowercase" }}>
                 <span>{props.user.email}</span>
               </Typography>
